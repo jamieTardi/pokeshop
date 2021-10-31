@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, FormControl, Button } from '@mui/material';
 import { newUser, passwords } from '../Interfaces/Register';
 
 const register = () => {
@@ -38,57 +38,57 @@ const register = () => {
 		}
 	};
 
-	console.log(newPasswords);
-	console.log(newUser);
-
 	return (
 		<div>
-			<TextField
-				error
-				id='outlined-error'
-				label='First Name'
-				defaultValue=''
-				onChange={(e) => {
-					setNewUser({ ...newUser, firstName: e.target.value });
-				}}
-			/>
-			<TextField
-				error
-				id='outlined-error'
-				label='Last Name'
-				defaultValue=''
-				onChange={(e) => {
-					setNewUser({ ...newUser, lastName: e.target.value });
-				}}
-			/>
-			<TextField
-				error
-				id='outlined-error'
-				label='Email'
-				defaultValue=''
-				onChange={(e) => {
-					setNewUser({ ...newUser, email: e.target.value });
-				}}
-			/>
-			<TextField
-				error
-				id='outlined-error'
-				label='Password'
-				defaultValue=''
-				onChange={(e) => {
-					setNewPasswords({ ...newPasswords, first: e.target.value });
-				}}
-			/>
-			<TextField
-				error
-				id='outlined-error'
-				label='Confirm Password'
-				defaultValue=''
-				onChange={(e) => {
-					handlePasswords(e.target.value);
-				}}
-			/>
-			{newPasswords.error !== '' && <p>{newPasswords.error}</p>}
+			<FormControl>
+				<TextField
+					error
+					id='outlined-error'
+					label='First Name'
+					defaultValue=''
+					onChange={(e) => {
+						setNewUser({ ...newUser, firstName: e.target.value });
+					}}
+				/>
+				<TextField
+					error
+					id='outlined-error'
+					label='Last Name'
+					defaultValue=''
+					onChange={(e) => {
+						setNewUser({ ...newUser, lastName: e.target.value });
+					}}
+				/>
+				<TextField
+					error
+					id='outlined-error'
+					label='Email'
+					defaultValue=''
+					onChange={(e) => {
+						setNewUser({ ...newUser, email: e.target.value });
+					}}
+				/>
+				<TextField
+					error
+					id='outlined-error'
+					label='Password'
+					defaultValue=''
+					onChange={(e) => {
+						setNewPasswords({ ...newPasswords, first: e.target.value });
+					}}
+				/>
+				<TextField
+					error
+					id='outlined-error'
+					label='Confirm Password'
+					defaultValue=''
+					onChange={(e) => {
+						handlePasswords(e.target.value);
+					}}
+				/>
+				{newPasswords.error !== '' && <p>{newPasswords.error}</p>}
+				<Button type='submit'></Button>
+			</FormControl>
 		</div>
 	);
 };
