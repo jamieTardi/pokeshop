@@ -38,9 +38,16 @@ const register = () => {
 		}
 	};
 
+	const handleSubmit = (e: any) => {
+		e.preventDefault();
+	};
+
 	return (
 		<div>
-			<FormControl>
+			<FormControl
+				onSubmit={(e) => {
+					handleSubmit(e);
+				}}>
 				<TextField
 					error
 					id='outlined-error'
@@ -87,7 +94,7 @@ const register = () => {
 					}}
 				/>
 				{newPasswords.error !== '' && <p>{newPasswords.error}</p>}
-				<Button type='submit'></Button>
+				<Button type='submit'>Submit</Button>
 			</FormControl>
 		</div>
 	);
