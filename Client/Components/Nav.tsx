@@ -2,16 +2,31 @@ import { Button } from '@mui/material';
 import Link from 'next/link';
 import styles from '../styles/Home.module.scss';
 
-interface Props {}
+const Nav = () => {
+	let navItems: string[] = [
+		'Products',
+		'New releases',
+		'Coming Soon',
+		'Members',
+		'Customer Service',
+	];
 
-const Nav = (props: Props) => {
 	return (
 		<nav className={styles.nav}>
 			<div>Logo</div>
+			<ul className={styles.listContainer}>
+				{navItems.map((item) => (
+					<li className={styles.navitems}>{item}</li>
+				))}
+			</ul>
 			<div>
-				<Button>Login</Button>
+				<Button variant='text' sx={{ color: 'white' }}>
+					Login
+				</Button>
 				<Link href='/register'>
-					<Button>Register</Button>
+					<Button variant='text' sx={{ color: 'white' }}>
+						Register
+					</Button>
 				</Link>
 			</div>
 		</nav>

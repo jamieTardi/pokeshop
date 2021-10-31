@@ -1,5 +1,9 @@
 .container {
-	padding: 0 2rem;
+	height: 100vh;
+	width: 100vw;
+	position: relative;
+	overflow-x: hidden;
+	padding: 0rem 4rem;
 }
 
 .main {
@@ -106,6 +110,94 @@
 .logo {
 	height: 1em;
 	margin-left: 0.5rem;
+}
+
+.whiteText {
+	color: white;
+}
+
+.blackText {
+	color: black;
+}
+
+.largePara {
+	font-size: 1.2rem;
+	color: rgb(66, 84, 102);
+}
+
+//background
+.backgroundcustom {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+	width: 100%;
+	transform: rotate(-30deg) scale(2);
+	position: absolute;
+	z-index: -1;
+	top: -100%;
+}
+
+//nav
+.listContainer {
+	display: flex;
+	justify-content: space-around;
+	min-width: 60%;
+}
+
+.navitems {
+	list-style: none;
+	align-items: center;
+	margin: 0% 3%;
+	font-size: 0.8rem;
+	font-weight: 700;
+	&:hover {
+		opacity: 0.5;
+		cursor: pointer;
+	}
+}
+
+//buttons
+
+.customButtonDark {
+	font-size: 1.1rem;
+	background-color: rgb(66, 84, 102);
+	color: white;
+	padding: 10px 15px;
+	border-radius: 25px;
+}
+
+//cards
+
+.glassCard {
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(15.5px);
+	-webkit-backdrop-filter: blur(15.5px);
+	border-radius: 10px;
+	height: 300px;
+	width: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	padding: 2%;
+	position: relative;
+}
+
+.cardImage {
+	position: absolute;
+	bottom: -15%;
+	right: -10%;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0%;
+	}
+	50% {
+		background-position: 100%;
+	}
+	100% {
+		background-position: 50%;
+	}
 }
 
 //nav
