@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Nav from '../Components/Nav';
+import Nav from '../Components/General/Nav';
 import styles from '../styles/Home.module.scss';
 import { GlassCardHero } from '../Components/UIComponents/GlassCardHero';
 import Image from 'next/Image';

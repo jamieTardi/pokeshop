@@ -13,9 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
-import Image from 'next/image';
+import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
-import Nav from '../Components/Nav';
+import Nav from '../Components/General/Nav';
 import { signUp } from '../api/index';
 
 function Copyright(props: any) {
@@ -35,7 +35,16 @@ function Copyright(props: any) {
 	);
 }
 
-const theme = createTheme();
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#673ab7',
+		},
+		secondary: {
+			main: '#8561c5',
+		},
+	},
+});
 
 export default function register() {
 	const [emailCheck, setEmailCheck] = useState<email>({
@@ -121,7 +130,6 @@ export default function register() {
 
 	return (
 		<div>
-			<Nav />
 			<ThemeProvider theme={theme}>
 				<Container component='main' maxWidth='xs'>
 					<CssBaseline />

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/Image';
 import Venusaur from '../../Images/pokeGroup.png';
 import styles from '../../styles/Home.module.scss';
 

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import styles from '../styles/Home.module.scss';
-import Image from 'next/image';
-import Logo from '../Images/pokeLogo.png';
+import styles from '../../styles/Home.module.scss';
+import Image from 'next/Image';
+import Logo from '../../Images/pokeLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { incrementByAmount } from '../Redux/slices/counterSlice';
-import { RootState } from '../Redux/store';
+import { incrementByAmount } from '../../Redux/slices/counterSlice';
+import { RootState } from '../../Redux/store';
 
 const Nav = () => {
 	const dispatch = useDispatch();
@@ -34,9 +34,11 @@ const Nav = () => {
 				))}
 			</ul>
 			<div>
-				<Button variant='text' sx={{ color: 'white' }}>
-					Login
-				</Button>
+				<Link href='/signIn'>
+					<Button variant='text' sx={{ color: 'white' }}>
+						Login
+					</Button>
+				</Link>
 				<Link href='/register'>
 					<Button variant='text' sx={{ color: 'white' }}>
 						Register
