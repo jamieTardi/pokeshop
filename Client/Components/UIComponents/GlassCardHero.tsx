@@ -17,6 +17,7 @@ export const GlassCardHero = (props: Props) => {
 			</p>
 			<Button
 				variant='contained'
+				color='primary'
 				sx={{ borderRadius: 25 }}
 				endIcon={<ShoppingBagIcon />}>
 				Shop now

@@ -24,16 +24,19 @@ const Home: NextPage = () => {
 					/>
 				</Head>
 				<div className={styles.canvas} />
-				<div>
+				<div style={{ width: '100%' }}>
 					<Nav />
-					<h1>Home page</h1>
 				</div>
-				<GlassCardHero />
+				<div style={{ marginTop: '5%' }}>
+					<GlassCardHero />
+				</div>
 				<div className={styles.heroContainer}>
-					<Image src={HeroPic} height={350} width={340} />
-				</div>
-				<div>
-					<Image src={Eevee} height={250} width={270} />
+					<div className={styles.flexBetween}>
+						<Image src={Eevee} height={250} width={270} />
+					</div>
+					<div>
+						<Image src={HeroPic} height={350} width={340} />
+					</div>
 				</div>
 				<div>
 					<HomeSectionTwo />

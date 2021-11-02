@@ -1,9 +1,11 @@
 .container {
 	height: 100vh;
-	width: 100vw;
+	max-width: 1600px;
 	position: relative;
-	overflow-x: hidden;
-	padding: 0rem 4rem;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 0rem 5%;
 }
 
 .main {
@@ -182,9 +184,12 @@
 	position: absolute;
 	z-index: -1;
 	top: -100%;
+	margin-right: auto; /* 1 */
+	margin-left: auto; /* 1 */
 }
 
 //nav
+
 .listContainer {
 	display: flex;
 	justify-content: space-around;
@@ -238,9 +243,8 @@
 
 .heroContainer {
 	width: 100%;
-	position: absolute;
-	right: -70%;
-	top: 50%;
+	display: flex;
+	justify-content: space-between;
 }
 
 @keyframes gradient {

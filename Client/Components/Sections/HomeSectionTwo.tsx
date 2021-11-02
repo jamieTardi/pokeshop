@@ -11,7 +11,7 @@ interface Props {}
 
 export const HomeSectionTwo = (props: Props) => {
 	return (
-		<div className={styles.blackText}>
+		<div className={styles.blackText} style={{ marginTop: '5%' }}>
 			<figure className={`${cardStyle.card} ${cardStyle.cardnormal}`}>
 				<div className={cardStyle.cardimagecontainer}>
 					<Image src={eeveeThumb} height={150} width={170} alt='pokemon' />

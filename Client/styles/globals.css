@@ -8,6 +8,11 @@ body {
 		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+#__next {
+	display: flex;
+	justify-content: center;
+}
+
 a {
 	color: inherit;
 	text-decoration: none;
@@ -15,4 +20,16 @@ a {
 
 * {
 	box-sizing: border-box;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0%;
+	}
+	50% {
+		background-position: 100%;
+	}
+	100% {
+		background-position: 50%;
+	}
 }

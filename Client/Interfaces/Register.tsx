@@ -9,10 +9,20 @@ export interface newUser {
 	role: string;
 	dob: string;
 	address: object;
+	isPromtions: boolean;
+	confirmPassword: string;
 }
 
 export interface passwords {
 	first: string;
+	second: string;
 	error: string;
 	confirmed: string;
+	isMatched: boolean;
+}
+
+export interface email {
+	isCorrect: boolean;
+	errorMsg: string;
+	newEmail: string;
 }
