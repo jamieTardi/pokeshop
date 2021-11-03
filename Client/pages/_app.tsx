@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
-				<Component {...pageProps} />;
+				<Component {...pageProps} />
 			</ThemeProvider>
 		</Provider>
 	);
