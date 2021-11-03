@@ -1,16 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.scss';
 import Image from 'next/Image';
 import Logo from '../../Images/pokeLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { incrementByAmount } from '../../Redux/slices/counterSlice';
+import { logoutUser } from '../../Redux/slices/userSlice';
 import { RootState } from '../../Redux/store';
 
 const Nav = () => {
 	const dispatch = useDispatch();
-	// const count = useSelector((state: RootState) => state.counter.value);
+	const router = useRouter();
+	const currentUser = useSelector((state: RootState) => state.user.value);
+	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 	let navItems: string[] = [
 		'Products',
 		'New releases',
@@ -18,9 +21,20 @@ const Nav = () => {
 		'Members',
 		'Customer Service',
 	];
-	// useEffect(() => {
-	// 	dispatch(incrementByAmount(3));
-	// }, []);
+
+	const handleLogout = () => {
+		dispatch({ type: logoutUser });
+		router.push('/');
+	};
+
+	useEffect(() => {
+		if (currentUser) {
+			setIsSignedIn(true);
+		} else {
+			setIsSignedIn(false);
+		}
+	}, [currentUser]);
+
 	return (
 		<nav className={styles.nav}>
 			<div>
@@ -34,16 +48,36 @@ const Nav = () => {
 				))}
 			</ul>
 			<div>
-				<Link href='/signIn'>
-					<Button variant='text' sx={{ color: 'white' }}>
-						Login
-					</Button>
-				</Link>
-				<Link href='/register'>
-					<Button variant='text' sx={{ color: 'white' }}>
-						Register
-					</Button>
-				</Link>
+				{!isSignedIn ? (
+					<>
+						<Link href='/signIn'>
+							<Button variant='text' sx={{ color: 'white' }}>
+								Login
+							</Button>
+						</Link>
+						<Link href='/register'>
+							<Button variant='text' sx={{ color: 'white' }}>
+								Register
+							</Button>
+						</Link>
+					</>
+				) : (
+					<div className={styles.flexBetween} style={{ width: '100%' }}>
+						<p className={styles.welcome}>
+							Hi{' '}
+							{currentUser &&
+								currentUser.firstName.charAt(0).toUpperCase() +
+									currentUser.firstName.slice(1)}
+							!
+						</p>
+						<Button
+							variant='text'
+							sx={{ color: 'white' }}
+							onClick={handleLogout}>
+							Logout
+						</Button>
+					</div>
+				)}
 			</div>
 		</nav>
 	);

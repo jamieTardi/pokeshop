@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
 import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
+import { signInUser } from '../api/index';
+import { useDispatch } from 'react-redux';
+import { SignIn } from '../Redux/slices/authSlice';
 
 function Copyright(props: any) {
 	return (
@@ -45,14 +49,33 @@ const theme = createTheme({
 
 export default function signIn() {
 	const [isValid, setIsValid] = useState<boolean>(false);
+	const [response, setResponse] = useState<any>(null);
+	const dispatch = useDispatch();
+	const history = useRouter();
+	const [signInDetails, setSignInDetails] = useState<object>({
+		email: '',
+		password: '',
+		isStayLogged: false,
+	});
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get('email'),
-			password: data.get('password'),
-		});
+		signInUser(
+			{
+				...signInDetails,
+				email: data.get('email'),
+				password: data.get('password'),
+			},
+			setResponse,
+		);
 	};
+
+	useEffect(() => {
+		if (response) {
+			dispatch({ type: SignIn, payload: response.data });
+			history.push('/');
+		}
+	}, [response]);
 
 	const handleValidation = (event: React.ChangeEvent<HTMLInputElement>) => {
 		let newEmail: string = event.currentTarget.value;
@@ -119,10 +142,22 @@ export default function signIn() {
 								id='password'
 								autoComplete='current-password'
 							/>
-							{/* <FormControlLabel
-								control={<Checkbox value='remember' color='primary' />}
+							<FormControlLabel
+								control={
+									<Checkbox
+										value
+										color='primary'
+										name='remember'
+										onChange={(e) => {
+											setSignInDetails({
+												...signIn,
+												isStayLogged: e.target.checked,
+											});
+										}}
+									/>
+								}
 								label='Remember me'
-							/> */}
+							/>
 							<Button
 								type='submit'
 								color='primary'
@@ -139,8 +174,15 @@ export default function signIn() {
 									</Link>
 								</Grid>
 								<Grid item>
-									<Link href='#' variant='body2'>
+									<Link href='/register' variant='body2'>
 										{"Don't have an account? Sign Up"}
+									</Link>
+								</Grid>
+							</Grid>
+							<Grid container justifyContent='flex-end'>
+								<Grid item>
+									<Link href='/' variant='body2'>
+										Go back to home page
 									</Link>
 								</Grid>
 							</Grid>

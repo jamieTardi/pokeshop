@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { useEffect } from 'react';
 import Head from 'next/head';
 import Nav from '../Components/General/Nav';
 import styles from '../styles/Home.module.scss';
@@ -8,8 +9,20 @@ import HeroPic from '../Images/hero.png';
 import Eevee from '../Images/eevee.png';
 import { HomeSectionTwo } from '../Components/Sections/HomeSectionTwo';
 import About from '../Components/Sections/About';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../Redux/slices/userSlice';
 
 const Home: NextPage = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (localStorage.getItem('poke-decks')) {
+			dispatch({
+				type: updateUser,
+				payload: JSON.parse(localStorage.getItem('poke-decks') || '{}').result,
+			});
+		}
+	}, []);
 	return (
 		<>
 			<div className={`${styles.container} ${styles.whiteText}`}>
