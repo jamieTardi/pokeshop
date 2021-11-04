@@ -13,6 +13,7 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		updateUser: (state, action: PayloadAction<object>) => {
+			console.log(action.payload);
 			state.value = action.payload;
 		},
 		logoutUser: (state, action: PayloadAction<null>) => {

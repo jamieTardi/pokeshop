@@ -11,6 +11,7 @@ export interface newUser {
 	address: object;
 	isPromtions: boolean;
 	confirmPassword: string;
+	refreshToken: string;
 }
 
 export interface passwords {

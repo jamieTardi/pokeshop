@@ -17,6 +17,7 @@ const userSchema = mongoose.Schema({
 	dob: { type: String },
 	address: { type: Object },
 	isPromtions: { type: Boolean, required: true },
+	refreshToken: { type: String },
 });
 
 export default mongoose.model('User', userSchema);

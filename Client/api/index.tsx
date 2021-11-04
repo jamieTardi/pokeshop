@@ -16,7 +16,8 @@ export const signInUser = (formData: object, setResponse: any) =>
 		.then((res) => setResponse(res))
 		.catch((err) => console.log(err));
 
-// export const JWTCookie = (setCookieRes: any) =>
-// 	API.get('/setcookie', { withCredentials: false })
-// 		.then((res) => setCookieRes(res.status))
-// 		.catch((err) => console.log(err));
+export const refreshToken = (token: object) => {
+	API.post('/users/token', token)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+};

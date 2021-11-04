@@ -74,6 +74,7 @@ export default function register() {
 		dob: '',
 		address: {},
 		isPromtions: false,
+		refreshToken: '',
 	});
 
 	const handleEmailCheck = (event: React.ChangeEvent<HTMLInputElement>) => {

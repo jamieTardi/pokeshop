@@ -19,7 +19,8 @@ const Home: NextPage = () => {
 		if (localStorage.getItem('poke-decks')) {
 			dispatch({
 				type: updateUser,
-				payload: JSON.parse(localStorage.getItem('poke-decks') || '{}').result,
+				payload: JSON.parse(localStorage.getItem('poke-decks') || '{}')
+					.userDetails,
 			});
 		}
 	}, []);

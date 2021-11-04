@@ -15,10 +15,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
 import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
-import { signInUser } from '../api/index';
+import { signInUser, refreshToken } from '../api/index';
 import { useDispatch } from 'react-redux';
 import { SignIn } from '../Redux/slices/authSlice';
 import cookieClient from 'react-cookie';
+
 
 function Copyright(props: any) {
 	return (
@@ -70,12 +71,15 @@ export default function signIn() {
 			},
 			setResponse,
 		);
+		
 	};
 
 	useEffect(() => {
 		if (response) {
 			dispatch({ type: SignIn, payload: response.data });
 			history.push('/');
+			refreshToken(response.data)
+			
 		}
 	}, [response]);
 
