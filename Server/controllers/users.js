@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import users from '../models/users.js';
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
+import express from 'express';
+
+const app = express();
 
 export const signup = async (req, res) => {
 	const {
@@ -67,6 +68,7 @@ export const signin = async (req, res) => {
 			'test',
 			{ expiresIn: '1h' },
 		);
+
 		res.status(200).json({ result: existingUser, token });
 	} catch (err) {
 		res.status(500).json({ message: 'Something went wrong.' });

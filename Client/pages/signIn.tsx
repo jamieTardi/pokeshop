@@ -18,6 +18,7 @@ import * as EmailValidator from 'email-validator';
 import { signInUser } from '../api/index';
 import { useDispatch } from 'react-redux';
 import { SignIn } from '../Redux/slices/authSlice';
+import cookieClient from 'react-cookie';
 
 function Copyright(props: any) {
 	return (
@@ -52,6 +53,7 @@ export default function signIn() {
 	const [response, setResponse] = useState<any>(null);
 	const dispatch = useDispatch();
 	const history = useRouter();
+	const [cookieRes, setCookieRes] = useState<any>(null);
 	const [signInDetails, setSignInDetails] = useState<object>({
 		email: '',
 		password: '',
