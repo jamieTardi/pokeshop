@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Nav from '../Components/General/Nav';
 import styles from '../styles/Home.module.scss';
@@ -11,19 +11,39 @@ import { HomeSectionTwo } from '../Components/Sections/HomeSectionTwo';
 import About from '../Components/Sections/About';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../Redux/slices/userSlice';
+import { getUsers } from '../api';
+import { useAppSelector } from '../Redux/hooks';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
+	const router = useRouter();
+	const [allUsers, SetAllUsers] = useState<any | null>(null);
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (localStorage.getItem('poke-decks')) {
-			dispatch({
-				type: updateUser,
-				payload: JSON.parse(localStorage.getItem('poke-decks') || '{}')
-					.userDetails,
-			});
+		getUsers(SetAllUsers);
+		if (allUsers) {
+			console.log(allUsers);
+			if (localStorage.getItem('poke-decks')) {
+				let userToken: string = JSON.parse(localStorage.getItem('poke-decks'))
+					.userDetails.token;
+
+				let filitered: any = allUsers.data.filter((user: any) => {
+					return user.refreshToken === userToken;
+				});
+				const currentUser: any = filitered[0];
+				dispatch({
+					type: updateUser,
+					payload: {
+						firstName: currentUser.firstName,
+						lastName: currentUser.lastName,
+						role: currentUser.role,
+					},
+				});
+			}
 		}
-	}, []);
+	}, [allUsers !== null]);
 	return (
 		<>
 			<div className={`${styles.container} ${styles.whiteText}`}>

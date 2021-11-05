@@ -8,11 +8,17 @@ import Logo from '../../Images/pokeLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../Redux/slices/userSlice';
 import { RootState } from '../../Redux/store';
+import Dashboard from '../Admin/DashboardItems/Dashboard';
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
+import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
 
 const Nav = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const router = useRouter();
-	const currentUser = useSelector((state: RootState) => state.user.value);
+	const currentUser: any = useAppSelector(
+		(state: RootState) => state.user.value,
+	);
+	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 	let navItems: string[] = [
 		'Products',
@@ -24,14 +30,22 @@ const Nav = () => {
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
+		dispatch({ type: isNewAdmin, payload: false });
 		router.push('/');
 	};
 
 	useEffect(() => {
 		if (currentUser) {
 			setIsSignedIn(true);
+
+			if (currentUser.role === 'admin') {
+				dispatch({ type: isNewAdmin, payload: true });
+			} else {
+				dispatch({ type: isNewAdmin, payload: false });
+			}
 		} else {
 			setIsSignedIn(false);
+			dispatch({ type: isAdmin, payload: false });
 		}
 	}, [currentUser]);
 
@@ -46,6 +60,11 @@ const Nav = () => {
 						{item}
 					</li>
 				))}
+				{isAdmin && (
+					<li className={styles.navitems}>
+						<Link href='/admin'>Dashboard</Link>
+					</li>
+				)}
 			</ul>
 			<div>
 				{!isSignedIn ? (

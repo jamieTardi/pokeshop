@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
 import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
-import { signInUser, refreshToken } from '../api/index';
+import { signInUser } from '../api/index';
 import { useDispatch } from 'react-redux';
 import { SignIn } from '../Redux/slices/authSlice';
 import cookieClient from 'react-cookie';
@@ -74,10 +74,8 @@ export default function signIn() {
 
 	useEffect(() => {
 		if (response) {
-			console.log(response.data);
 			dispatch({ type: SignIn, payload: response.data });
 			history.push('/');
-			refreshToken(response.data);
 		}
 	}, [response]);
 

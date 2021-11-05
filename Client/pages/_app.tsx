@@ -1,9 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+
 import { Provider } from 'react-redux';
 import { store } from '../Redux/store';
 

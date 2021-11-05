@@ -13,7 +13,8 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		updateUser: (state, action: PayloadAction<object>) => {
-			console.log(action.payload);
+			//get all the users and then check if that user is in the data base
+
 			state.value = action.payload;
 		},
 		logoutUser: (state, action: PayloadAction<null>) => {

@@ -15,8 +15,6 @@ export const authSlice = createSlice({
 		SignIn: (state, action: PayloadAction<any>) => {
 			console.log(action.payload);
 			const userDetails: any = {
-				firstName: action.payload.result.firstName,
-				email: action.payload.result.email,
 				token: action.payload.token,
 			};
 			localStorage.setItem('poke-decks', JSON.stringify({ userDetails }));
