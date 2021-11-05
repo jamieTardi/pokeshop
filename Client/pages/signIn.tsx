@@ -20,7 +20,6 @@ import { useDispatch } from 'react-redux';
 import { SignIn } from '../Redux/slices/authSlice';
 import cookieClient from 'react-cookie';
 
-
 function Copyright(props: any) {
 	return (
 		<Typography
@@ -71,15 +70,14 @@ export default function signIn() {
 			},
 			setResponse,
 		);
-		
 	};
 
 	useEffect(() => {
 		if (response) {
+			console.log(response.data);
 			dispatch({ type: SignIn, payload: response.data });
 			history.push('/');
-			refreshToken(response.data)
-			
+			refreshToken(response.data);
 		}
 	}, [response]);
 

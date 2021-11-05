@@ -13,12 +13,12 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		SignIn: (state, action: PayloadAction<any>) => {
+			console.log(action.payload);
 			const userDetails: any = {
 				firstName: action.payload.result.firstName,
 				email: action.payload.result.email,
 				token: action.payload.token,
 			};
-			console.log(action.payload);
 			localStorage.setItem('poke-decks', JSON.stringify({ userDetails }));
 			state.value = action.payload;
 		},
