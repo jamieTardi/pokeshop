@@ -28,9 +28,11 @@ import { useStyles } from '../../styles/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import { createProduct } from '../../api';
 
 const AddProducts = () => {
 	const classes = useStyles();
+	const [isLoading, setIsLoading] = useState<any>(false);
 	const [productDetails, setProductDetails] = useState<productForm>({
 		title: '',
 		price: 0,
@@ -47,7 +49,12 @@ const AddProducts = () => {
 		(state: RootState) => state.isAdmin.value,
 	);
 
-	console.log(productDetails);
+	const handleSubmit = () => {
+		setIsLoading(true);
+		createProduct(productDetails, setIsLoading);
+	};
+
+	console.log(isLoading);
 
 	if (isAdmin) {
 		return (
@@ -74,7 +81,7 @@ const AddProducts = () => {
 						<Paper elevation={3} className={classes.paper}>
 							<Grid container spacing={3}>
 								<Grid item xs={12}>
-									<Typography variant='h3' component='h4'>
+									<Typography variant='h5' component='h4'>
 										Add a new product
 									</Typography>
 								</Grid>
@@ -86,8 +93,7 @@ const AddProducts = () => {
 										required
 										fullWidth
 										label='Title of product'
-										// value={raidForm.title}
-
+										value={productDetails.title}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -103,8 +109,7 @@ const AddProducts = () => {
 										required
 										fullWidth
 										label='Price (number)'
-										// value={raidForm.title}
-
+										value={productDetails.price}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -120,8 +125,7 @@ const AddProducts = () => {
 
 										fullWidth
 										label='Expansion'
-										// value={raidForm.title}
-
+										value={productDetails.expansion}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -137,8 +141,7 @@ const AddProducts = () => {
 										required
 										fullWidth
 										label='Category'
-										// value={raidForm.title}
-
+										value={productDetails.category}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -154,8 +157,7 @@ const AddProducts = () => {
 										required
 										fullWidth
 										label='SKU'
-										// value={raidForm.title}
-
+										value={productDetails.SKU}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -183,6 +185,7 @@ const AddProducts = () => {
 									<p>Amount of stock</p>
 									<Select
 										fullWidth
+										value={productDetails.stockAmount}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -202,6 +205,7 @@ const AddProducts = () => {
 											control={
 												<Checkbox
 													required
+													value={productDetails.preOrder}
 													onChange={(e) => {
 														setProductDetails({
 															...productDetails,
@@ -223,8 +227,7 @@ const AddProducts = () => {
 										required
 										fullWidth
 										label='Description'
-										// value={raidForm.title}
-
+										value={productDetails.description}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
@@ -241,7 +244,10 @@ const AddProducts = () => {
 									</Link>
 								</Grid>
 								<Grid item xs={6}>
-									<Button variant='contained' color='primary'>
+									<Button
+										variant='contained'
+										color='primary'
+										onClick={handleSubmit}>
 										Create Product
 									</Button>
 								</Grid>
