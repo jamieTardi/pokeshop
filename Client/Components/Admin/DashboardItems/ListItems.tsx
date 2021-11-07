@@ -31,14 +31,7 @@ export const mainListItems = (
 			</ListItemIcon>
 			<ListItemText primary='Customers' />
 		</ListItem>
-		<Link href='/admin/add-products'>
-			<ListItem button>
-				<ListItemIcon>
-					<AddBusinessIcon />
-				</ListItemIcon>
-				<ListItemText primary='Add Product' />
-			</ListItem>
-		</Link>
+		
 		<ListItem button>
 			<ListItemIcon>
 				<LayersIcon />
@@ -50,24 +43,30 @@ export const mainListItems = (
 
 export const secondaryListItems = (
 	<div>
-		<ListSubheader inset>Saved reports</ListSubheader>
-		<ListItem button>
-			<ListItemIcon>
-				<AssignmentIcon />
-			</ListItemIcon>
-			<ListItemText primary='Current month' />
-		</ListItem>
-		<ListItem button>
-			<ListItemIcon>
-				<AssignmentIcon />
-			</ListItemIcon>
-			<ListItemText primary='Last quarter' />
-		</ListItem>
-		<ListItem button>
-			<ListItemIcon>
-				<AssignmentIcon />
-			</ListItemIcon>
-			<ListItemText primary='Year-end sale' />
-		</ListItem>
+		<ListSubheader inset>Products Section</ListSubheader>
+		<Link href='/admin/add-category'>
+			<ListItem button>
+				<ListItemIcon>
+					<AddBusinessIcon />
+				</ListItemIcon>
+				<ListItemText primary='Add Catergory' />
+			</ListItem>
+		</Link>
+		<Link href='/admin/add-products'>
+			<ListItem button>
+				<ListItemIcon>
+					<AddBusinessIcon />
+				</ListItemIcon>
+				<ListItemText primary='Add Product' />
+			</ListItem>
+		</Link>
+		<Link href='/admin/add-products'>
+			<ListItem button>
+				<ListItemIcon>
+					<AddBusinessIcon />
+				</ListItemIcon>
+				<ListItemText primary='Edit Product' />
+			</ListItem>
+		</Link>
 	</div>
 );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Paper,
 	Box,
@@ -30,12 +30,14 @@ import { useStyles } from '../../styles/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import { createProduct } from '../../api';
+import { createProduct, getCategories, getExpansions } from '../../api';
 
 const AddProducts = () => {
 	const classes = useStyles();
 	const [isLoading, setIsLoading] = useState<any>(false);
 	const [infoText, setInfoText] = useState<string | null>(null);
+	const [expansions, setExpansions] = useState<Array<object> | null>(null);
+	const [categories, setCategories] = useState<Array<object> | null>(null);
 	const [productDetails, setProductDetails] = useState<productForm>({
 		title: '',
 		price: 0,
@@ -63,6 +65,14 @@ const AddProducts = () => {
 		setInfoText(null);
 		setIsLoading(false);
 	};
+
+	useEffect(() => {
+		getCategories(setCategories);
+		getExpansions(setExpansions);
+	}, []);
+
+	console.log(categories);
+	console.log(expansions);
 
 	if (isAdmin) {
 		return (
@@ -126,37 +136,45 @@ const AddProducts = () => {
 										}}
 									/>
 								</Grid>
-								<Grid item xs={12} sm={6}>
-									<TextField
-										id='standard-basic'
-										// className={classes.input}
 
-										fullWidth
-										label='Expansion'
-										value={productDetails.expansion}
-										onChange={(e) => {
-											setProductDetails({
-												...productDetails,
-												expansion: e.target.value,
-											});
-										}}
-									/>
-								</Grid>
 								<Grid item xs={12} sm={6}>
-									<TextField
-										id='standard-basic'
-										// className={classes.input}
-										required
+									<p>Category</p>
+									<Select
 										fullWidth
-										label='Category'
 										value={productDetails.category}
 										onChange={(e) => {
 											setProductDetails({
 												...productDetails,
 												category: e.target.value,
 											});
-										}}
-									/>
+										}}>
+										{categories &&
+											categories.map((item) => (
+												<MenuItem value={item.category} className='text-white'>
+													{item.category}
+												</MenuItem>
+											))}
+									</Select>
+								</Grid>
+
+								<Grid item xs={12} sm={6}>
+									<p>Expansion</p>
+									<Select
+										fullWidth
+										value={productDetails.expansion}
+										onChange={(e) => {
+											setProductDetails({
+												...productDetails,
+												expansion: e.target.value,
+											});
+										}}>
+										{expansions &&
+											expansions.map((item) => (
+												<MenuItem value={item.expansion} className='text-white'>
+													{item.expansion}
+												</MenuItem>
+											))}
+									</Select>
 								</Grid>
 								<Grid item xs={12} sm={6}>
 									<TextField
@@ -177,7 +195,7 @@ const AddProducts = () => {
 								<Grid item xs={12} sm={6}>
 									<LocalizationProvider dateAdapter={AdapterDateFns}>
 										<DatePicker
-											label='Basic example'
+											label='Release Date'
 											value={productDetails.releaseDate}
 											onChange={(newValue) => {
 												setProductDetails({

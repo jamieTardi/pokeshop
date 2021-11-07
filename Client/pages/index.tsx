@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 	useEffect(() => {
 		getUsers(SetAllUsers);
 		if (allUsers) {
-			console.log(allUsers);
+			
 			if (localStorage.getItem('poke-decks')) {
 				let userToken: string = JSON.parse(localStorage.getItem('poke-decks'))
 					.userDetails.token;
@@ -33,6 +33,7 @@ const Home: NextPage = () => {
 					return user.refreshToken === userToken;
 				});
 				const currentUser: any = filitered[0];
+				if(currentUser !== undefined){
 				dispatch({
 					type: updateUser,
 					payload: {
@@ -41,6 +42,7 @@ const Home: NextPage = () => {
 						role: currentUser.role,
 					},
 				});
+				}
 			}
 		}
 	}, [allUsers !== null]);

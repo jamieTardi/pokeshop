@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/users.js';
 import productsRoutes from './routes/products.js';
 import cookieParser from 'cookie-parser';
+import expansionRoutes from './routes/expansions.js';
+import categoryRoutes from './routes/category.js';
 
 const app = express();
 dotenv.config();
@@ -16,6 +18,8 @@ app.use(cors());
 app.use(cookieParser());
 app.use('/users', userRoutes);
 app.use('/products', productsRoutes);
+app.use('/expansion', expansionRoutes);
+app.use('/category', categoryRoutes);
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
 
