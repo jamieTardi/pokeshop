@@ -23,8 +23,12 @@ export const getUsers = (setAllUsers: any) =>
 
 //Products
 
-export const createProduct = (formData: object, setIsLoading: any) => {
+export const createProduct = (
+	formData: object,
+	setIsLoading: any,
+	setInfoText: any,
+) => {
 	API.post('/products', formData)
 		.then(() => setIsLoading(false))
-		.catch((err) => console.log(err));
+		.catch((err) => setInfoText(err.response.data.message));
 };

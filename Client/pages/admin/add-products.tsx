@@ -13,6 +13,7 @@ import {
 	Checkbox,
 	FormControlLabel,
 	Button,
+	CircularProgress,
 } from '@mui/material';
 import styles from '../../styles/Admin.module.scss';
 import { useAppSelector } from '../../Redux/hooks';
@@ -22,6 +23,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
 import { productForm } from '../../Interfaces/Admin';
 import { useStyles } from '../../styles/styles';
@@ -33,6 +35,7 @@ import { createProduct } from '../../api';
 const AddProducts = () => {
 	const classes = useStyles();
 	const [isLoading, setIsLoading] = useState<any>(false);
+	const [infoText, setInfoText] = useState<string | null>(null);
 	const [productDetails, setProductDetails] = useState<productForm>({
 		title: '',
 		price: 0,
@@ -51,10 +54,15 @@ const AddProducts = () => {
 
 	const handleSubmit = () => {
 		setIsLoading(true);
-		createProduct(productDetails, setIsLoading);
+		createProduct(productDetails, setIsLoading, setInfoText);
+		setTimeout(() => {
+			if (isLoading) {
+				setInfoText('Product added to database.');
+			}
+		}, 1500);
+		setInfoText(null);
+		setIsLoading(false);
 	};
-
-	console.log(isLoading);
 
 	if (isAdmin) {
 		return (
@@ -236,6 +244,9 @@ const AddProducts = () => {
 										}}
 									/>
 								</Grid>
+								<Grid item xs={12}>
+									{infoText && <p>{infoText}</p>}
+								</Grid>
 								<Grid item xs={6}>
 									<Link href='/admin'>
 										<Button variant='contained' color='warning'>
@@ -247,6 +258,14 @@ const AddProducts = () => {
 									<Button
 										variant='contained'
 										color='primary'
+										startIcon={
+											isLoading ? (
+												<CircularProgress size={20} />
+											) : (
+												<AddCircleIcon />
+											)
+										}
+										disabled={isLoading}
 										onClick={handleSubmit}>
 										Create Product
 									</Button>
