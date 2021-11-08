@@ -1,7 +1,7 @@
 export interface productForm {
 	title: string;
 	price: HTMLTextAreaElement | any;
-	image: string;
+	image: Array<string>;
 	description: string;
 	expansion: string;
 	category: string;

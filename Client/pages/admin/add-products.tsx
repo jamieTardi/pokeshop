@@ -25,12 +25,17 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
+import Image from 'next/Image';
 import { productForm } from '../../Interfaces/Admin';
 import { useStyles } from '../../styles/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { createProduct, getCategories, getExpansions } from '../../api';
+import { getImageURL } from '../../api';
+import image from 'next/image';
+import axios from 'axios';
+import Carousel from 'react-material-ui-carousel';
 
 const AddProducts = () => {
 	const classes = useStyles();
@@ -38,10 +43,15 @@ const AddProducts = () => {
 	const [infoText, setInfoText] = useState<string | null>(null);
 	const [expansions, setExpansions] = useState<Array<object> | null>(null);
 	const [categories, setCategories] = useState<Array<object> | null>(null);
+	const [file, setFile] = useState<any>(null);
+	const [imageURL, setImageURL] = useState<string>('');
+	const [isUpload, setIsUpload] = useState<boolean>(false);
+	const [imageText, setImageText] = useState<string>('');
+	const [returnedImage, setReturnedImage] = useState<string | undefined>('');
 	const [productDetails, setProductDetails] = useState<productForm>({
 		title: '',
 		price: 0,
-		image: '',
+		image: [],
 		description: '',
 		expansion: '',
 		category: '',
@@ -53,26 +63,49 @@ const AddProducts = () => {
 	const isAdmin: boolean = useAppSelector(
 		(state: RootState) => state.isAdmin.value,
 	);
+	const imageArr = productDetails.image;
+
+	useEffect(() => {
+		getImageURL(setImageURL);
+	}, []);
 
 	const handleSubmit = () => {
+		setInfoText('');
 		setIsLoading(true);
 		createProduct(productDetails, setIsLoading, setInfoText);
-		setTimeout(() => {
-			if (isLoading) {
-				setInfoText('Product added to database.');
-			}
-		}, 1500);
-		setInfoText(null);
-		setIsLoading(false);
 	};
 
+	const handleImageSend = () => {
+		setIsUpload(true);
+		setReturnedImage('');
+		axios
+			.put(imageURL, file)
+			.then((res) => setReturnedImage(res.request.responseURL.split('?')[0]))
+			.then(() => setIsUpload(false))
+			.then(() => setImageText('Upload successful 🎉'))
+			.then(() =>
+				setTimeout(() => {
+					setImageText('');
+				}, 2000),
+			)
+
+			.catch((err) => console.log(err));
+	};
+
+	useEffect(() => {
+		if (returnedImage) {
+			setProductDetails({
+				...productDetails,
+				image: [...productDetails.image, returnedImage],
+			});
+		}
+		getImageURL(setImageURL);
+	}, [returnedImage]);
+	console.log(returnedImage);
 	useEffect(() => {
 		getCategories(setCategories);
 		getExpansions(setExpansions);
 	}, []);
-
-	console.log(categories);
-	console.log(expansions);
 
 	if (isAdmin) {
 		return (
@@ -104,10 +137,44 @@ const AddProducts = () => {
 									</Typography>
 								</Grid>
 
+								<Grid item xs={12}>
+									<Carousel>
+										{imageArr.map((item, i) => (
+											<div
+												style={{
+													background: `url(${item})`,
+													height: '300px',
+													backgroundPosition: 'center',
+													backgroundSize: 'cover',
+												}}
+												alt='uploaded Image'
+											/>
+										))}
+									</Carousel>
+								</Grid>
+
+								<Grid item xs={12}>
+									<input
+										type='file'
+										accept='image/*'
+										onChange={(e) => {
+											const file = e.target.files[0];
+											setFile(file);
+										}}
+									/>
+									<Button
+										variant='contained'
+										onClick={handleImageSend}
+										disabled={isUpload}
+										startIcon={isUpload && <CircularProgress size={20} />}>
+										{isUpload ? 'Uploading...' : 'Upload Image'}
+									</Button>
+									<p>{imageText !== '' && imageText}</p>
+								</Grid>
+
 								<Grid item xs={12} sm={6}>
 									<TextField
 										id='standard-basic'
-										// className={classes.input}
 										required
 										fullWidth
 										label='Title of product'

@@ -29,8 +29,9 @@ export const createProduct = (
 	setIsLoading: any,
 	setInfoText: any,
 ) => {
-	API.post('/products', formData)
+	API.post('/products', formData, setInfoText)
 		.then(() => setIsLoading(false))
+		.then(() => setInfoText('Product added you awesome person! ✨'))
 		.catch((err) => setInfoText(err.response.data.message));
 };
 
@@ -44,6 +45,7 @@ export const addExpansions = (
 			setInfoText('Expansion added you awesome person! ✨');
 		})
 		.then(() => setIsLoading(false))
+
 		.catch((err) => setInfoText(err.response.data.message));
 };
 
@@ -70,4 +72,12 @@ export const getExpansions = (setExpansions: any) => {
 	API.get('/expansion')
 		.then((res) => setExpansions(res.data.expansions))
 		.catch((err) => console.log(err.response.data.message));
+};
+
+//images
+
+export const getImageURL = (setImageURL: any) => {
+	API.get('/s3URL')
+		.then((res) => setImageURL(res.data.url))
+		.catch((err) => console.log(err));
 };
