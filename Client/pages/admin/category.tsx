@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../Redux/store';
 import { useAppSelector } from '../../Redux/hooks';
 import Forbidden from '../../Components/Admin/DashboardItems/Forbidden';
@@ -21,21 +21,23 @@ import {
 import { useStyles } from '../../styles/styles';
 import styles from '../../styles/Admin.module.scss';
 import { addExpansions, addCategories } from '../../api/index';
-import AdminModal from '../../Components/General/adminModal';
+import AdminModal from '../../Components/General/AdminModal';
 
 interface Props {}
 
 interface categories {
 	addCategory: object;
-	category: string;
+	category: any;
 }
 
 const AddCategory = (props: Props) => {
-	const [addCategory, setAddCategory] = useState<categories>({ category: '' });
-	const [addExpansion, setAddExpansion] = useState<object>({ expansion: '' });
+	const [addCategory, setAddCategory] = useState<categories | any>({
+		category: '',
+	});
+	const [addExpansion, setAddExpansion] = useState<any>({ expansion: '' });
 	const [open, setOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [infoText, setInfoText] = useState<string | null>(null);
+	const [infoText, setInfoText] = useState<any | null>(null);
 	const isAdmin: boolean = useAppSelector(
 		(state: RootState) => state.isAdmin.value,
 	);

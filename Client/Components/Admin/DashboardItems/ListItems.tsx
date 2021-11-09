@@ -10,6 +10,8 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import Link from 'next/dist/client/link';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 export const mainListItems = (
 	<div>
@@ -31,7 +33,7 @@ export const mainListItems = (
 			</ListItemIcon>
 			<ListItemText primary='Customers' />
 		</ListItem>
-		
+
 		<ListItem button>
 			<ListItemIcon>
 				<LayersIcon />
@@ -44,15 +46,15 @@ export const mainListItems = (
 export const secondaryListItems = (
 	<div>
 		<ListSubheader inset>Products Section</ListSubheader>
-		<Link href='/admin/add-category'>
+		<Link href='/admin/category'>
 			<ListItem button>
 				<ListItemIcon>
-					<AddBusinessIcon />
+					<AddTaskIcon />
 				</ListItemIcon>
 				<ListItemText primary='Add Catergory' />
 			</ListItem>
 		</Link>
-		<Link href='/admin/add-products'>
+		<Link href='/admin/products'>
 			<ListItem button>
 				<ListItemIcon>
 					<AddBusinessIcon />
@@ -60,10 +62,10 @@ export const secondaryListItems = (
 				<ListItemText primary='Add Product' />
 			</ListItem>
 		</Link>
-		<Link href='/admin/add-products'>
+		<Link href='/admin/edit-product'>
 			<ListItem button>
 				<ListItemIcon>
-					<AddBusinessIcon />
+					<ModeEditIcon />
 				</ListItemIcon>
 				<ListItemText primary='Edit Product' />
 			</ListItem>

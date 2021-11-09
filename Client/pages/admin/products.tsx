@@ -25,7 +25,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
-import Image from 'next/Image';
 import { productForm } from '../../Interfaces/Admin';
 import { useStyles } from '../../styles/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
@@ -33,7 +32,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { createProduct, getCategories, getExpansions } from '../../api';
 import { getImageURL } from '../../api';
-import image from 'next/image';
 import axios from 'axios';
 import Carousel from 'react-material-ui-carousel';
 
@@ -101,7 +99,7 @@ const AddProducts = () => {
 		}
 		getImageURL(setImageURL);
 	}, [returnedImage]);
-	console.log(returnedImage);
+
 	useEffect(() => {
 		getCategories(setCategories);
 		getExpansions(setExpansions);
@@ -141,6 +139,7 @@ const AddProducts = () => {
 									<Carousel>
 										{imageArr.map((item, i) => (
 											<div
+												key={i}
 												style={{
 													background: `url(${item})`,
 													height: '300px',
@@ -217,7 +216,10 @@ const AddProducts = () => {
 										}}>
 										{categories &&
 											categories.map((item) => (
-												<MenuItem value={item.category} className='text-white'>
+												<MenuItem
+													value={item.category}
+													key={item}
+													className='text-white'>
 													{item.category}
 												</MenuItem>
 											))}
@@ -237,7 +239,10 @@ const AddProducts = () => {
 										}}>
 										{expansions &&
 											expansions.map((item) => (
-												<MenuItem value={item.expansion} className='text-white'>
+												<MenuItem
+													value={item.expansion}
+													key={item}
+													className='text-white'>
 													{item.expansion}
 												</MenuItem>
 											))}

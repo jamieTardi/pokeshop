@@ -17,7 +17,7 @@ import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
 import { signInUser } from '../api/index';
 import { useDispatch } from 'react-redux';
-import { SignIn } from '../Redux/slices/authSlice';
+import { SignInAuth } from '../Redux/slices/authSlice';
 import cookieClient from 'react-cookie';
 
 function Copyright(props: any) {
@@ -48,7 +48,7 @@ const theme = createTheme({
 	},
 });
 
-export default function signIn() {
+export default function SignIn() {
 	const [isValid, setIsValid] = useState<boolean>(false);
 	const [response, setResponse] = useState<any>(null);
 	const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export default function signIn() {
 
 	useEffect(() => {
 		if (response) {
-			dispatch({ type: SignIn, payload: response.data });
+			dispatch({ type: SignInAuth, payload: response.data });
 			history.push('/');
 		}
 	}, [response]);
@@ -152,7 +152,7 @@ export default function signIn() {
 										name='remember'
 										onChange={(e) => {
 											setSignInDetails({
-												...signIn,
+												...signInDetails,
 												isStayLogged: e.target.checked,
 											});
 										}}
@@ -176,7 +176,7 @@ export default function signIn() {
 									</Link>
 								</Grid>
 								<Grid item>
-									<Link href='/register' variant='body2'>
+									<Link href='/Register' variant='body2'>
 										{"Don't have an account? Sign Up"}
 									</Link>
 								</Grid>

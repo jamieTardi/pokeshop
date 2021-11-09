@@ -6,9 +6,9 @@ import Forbidden from '../../Components/Admin/DashboardItems/Forbidden';
 
 interface Props {}
 
-const admin = (props: Props) => {
+const Admin = (props: Props) => {
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	return <>{isAdmin ? <Dashboard /> : <Forbidden />}</>;
 };
 
-export default admin;
+export default Admin;

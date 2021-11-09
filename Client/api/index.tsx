@@ -7,9 +7,10 @@ const API = axios.create({
 
 //users
 
-export const signUp = (formData: object) =>
+export const signUp = (formData: object, setIsLoading: any) =>
 	API.post('/users/signup', formData)
-		.then((res) => console.log(res))
+		// .then((res) => console.log(res))
+		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 
 export const signInUser = (formData: object, setResponse: any) =>

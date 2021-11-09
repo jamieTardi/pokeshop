@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { newUser, passwords, email } from '../Interfaces/Register';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ import Image from 'next/Image';
 import * as EmailValidator from 'email-validator';
 import Nav from '../Components/General/Nav';
 import { signUp } from '../api/index';
+import { useRouter } from 'next/router';
 
 function Copyright(props: any) {
 	return (
@@ -46,7 +47,9 @@ const theme = createTheme({
 	},
 });
 
-export default function register() {
+export default function Register() {
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [emailCheck, setEmailCheck] = useState<email>({
 		isCorrect: false,
 		errorMsg: 'This Email is not valid. Please try again.',
@@ -125,8 +128,12 @@ export default function register() {
 	};
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		setIsLoading(true);
 		event.preventDefault();
-		signUp(newUser);
+		signUp(newUser, setIsLoading);
+		if (!isLoading) {
+			router.push('/');
+		}
 	};
 
 	return (
@@ -265,7 +272,7 @@ export default function register() {
 							</Button>
 							<Grid container justifyContent='flex-end'>
 								<Grid item>
-									<Link href='/signIn' variant='body2'>
+									<Link href='/SignIn' variant='body2'>
 										Already have an account? Sign in
 									</Link>
 								</Grid>
