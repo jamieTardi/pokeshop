@@ -25,6 +25,9 @@ app.get('/s3URL', async (req, res) => {
 	const url = await generateUploadURL();
 	res.send({ url });
 });
+app.get('/', (req, res) => {
+	res.send('Poke Decks Api Home');
+});
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
 
