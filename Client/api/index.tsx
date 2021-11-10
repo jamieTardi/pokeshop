@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { add } from 'date-fns';
 
+// const API = axios.create({
+// 	baseURL: 'http://localhost:5000',
+// });
+
 const API = axios.create({
-	baseURL: 'http://localhost:5000',
+	baseURL: 'https://poke-decks-uk.herokuapp.com',
 });
 
 //users
