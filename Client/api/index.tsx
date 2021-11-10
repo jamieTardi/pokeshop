@@ -79,6 +79,14 @@ export const getExpansions = (setExpansions: any) => {
 		.catch((err) => console.log(err.response.data.message));
 };
 
+export const getAllProducts = (setProducts: any) => {
+	API.get('/products')
+		.then((res) => setProducts(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const getProductByCat = () => {};
+
 //images
 
 export const getImageURL = (setImageURL: any) => {

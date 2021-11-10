@@ -66,9 +66,21 @@ $glowSize: 10px;
 	background: #e6e6e6;
 }
 
-.categoryContainer{
+.categoryContainer {
 	width: 100vw;
 	min-height: 100vh;
 	@include flex-column();
 	background: #e6e6e6;
+}
+
+//loading image
+
+.loading {
+	width: 100vw;
+	height: 100vh;
+	@include flex-center();
+}
+
+.pagination {
+	margin: 5% 0% 2% 0%;
 }

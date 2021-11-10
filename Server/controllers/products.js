@@ -21,3 +21,12 @@ export const addProduct = async (req, res) => {
 		res.status(500).json({ message: 'something went wrong' });
 	}
 };
+
+export const getAllProducts = async (req, res) => {
+	try {
+		const allProducts = await products.find();
+		res.status(200).json(allProducts);
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};

@@ -62,7 +62,7 @@ export const secondaryListItems = (
 				<ListItemText primary='Add Product' />
 			</ListItem>
 		</Link>
-		<Link href='/admin/edit-product'>
+		<Link href='/admin/editproduct'>
 			<ListItem button>
 				<ListItemIcon>
 					<ModeEditIcon />
