@@ -85,6 +85,13 @@ export const getAllProducts = (setProducts: any) => {
 		.catch((err) => console.log(err));
 };
 
+export const deleteProduct = (id: any, setDeleteResponse: any) => {
+	API.delete(`/products/${id}`)
+		.then((res) => console.log(res))
+		.then(() => setDeleteResponse(true))
+		.catch((err) => console.log(err));
+};
+
 export const getProductByCat = () => {};
 
 //images

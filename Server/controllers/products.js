@@ -30,3 +30,15 @@ export const getAllProducts = async (req, res) => {
 		res.status(500).json({ message: err });
 	}
 };
+
+export const deleteProduct = async (req, res) => {
+	const { id } = req.params;
+	try {
+		await products.findByIdAndDelete(id);
+		res
+			.status(204)
+			.json({ message: 'Item has been removed from the database.' });
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};

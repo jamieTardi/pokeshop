@@ -12,9 +12,10 @@ import Title from '../../Components/Admin/DashboardItems/Title';
 import { Grid } from '@mui/material';
 import styles from '../../styles/Admin.module.scss';
 import { useState, useEffect } from 'react';
-import { getAllProducts } from '../../api/index';
+import { getAllProducts, deleteProduct } from '../../api/index';
 import Loading from '../../Components/UIComponents/Loading';
 import CustomPagination from '../../Components/UIComponents/CustomPagination';
+import AdminModal from '../../Components/General/AdminModal';
 
 interface dataProducts {
 	_id: string;
@@ -26,22 +27,36 @@ interface dataProducts {
 
 export default function EditProduct() {
 	const [products, setProducts] = useState<null | Array<dataProducts>>(null);
+	const [open, setOpen] = useState<boolean>(false);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(10);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
+	const [deleteResponse, setDeleteResponse] = useState<boolean>(false);
 	const isAdmin: boolean = useAppSelector(
 		(state: RootState) => state.isAdmin.value,
 	);
-	const length = 30;
+	const length: number = 30;
+	const infoText: string =
+		'Item has been removed from the database..its gone FOREEEVER! 💨';
 
 	//logic for pagination
 	const indexOfLastPage = currentPage * itemsPerPage;
 	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 	const currentProducts = products?.slice(indexOfFirstPage, indexOfLastPage);
 
+	//General logic
+
+	const handleDeleteProduct = (id: string) => {
+		setDeleteResponse(false);
+		deleteProduct(id, setDeleteResponse);
+		setOpen(true);
+	};
+
+	//useEffects
+
 	useEffect(() => {
 		getAllProducts(setProducts);
-	}, []);
+	}, [deleteResponse]);
 
 	useEffect(() => {
 		if (products) {
@@ -90,7 +105,12 @@ export default function EditProduct() {
 														</Button>
 													</TableCell>
 													<TableCell>
-														<Button variant='contained' color='warning'>
+														<Button
+															variant='contained'
+															color='warning'
+															onClick={() => {
+																handleDeleteProduct(item._id);
+															}}>
 															Delete
 														</Button>
 													</TableCell>
@@ -105,6 +125,7 @@ export default function EditProduct() {
 								</Paper>
 							</Grid>
 						</Grid>
+						<AdminModal setOpen={setOpen} open={open} infoText={infoText} />
 					</div>
 				) : (
 					<Loading />
