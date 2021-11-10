@@ -69,12 +69,12 @@ const Nav = () => {
 			<div>
 				{!isSignedIn ? (
 					<>
-						<Link href='/SignIn'>
+						<Link href='/signIn'>
 							<Button variant='text' sx={{ color: 'white' }}>
 								Login
 							</Button>
 						</Link>
-						<Link href='/Register'>
+						<Link href='/register'>
 							<Button variant='text' sx={{ color: 'white' }}>
 								Register
 							</Button>
