@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Nav from '../Components/General/Nav';
 import styles from '../styles/Home.module.scss';
 import { GlassCardHero } from '../Components/UIComponents/GlassCardHero';
-import Image from 'next/Image';
+import Image from 'next/image';
 import HeroPic from '../Images/hero.png';
 import Eevee from '../Images/eevee.png';
 import { HomeSectionTwo } from '../Components/Sections/HomeSectionTwo';
@@ -24,7 +24,6 @@ const Home: NextPage = () => {
 	useEffect(() => {
 		getUsers(SetAllUsers);
 		if (allUsers) {
-			
 			if (localStorage.getItem('poke-decks')) {
 				let userToken: string = JSON.parse(localStorage.getItem('poke-decks'))
 					.userDetails.token;
@@ -33,15 +32,15 @@ const Home: NextPage = () => {
 					return user.refreshToken === userToken;
 				});
 				const currentUser: any = filitered[0];
-				if(currentUser !== undefined){
-				dispatch({
-					type: updateUser,
-					payload: {
-						firstName: currentUser.firstName,
-						lastName: currentUser.lastName,
-						role: currentUser.role,
-					},
-				});
+				if (currentUser !== undefined) {
+					dispatch({
+						type: updateUser,
+						payload: {
+							firstName: currentUser.firstName,
+							lastName: currentUser.lastName,
+							role: currentUser.role,
+						},
+					});
 				}
 			}
 		}

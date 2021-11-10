@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
-import Image from 'next/Image';
+import Image from 'next/image';
 import * as EmailValidator from 'email-validator';
 import { signInUser } from '../api/index';
 import { useDispatch } from 'react-redux';

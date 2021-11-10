@@ -1,6 +1,6 @@
 import styles from '../../styles/Home.module.scss';
 import charmander from '../../Images/charmander.png';
-import Image from 'next/Image';
+import Image from 'next/image';
 import { Button } from '@mui/material';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 

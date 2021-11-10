@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
-import Image from 'next/Image';
+import Image from 'next/image';
 import * as EmailValidator from 'email-validator';
 import Nav from '../Components/General/Nav';
 import { signUp } from '../api/index';

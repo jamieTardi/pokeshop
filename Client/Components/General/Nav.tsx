@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.scss';
-import Image from 'next/Image';
+import Image from 'next/image';
 import Logo from '../../Images/pokeLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../Redux/slices/userSlice';
