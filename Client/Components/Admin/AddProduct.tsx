@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-	Paper,
-	Box,
 	Grid,
 	TextField,
 	Typography,
 	Select,
-	InputLabel,
 	MenuItem,
 	FormGroup,
-	FormControl,
 	Checkbox,
 	FormControlLabel,
 	Button,
@@ -32,14 +28,14 @@ import {
 	getExpansions,
 	updateProduct,
 } from '../../api';
-import { getImageURL } from '../../api';
+import { getImageURL, getAllProducts } from '../../api';
 import axios from 'axios';
 import Carousel from 'react-material-ui-carousel';
-import { useAppSelector } from '../../Redux/hooks';
 
 interface Props {
 	setOpenEdit: Function | any;
 	currentProduct: productSelected;
+	setProducts: Function;
 }
 
 interface items {
@@ -49,7 +45,7 @@ interface items {
 	_id: number | string;
 }
 
-const AddProduct = ({ setOpenEdit, currentProduct }: Props) => {
+const AddProduct = ({ setOpenEdit, currentProduct, setProducts }: Props) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState<any>(false);
 	const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -110,9 +106,15 @@ const AddProduct = ({ setOpenEdit, currentProduct }: Props) => {
 		setInfoText('');
 		setIsLoading(true);
 		updateProduct(currentProduct._id, productDetails, setIsLoading);
-		if (!isLoading) {
-		}
+
+		setTimeout(() => {
+			getAllProducts(setProducts);
+		}, 1000);
+
+		setOpenEdit(false);
 	};
+
+	console.log(isLoading);
 
 	const handleImageSend = () => {
 		setIsUpload(true);

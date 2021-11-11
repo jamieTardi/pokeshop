@@ -29,12 +29,14 @@ interface props {
 	setOpenEdit: Function;
 	openEdit: boolean;
 	currentProduct: object;
+	setProducts: Function;
 }
 
 export default function EditModal({
 	openEdit,
 	setOpenEdit,
 	currentProduct,
+	setProducts,
 }: props) {
 	const handleOpen = () => setOpenEdit(true);
 	const handleClose = (event: any, reason: any) => {
@@ -57,6 +59,7 @@ export default function EditModal({
 					<AddProduct
 						setOpenEdit={setOpenEdit}
 						currentProduct={currentProduct}
+						setProducts={setProducts}
 					/>
 				</Box>
 			</Modal>

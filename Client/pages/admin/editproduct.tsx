@@ -141,6 +141,7 @@ export default function EditProduct() {
 							openEdit={openEdit}
 							setOpenEdit={setOpenEdit}
 							currentProduct={currentProduct}
+							setProducts={setProducts}
 						/>
 					</div>
 				) : (
