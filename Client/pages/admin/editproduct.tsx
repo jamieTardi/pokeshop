@@ -16,6 +16,7 @@ import { getAllProducts, deleteProduct } from '../../api/index';
 import Loading from '../../Components/UIComponents/Loading';
 import CustomPagination from '../../Components/UIComponents/CustomPagination';
 import AdminModal from '../../Components/General/AdminModal';
+import EditModal from '../../Components/Admin/EditModal';
 
 interface dataProducts {
 	_id: string;
@@ -32,6 +33,8 @@ export default function EditProduct() {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [deleteResponse, setDeleteResponse] = useState<boolean>(false);
+	const [openEdit, setOpenEdit] = useState<boolean>(false);
+	const [currentProduct, setCurrentProduct] = useState<object>({});
 	const isAdmin: boolean = useAppSelector(
 		(state: RootState) => state.isAdmin.value,
 	);
@@ -50,6 +53,11 @@ export default function EditProduct() {
 		setDeleteResponse(false);
 		deleteProduct(id, setDeleteResponse);
 		setOpen(true);
+	};
+
+	const handleEdit = (item: object) => {
+		setCurrentProduct(item);
+		setOpenEdit(true);
 	};
 
 	//useEffects
@@ -100,7 +108,10 @@ export default function EditProduct() {
 													<TableCell>{item.category}</TableCell>
 													<TableCell>{item.expansion}</TableCell>
 													<TableCell>
-														<Button variant='contained' color='secondary'>
+														<Button
+															variant='contained'
+															color='secondary'
+															onClick={() => handleEdit(item)}>
 															Edit
 														</Button>
 													</TableCell>
@@ -126,6 +137,11 @@ export default function EditProduct() {
 							</Grid>
 						</Grid>
 						<AdminModal setOpen={setOpen} open={open} infoText={infoText} />
+						<EditModal
+							openEdit={openEdit}
+							setOpenEdit={setOpenEdit}
+							currentProduct={currentProduct}
+						/>
 					</div>
 				) : (
 					<Loading />

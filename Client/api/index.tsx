@@ -13,7 +13,6 @@ const API = axios.create({
 
 export const signUp = (formData: object, setIsLoading: any) =>
 	API.post('/users/signup', formData)
-		// .then((res) => console.log(res))
 		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 

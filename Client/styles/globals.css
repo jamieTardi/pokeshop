@@ -9,6 +9,10 @@ body {
 	overflow-x: hidden;
 }
 
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+	background-color: white;
+}
+
 #__next {
 	display: flex;
 	justify-content: center;
