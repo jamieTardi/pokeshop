@@ -15,9 +15,6 @@ import {
 	Button,
 	CircularProgress,
 } from '@mui/material';
-import styles from '../../styles/Admin.module.scss';
-import { useAppSelector } from '../../Redux/hooks';
-import { RootState } from '../../Redux/store';
 import { useRouter } from 'next/router';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -26,14 +23,19 @@ import '@fontsource/roboto/700.css';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Link from 'next/link';
 import { productForm, productSelected } from '../../Interfaces/Admin';
-import { useStyles } from '../../styles/styles';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-import { createProduct, getCategories, getExpansions } from '../../api';
+import {
+	createProduct,
+	getCategories,
+	getExpansions,
+	updateProduct,
+} from '../../api';
 import { getImageURL } from '../../api';
 import axios from 'axios';
 import Carousel from 'react-material-ui-carousel';
+import { useAppSelector } from '../../Redux/hooks';
 
 interface Props {
 	setOpenEdit: Function | any;
@@ -104,7 +106,13 @@ const AddProduct = ({ setOpenEdit, currentProduct }: Props) => {
 		createProduct(productDetails, setIsLoading, setInfoText);
 	};
 
-	const handleEdit = () => {};
+	const handleEdit = () => {
+		setInfoText('');
+		setIsLoading(true);
+		updateProduct(currentProduct._id, productDetails, setIsLoading);
+		if (!isLoading) {
+		}
+	};
 
 	const handleImageSend = () => {
 		setIsUpload(true);

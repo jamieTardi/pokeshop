@@ -42,3 +42,22 @@ export const deleteProduct = async (req, res) => {
 		res.status(500).json({ message: err });
 	}
 };
+
+export const updateProduct = async (req, res) => {
+	const { id } = req.params;
+	const body = req.body;
+
+	const existingProduct = await products.findById(id);
+
+	if (!existingProduct) {
+		res.status(404).json({ message: 'Item does not exist in the database.' });
+	}
+	try {
+		const updatedItem = await products.findByIdAndUpdate(id, {
+			...body,
+		});
+		res.status(204).json(updatedItem);
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};

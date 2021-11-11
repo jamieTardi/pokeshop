@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { add } from 'date-fns';
 
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5000',
-// });
-
 const API = axios.create({
-	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	baseURL: 'http://localhost:5001',
 });
+
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// });
 
 //users
 
@@ -86,12 +86,24 @@ export const getAllProducts = (setProducts: any) => {
 
 export const deleteProduct = (id: any, setDeleteResponse: any) => {
 	API.delete(`/products/${id}`)
-		.then((res) => console.log(res))
+
 		.then(() => setDeleteResponse(true))
 		.catch((err) => console.log(err));
 };
 
 export const getProductByCat = () => {};
+
+//updating
+
+export const updateProduct = (
+	id: string,
+	formData: object,
+	setIsLoading: Function,
+) => {
+	API.patch(`/products/${id}`, formData)
+		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err));
+};
 
 //images
 
