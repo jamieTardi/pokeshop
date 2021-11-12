@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../Redux/store';
 
@@ -20,7 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
-				<Component {...pageProps} />
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<Component {...pageProps} />
+				</div>
 			</ThemeProvider>
 		</Provider>
 	);

@@ -11,6 +11,7 @@ import { RootState } from '../../Redux/store';
 import Dashboard from '../Admin/DashboardItems/Dashboard';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Nav = () => {
 	const dispatch = useAppDispatch();
@@ -20,13 +21,7 @@ const Nav = () => {
 	);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-	let navItems: string[] = [
-		'Products',
-		'New releases',
-		'Coming Soon',
-		'Members',
-		'Customer Service',
-	];
+	let navItems: string[] = ['Products', 'News', 'Members', 'Contact'];
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
@@ -65,6 +60,9 @@ const Nav = () => {
 						<Link href='/admin'>Dashboard</Link>
 					</li>
 				)}
+				<li className={styles.navitems}>
+					<ShoppingCartIcon />
+				</li>
 			</ul>
 			<div>
 				{!isSignedIn ? (
@@ -89,6 +87,7 @@ const Nav = () => {
 									currentUser.firstName.slice(1)}
 							!
 						</p>
+
 						<Button
 							variant='text'
 							sx={{ color: 'white' }}

@@ -3,10 +3,13 @@ import charmander from '../../Images/charmander.png';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import { useAppSelector } from '../../Redux/hooks';
+import { RootState } from '../../Redux/store';
 
 interface Props {}
 
 export const GlassCardHero = (props: Props) => {
+	const isMobile = useAppSelector((state: RootState) => state.isMobile.value);
 	return (
 		<div className={styles.glassCard}>
 			<h1 className={styles.blackText}>Pokémon cards</h1>
@@ -23,7 +26,7 @@ export const GlassCardHero = (props: Props) => {
 				Shop now
 			</Button>
 			<div className={styles.cardImage}>
-				<Image src={charmander} height={150} width={140} />
+				{!isMobile && <Image src={charmander} height={150} width={140} />}
 			</div>
 		</div>
 	);

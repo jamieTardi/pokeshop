@@ -12,14 +12,47 @@ import About from '../Components/Sections/About';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '../Redux/slices/userSlice';
 import { getUsers } from '../api';
-import { useAppSelector } from '../Redux/hooks';
 import { useRouter } from 'next/router';
+import { useAppSelector, useAppDispatch } from '../Redux/hooks';
+import { RootState } from '../Redux/store';
+import { isMobileChange } from '../Redux/slices/mobileSlice';
+import MobileNav from '../Components/General/MobileNav';
+import Footer from '../Components/Sections/Footer';
 
 const Home: NextPage = () => {
 	const router = useRouter();
+	const mobileSize = useAppSelector((state: RootState) => state.isMobile.value);
+	const [width, setWidth] = useState<number>(0);
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
+	// const [isMobile, setIsMobile] = useState<boolean>(false);
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+
+	function handleWindowSizeChange() {
+		setWidth(window.innerWidth);
+	}
+
+	//Event listener for mobile TS
+	useEffect(() => {
+		window.addEventListener('resize', handleWindowSizeChange);
+		return () => {
+			window.removeEventListener('resize', handleWindowSizeChange);
+		};
+	}, []);
+
+	let isMobile: boolean = width <= 900;
+
+	useEffect(() => {
+		dispatch({ type: isMobileChange, payload: isMobile });
+	}, [width]);
+
+	useEffect(() => {
+		if (window.innerWidth > 900) {
+			dispatch({ type: isMobileChange, payload: false });
+		} else {
+			dispatch({ type: isMobileChange, payload: true });
+		}
+	}, []);
 
 	useEffect(() => {
 		getUsers(SetAllUsers);
@@ -45,12 +78,13 @@ const Home: NextPage = () => {
 			}
 		}
 	}, [allUsers !== null]);
+
 	return (
 		<>
 			<div className={`${styles.container} ${styles.whiteText}`}>
 				<div className={`${styles.backgroundcustom} ${styles.whiteText}`}></div>
 				<Head>
-					<title>Poke Cards | Boutique cards</title>
+					<title>Poke Decks | Boutique cards</title>
 					<meta name='description' content='Pokemon card boutique store' />
 					<link rel='icon' href='/favicon.ico' />
 					<link
@@ -60,7 +94,7 @@ const Home: NextPage = () => {
 				</Head>
 				<div className={styles.canvas} />
 				<div style={{ width: '100%' }}>
-					<Nav />
+					{mobileSize ? <MobileNav /> : <Nav />}
 				</div>
 				<div style={{ marginTop: '5%' }}>
 					<GlassCardHero />
@@ -79,6 +113,11 @@ const Home: NextPage = () => {
 				<div>
 					<About />
 				</div>
+				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
+					<Footer />
+				</footer>
+				<div
+					className={`${styles.backgroundcustom2} ${styles.whiteText}`}></div>
 			</div>
 		</>
 	);

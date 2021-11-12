@@ -1,0 +1,152 @@
+$navWidth: 100vw;
+$hamburgerSize: 60px;
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nav {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 1;
+	width: $navWidth;
+	height: 100%;
+	background: #e84875;
+	clip-path: circle(
+		29px at calc(#{$navWidth} - 5vw - #{$hamburgerSize / 2})
+			calc(5vh + #{$hamburgerSize / 2})
+	);
+	transition: all 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+
+	&.active {
+		clip-path: circle(75% at #{$navWidth / 2} 50vh);
+	}
+
+	&__link {
+		display: block;
+		font-size: 30px;
+		font-weight: 800;
+		text-transform: lowercase;
+		letter-spacing: -1px;
+		text-align: right;
+		padding: 1vh 5vw;
+		color: #ffe26f;
+		text-decoration: none;
+		transition: all 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+		opacity: 0;
+		transform: translateY(50%);
+
+		@for $i from 1 through 6 {
+			&:nth-child(#{$i}) {
+				transition-delay: $i * 0.05s;
+			}
+		}
+
+		&.active {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+.flexCenter {
+	@include flex-center();
+}
+
+.logout {
+	margin-bottom: 20%;
+}
+
+.hamburger {
+	$p: &;
+	width: $hamburgerSize;
+	height: $hamburgerSize;
+	border-radius: 50%;
+	cursor: pointer;
+	position: fixed;
+	z-index: 10;
+	top: 5vh;
+	right: 5vw;
+	background: #e84875;
+
+	&__patty {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+
+		transform: translate(-50%, -50%);
+		height: 2px;
+		width: 50%;
+
+		background: darken(white, 3);
+		transition: all 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+
+		&:nth-child(1) {
+			transform: translate(-50%, calc(-50% - 8px));
+		}
+
+		&:last-child {
+			transform: translate(-50%, calc(-50% + 8px));
+		}
+	}
+
+	&.active {
+		#{$p}__patty {
+			background: #ffe26f;
+
+			&:nth-child(1) {
+				transform: translate(-50%, -50%) rotate(45deg);
+			}
+
+			&:nth-child(2) {
+				opacity: 0;
+			}
+
+			&:nth-child(3) {
+				transform: translate(-50%, -50%) rotate(-45deg);
+			}
+			&:nth-child(4) {
+				transform: translate(-50%, -50%) rotate(-45deg);
+			}
+		}
+	}
+}
+
+.bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.15;
+	background: url('https://unsplash.it/1920/1080?image=1031') center/cover;
+	z-index: -1;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(
+			to bottom,
+			rgba(black, 0) 0%,
+			rgba(black, 1) 100%
+		);
+	}
+}
+
+.onlyp {
+	color: black;
+	position: absolute;
+	bottom: 5vh;
+	left: 5vw;
+	opacity: 0.35;
+}
