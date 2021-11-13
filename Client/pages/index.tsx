@@ -24,7 +24,6 @@ const Home: NextPage = () => {
 	const mobileSize = useAppSelector((state: RootState) => state.isMobile.value);
 	const [width, setWidth] = useState<number>(0);
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
-	// const [isMobile, setIsMobile] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 

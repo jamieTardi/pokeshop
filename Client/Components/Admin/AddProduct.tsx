@@ -114,8 +114,6 @@ const AddProduct = ({ setOpenEdit, currentProduct, setProducts }: Props) => {
 		setOpenEdit(false);
 	};
 
-	console.log(isLoading);
-
 	const handleImageSend = () => {
 		setIsUpload(true);
 		setReturnedImage('');

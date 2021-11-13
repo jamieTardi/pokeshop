@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootState } from '../../Redux/store';
 import { useAppSelector } from '../../Redux/hooks';
 import Forbidden from '../../Components/Admin/DashboardItems/Forbidden';
@@ -20,8 +20,10 @@ import {
 } from '@mui/material';
 import { useStyles } from '../../styles/styles';
 import styles from '../../styles/Admin.module.scss';
-import { addExpansions, addCategories } from '../../api/index';
+import { addExpansions, addCategories, getImageURL } from '../../api/index';
 import AdminModal from '../../Components/General/AdminModal';
+import axios from 'axios';
+import EditExpansions from '../../Components/Admin/EditExpansions';
 
 interface Props {}
 
@@ -31,13 +33,23 @@ interface categories {
 }
 
 const AddCategory = (props: Props) => {
+	const [returnedImage, setReturnedImage] = useState<string>('');
 	const [addCategory, setAddCategory] = useState<categories | any>({
 		category: '',
+		image: returnedImage,
 	});
-	const [addExpansion, setAddExpansion] = useState<any>({ expansion: '' });
+	const [addExpansion, setAddExpansion] = useState<any>({
+		expansion: '',
+		image: returnedImage,
+	});
 	const [open, setOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isUpload, setIsUpload] = useState<boolean>(false);
 	const [infoText, setInfoText] = useState<any | null>(null);
+	const [imageText, setImageText] = useState<string>('');
+	const [openEditExp, setOpenEditExp] = useState<boolean>(false);
+	const [imageURL, setImageURL] = useState<string>('');
+	const [file, setFile] = useState<any>(null);
 	const isAdmin: boolean = useAppSelector(
 		(state: RootState) => state.isAdmin.value,
 	);
@@ -68,6 +80,33 @@ const AddCategory = (props: Props) => {
 		setInfoText('');
 	};
 
+	const handleImageSend = () => {
+		setIsUpload(true);
+		setReturnedImage('');
+		axios
+			.put(imageURL, file)
+			.then((res) => setReturnedImage(res.request.responseURL.split('?')[0]))
+			.then(() => setIsUpload(false))
+			.then(() => setAddCategory({ ...addCategory, image: returnedImage }))
+			.then(() => setAddExpansion({ ...addExpansion, image: returnedImage }))
+			.then(() => setImageText('Upload successful 🎉'))
+			.then(() =>
+				setTimeout(() => {
+					setImageText('');
+				}, 2000),
+			)
+
+			.catch((err) => console.log(err));
+	};
+
+	useEffect(() => {
+		getImageURL(setImageURL);
+	});
+
+	const handleOpenEdit = () => {
+		setOpenEditExp((prev) => !prev);
+	};
+
 	if (isAdmin) {
 		return (
 			<div className={styles.categoryContainer}>
@@ -79,7 +118,7 @@ const AddCategory = (props: Props) => {
 							'& > :not(style)': {
 								m: 1,
 								width: 600,
-								height: 200,
+								height: 300,
 							},
 							['@media (max-width:780px)']: {
 								flexWrap: 'wrap',
@@ -87,7 +126,7 @@ const AddCategory = (props: Props) => {
 								'& > :not(style)': {
 									m: 1,
 									width: 400,
-									height: 200,
+									height: 500,
 								},
 							},
 						}}>
@@ -99,6 +138,24 @@ const AddCategory = (props: Props) => {
 									</Typography>
 								</Grid>
 								<Grid item xs={12}>
+									<input
+										type='file'
+										accept='image/*'
+										onChange={(e: any) => {
+											const file = e.target.files[0];
+											setFile(file);
+										}}
+									/>
+									<Button
+										variant='contained'
+										onClick={handleImageSend}
+										disabled={isUpload}
+										startIcon={isUpload && <CircularProgress size={20} />}>
+										{isUpload ? 'Uploading...' : 'Upload Image'}
+									</Button>
+									<p>{imageText !== '' && imageText}</p>
+								</Grid>
+								<Grid item xs={12}>
 									<TextField
 										id='standard-basic'
 										required
@@ -106,7 +163,10 @@ const AddCategory = (props: Props) => {
 										label='Title of category'
 										value={addCategory.category}
 										onChange={(e) => {
-											setAddCategory({ category: e.target.value });
+											setAddCategory({
+												...addCategory,
+												category: e.target.value,
+											});
 										}}
 									/>
 								</Grid>
@@ -130,14 +190,14 @@ const AddCategory = (props: Props) => {
 							'& > :not(style)': {
 								m: 1,
 								width: 600,
-								height: 200,
+								height: 300,
 							},
 							['@media (max-width:780px)']: {
 								flexWrap: 'wrap',
 								'& > :not(style)': {
 									m: 1,
 									width: 400,
-									height: 200,
+									height: 300,
 								},
 							},
 						}}>
@@ -147,6 +207,24 @@ const AddCategory = (props: Props) => {
 									<Typography variant='h5' component='h4'>
 										Add a new expansion
 									</Typography>
+								</Grid>
+								<Grid item xs={12}>
+									<input
+										type='file'
+										accept='image/*'
+										onChange={(e: any) => {
+											const file = e.target.files[0];
+											setFile(file);
+										}}
+									/>
+									<Button
+										variant='contained'
+										onClick={handleImageSend}
+										disabled={isUpload}
+										startIcon={isUpload && <CircularProgress size={20} />}>
+										{isUpload ? 'Uploading...' : 'Upload Image'}
+									</Button>
+									<p>{imageText !== '' && imageText}</p>
 								</Grid>
 								<Grid item xs={12}>
 									<TextField
@@ -160,7 +238,7 @@ const AddCategory = (props: Props) => {
 										}}
 									/>
 								</Grid>
-								<Grid item xs={12}>
+								<Grid item xs={6}>
 									<Button
 										variant='contained'
 										color='primary'
@@ -168,11 +246,23 @@ const AddCategory = (props: Props) => {
 										Add
 									</Button>
 								</Grid>
+								<Grid item xs={6}>
+									<Button
+										variant='contained'
+										color='warning'
+										onClick={handleOpenEdit}>
+										Edit Expansions/Products
+									</Button>
+								</Grid>
 							</Grid>
 						</Paper>
 					</Box>
 				</FormControl>
 				<AdminModal open={open} setOpen={setOpen} infoText={infoText} />
+				<EditExpansions
+					openEditExp={openEditExp}
+					setOpenEditExp={setOpenEditExp}
+				/>
 			</div>
 		);
 	} else {

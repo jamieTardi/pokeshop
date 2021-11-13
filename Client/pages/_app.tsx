@@ -20,9 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
-					<Component {...pageProps} />
-				</div>
+				<Component {...pageProps} />
 			</ThemeProvider>
 		</Provider>
 	);

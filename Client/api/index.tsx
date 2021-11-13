@@ -1,13 +1,12 @@
 import axios from 'axios';
-import { add } from 'date-fns';
-
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5001',
-// });
 
 const API = axios.create({
-	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	baseURL: 'http://localhost:5001',
 });
+
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// });
 
 //users
 
@@ -70,6 +69,18 @@ export const getCategories = (setCategories: any) => {
 	API.get('/category')
 		.then((res) => setCategories(res.data.categories))
 		.catch((err) => console.log(err.response.data.message));
+};
+
+export const updateCategories = (id: string, updateCategory: object) => {
+	API.post(`/category/${id}`, updateCategory)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+};
+
+export const updateExpansion = (id: string, updateExpansion: object) => {
+	API.post(`/expansion/${id}`, updateExpansion)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
 };
 
 export const getExpansions = (setExpansions: any) => {
