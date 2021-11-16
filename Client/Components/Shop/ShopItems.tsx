@@ -123,7 +123,7 @@ const ShopItems = (props: Props) => {
 							align='center'
 							color='white'
 							gutterBottom>
-							Our Poké Shop
+							Our Poké shop
 						</Typography>
 						<Typography
 							component='h4'

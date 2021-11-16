@@ -80,12 +80,12 @@ export default function Album() {
 							direction='row'
 							spacing={2}
 							justifyContent='center'>
-							<Link href='/Shop/all-products'>
+							<Link href='/shop/all-products'>
 								<Button variant='contained' color='primary'>
 									View all products
 								</Button>
 							</Link>
-							<Link href='/Shop/expansions'>
+							<Link href='/shop/expansions'>
 								<Button variant='outlined'>View Expansions</Button>
 							</Link>
 						</Stack>

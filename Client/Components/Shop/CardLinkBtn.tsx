@@ -19,10 +19,10 @@ const CardLinkBtn = ({ card }: any) => {
 	useEffect(() => {
 		switch (cat) {
 			case 'Battle Decks':
-				setCurrentLink('/Shop/battle-decks');
+				setCurrentLink('/shop/battle-decks');
 				break;
 			default:
-				setCurrentLink('/Shop');
+				setCurrentLink('/shop');
 		}
 	}, [cat]);
 
@@ -42,7 +42,7 @@ const CardLinkBtn = ({ card }: any) => {
 
 	if (selectedCat) {
 		return (
-			<Link href={`/Shop/${selectedCat?.slug}`}>
+			<Link href={`/shop/${selectedCat?.slug}`}>
 				<Button size='small'>View Category</Button>
 			</Link>
 		);

@@ -21,7 +21,7 @@ const Nav = () => {
 	);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-	let navItems: string[] = ['Products', 'News', 'Shop', 'Contact'];
+	let navItems: string[] = ['Products', 'News', 'shop', 'Contact'];
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
