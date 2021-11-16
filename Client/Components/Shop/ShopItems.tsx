@@ -84,12 +84,17 @@ const ShopItems = (props: Props) => {
 	}, []);
 
 	useEffect(() => {
-		if (categories) {
-			let filitered = categories.filter((item) => {
-				return item.slug === currentpage;
-			});
-			setCurrentCat(filitered[0].category);
-			setCurrentPageTitle(filitered[0].category);
+		if (currentpage !== 'all-products') {
+			if (categories) {
+				let filitered = categories.filter((item) => {
+					return item.slug === currentpage;
+				});
+				setCurrentCat(filitered[0].category);
+				setCurrentPageTitle(filitered[0].category);
+			}
+		} else {
+			getAllProducts(setProducts);
+			setCurrentPageTitle('all products');
 		}
 	}, [categories]);
 
