@@ -87,8 +87,6 @@ const AddCategory = (props: Props) => {
 			.put(imageURL, file)
 			.then((res) => setReturnedImage(res.request.responseURL.split('?')[0]))
 			.then(() => setIsUpload(false))
-			.then(() => setAddCategory({ ...addCategory, image: returnedImage }))
-			.then(() => setAddExpansion({ ...addExpansion, image: returnedImage }))
 			.then(() => setImageText('Upload successful 🎉'))
 			.then(() =>
 				setTimeout(() => {
@@ -100,8 +98,17 @@ const AddCategory = (props: Props) => {
 	};
 
 	useEffect(() => {
+		if (returnedImage !== '') {
+			setAddCategory({ ...addCategory, image: returnedImage });
+			setAddExpansion({ ...addExpansion, image: returnedImage });
+		}
+	}, [returnedImage]);
+
+	console.log(addCategory);
+
+	useEffect(() => {
 		getImageURL(setImageURL);
-	});
+	}, []);
 
 	const handleOpenEdit = () => {
 		setOpenEditExp((prev) => !prev);
@@ -251,7 +258,7 @@ const AddCategory = (props: Props) => {
 										variant='contained'
 										color='warning'
 										onClick={handleOpenEdit}>
-										Edit Expansions/Products
+										Edit All
 									</Button>
 								</Grid>
 							</Grid>

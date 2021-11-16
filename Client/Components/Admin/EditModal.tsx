@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AddProduct from '../../Components/Admin/AddProduct';
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
 	modal: {
@@ -18,6 +19,9 @@ const style = {
 		border: '2px solid #000',
 		boxShadow: 24,
 		p: 4,
+		['@media (max-width:780px)']: {
+			width: '100%',
+		},
 	},
 	box: {
 		overflow: 'hidden',
@@ -56,6 +60,11 @@ export default function EditModal({
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'>
 				<Box sx={style.box}>
+					<div style={{ display: 'flex', justifyContent: 'end' }}>
+						<Button variant='text' onClick={() => setOpenEdit(false)}>
+							<CloseIcon />
+						</Button>
+					</div>
 					<AddProduct
 						setOpenEdit={setOpenEdit}
 						currentProduct={currentProduct}

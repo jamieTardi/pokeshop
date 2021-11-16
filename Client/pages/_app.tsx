@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../Redux/store';
+import Layout from '../Components/General/Layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const theme = createTheme({
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
-				<Component {...pageProps} />
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
 			</ThemeProvider>
 		</Provider>
 	);

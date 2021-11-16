@@ -17,6 +17,7 @@ import Loading from '../../Components/UIComponents/Loading';
 import CustomPagination from '../../Components/UIComponents/CustomPagination';
 import AdminModal from '../../Components/General/AdminModal';
 import EditModal from '../../Components/Admin/EditModal';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface dataProducts {
 	_id: string;
@@ -77,10 +78,23 @@ export default function EditProduct() {
 			<>
 				{currentProducts ? (
 					<div className={styles.productContainer}>
-						<Grid maxWidth='lg' sx={{ mt: 4, mb: 4, background: '#F5F5F5' }}>
+						<Grid
+							sx={{
+								mt: 4,
+								mb: 4,
+								background: '#F5F5F5',
+								overflow: 'scroll',
+							}}>
 							<Grid item xs={12}>
-								<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+								<Paper
+									sx={{
+										p: 2,
+										display: 'flex',
+										flexDirection: 'column',
+										overflow: 'scroll',
+									}}>
 									<Title>Products avalible in the database</Title>
+
 									<Table size='small'>
 										<TableHead>
 											<TableRow>

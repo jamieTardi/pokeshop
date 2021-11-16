@@ -82,6 +82,7 @@ export const useStyles = makeStyles((theme) => ({
 
 	drawer: {
 		width: '350px',
+		position: 'absolute',
 	},
 	modal: {
 		display: 'flex',

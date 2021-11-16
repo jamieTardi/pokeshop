@@ -71,16 +71,23 @@ export const getCategories = (setCategories: any) => {
 		.catch((err) => console.log(err.response.data.message));
 };
 
-export const updateCategories = (id: string, updateCategory: object) => {
-	API.post(`/category/${id}`, updateCategory)
-		.then((res) => console.log(res))
-		.catch((err) => console.log(err));
+export const updateCategories = (
+	id: string,
+	updateCategory: object,
+	setInfoTxt: any,
+) => {
+	API.patch(`/category/${id}`, updateCategory)
+		.then((res) => setInfoTxt('Updated item'))
+		.catch((err) =>
+			setInfoTxt('Something Went wrong, refresh the page and try again.'),
+		);
 };
 
 export const updateExpansion = (id: string, updateExpansion: object) => {
-	API.post(`/expansion/${id}`, updateExpansion)
-		.then((res) => console.log(res))
-		.catch((err) => console.log(err));
+	console.log(id);
+	// API.patch(`/expansion/${id}`, updateExpansion)
+	// 	.then((res) => console.log(res))
+	// 	.catch((err) => console.log(err));
 };
 
 export const getExpansions = (setExpansions: any) => {

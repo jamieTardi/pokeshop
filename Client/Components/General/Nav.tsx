@@ -21,7 +21,7 @@ const Nav = () => {
 	);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-	let navItems: string[] = ['Products', 'News', 'Members', 'Contact'];
+	let navItems: string[] = ['Products', 'News', 'shop', 'Contact'];
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
@@ -51,9 +51,11 @@ const Nav = () => {
 			</div>
 			<ul className={styles.listContainer}>
 				{navItems.map((item) => (
-					<li className={styles.navitems} key={item}>
-						{item}
-					</li>
+					<Link href={`/${item}`}>
+						<li className={styles.navitems} key={item}>
+							{item}
+						</li>
+					</Link>
 				))}
 				{isAdmin && (
 					<li className={styles.navitems}>

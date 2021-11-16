@@ -8,11 +8,18 @@ import {
 	Grid,
 	Select,
 	CircularProgress,
+	InputLabel,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import AddProduct from '../../Components/Admin/AddProduct';
 import axios from 'axios';
-import { getCategories, getExpansions, getImageURL } from '../../api';
+import {
+	getCategories,
+	getExpansions,
+	getImageURL,
+	updateCategories,
+	updateExpansion,
+} from '../../api';
 
 const style = {
 	modal: {
@@ -27,6 +34,9 @@ const style = {
 		border: '2px solid #000',
 		boxShadow: 24,
 		p: 4,
+		['@media (max-width:780px)']: {
+			width: '100%',
+		},
 	},
 	box: {
 		overflow: 'hidden',
@@ -40,23 +50,31 @@ interface props {
 }
 
 interface items {
+	id: string;
 	category: string;
 	image: string;
 }
 interface expansions {
+	id: string;
 	expansion: string;
 	image: string;
+}
+
+interface update {
+	item: object;
+	category: string;
 }
 
 interface serverItems {
 	expansion: string;
 	image: string;
-	_id: string;
+	id: string;
 }
 
 export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 	const editSelection: string[] = ['expansions', 'categories'];
 	const [selectedCat, setSelectedCat] = useState<string>('');
+	const [infoText, setInfoText] = useState<string>('');
 	const [expansion, setExpansion] = useState<null | Array<string>>(null);
 	const [returnedImage, setReturnedImage] = useState<string>('');
 	const [isUpload, setIsUpload] = useState<boolean>(false);
@@ -65,13 +83,15 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 	const [imageURL, setImageURL] = useState<string>('');
 	const [file, setFile] = useState<any>(null);
 	const [modifiedCat, setModifiedCat] = useState<items>({
+		id: '',
 		category: '',
-		image: '',
+		image: returnedImage,
 	});
 
 	const [modifiedExp, setModifiedExp] = useState<expansions>({
+		id: '',
 		expansion: '',
-		image: '',
+		image: returnedImage,
 	});
 	const handleOpen = () => setOpenEditExp(true);
 	const handleClose = (event: any, reason: any) => {
@@ -100,19 +120,49 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 
 			.catch((err) => console.log(err));
 	};
-	useEffect(() => {
-		if (selectedCat !== '') {
-			if (selectedCat === 'categories') {
-				getCategories(setCategory);
-			} else {
-				getExpansions(setExpansion);
-			}
+
+	const handleClick = (e: any, item: any) => {
+		setModifiedCat({
+			...modifiedCat,
+			id: item._id,
+			category: item.category,
+			image: returnedImage,
+		});
+
+		// setModifiedExp({ ...modifiedExp, id: e.currentTarget.dataset.id });
+	};
+
+	const handleUpdate = () => {
+		if (selectedCat === 'categories') {
+			updateCategories(modifiedCat.id, modifiedCat, setInfoText);
+			setTimeout(() => {
+				setInfoText('');
+			}, 3000);
+		} else {
+			updateExpansion(modifiedExp.id, modifiedExp);
+			setTimeout(() => {
+				setInfoText('');
+			}, 3000);
 		}
-	}, [selectedCat]);
+	};
+
+	const handleModifyCat = (e: any) => {
+		setModifiedCat({
+			...modifiedCat,
+			category: e.target.value,
+			image: returnedImage,
+		});
+	};
+
+	useEffect(() => {
+		getCategories(setCategory);
+
+		getExpansions(setExpansion);
+	}, []);
 
 	useEffect(() => {
 		getImageURL(setImageURL);
-	});
+	}, []);
 
 	return (
 		<div>
@@ -143,6 +193,20 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 					</Grid>
 					{selectedCat === 'categories' ? (
 						<>
+							<Grid item xs={12}>
+								<InputLabel>Select the category to edit</InputLabel>
+								<select name='cars' id='cars'>
+									{category?.map((item: any) => (
+										<option
+											value={item}
+											onClick={(e) => {
+												handleClick(e, item);
+											}}>
+											{item.category}
+										</option>
+									))}
+								</select>
+							</Grid>
 							<Grid item xs={12} sm={6}>
 								<p>Category</p>
 								<Grid item xs={12}>
@@ -163,48 +227,24 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 									</Button>
 									<p>{imageText !== '' && imageText}</p>
 								</Grid>
-								<Select
-									fullWidth
-									sx={{ marginBottom: '5%' }}
-									value={modifiedCat.category}
-									onChange={(e) => {
-										setModifiedCat({
-											...modifiedCat,
-											category: e.target.value,
-										});
-									}}>
-									{category &&
-										category.map((item: any) => (
-											<MenuItem
-												value={item.category}
-												key={item._id}
-												className='text-white'>
-												{item.category}
-											</MenuItem>
-										))}
-								</Select>
 							</Grid>
 							<Grid item xs={12}>
 								<TextField
 									id='standard-basic'
-									// className={classes.input}
 									required
 									fullWidth
 									sx={{ marginBottom: '5%' }}
 									label='Category'
 									value={modifiedCat.category}
 									onChange={(e) => {
-										setModifiedCat({
-											...modifiedCat,
-											category: e.target.value,
-										});
+										handleModifyCat(e);
 									}}
 								/>
 							</Grid>
 						</>
 					) : (
 						<>
-							<p>Expansions</p>
+							{/* <p>Expansions</p>
 							<Grid item xs={12}>
 								<input
 									type='file'
@@ -240,6 +280,8 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 											<MenuItem
 												value={item.expansion}
 												key={item._id}
+												data-id={item._id}
+												onClick={handleClick}
 												className='text-white'>
 												{item.expansion}
 											</MenuItem>
@@ -262,17 +304,30 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 										});
 									}}
 								/>
-							</Grid>
+							</Grid> */}
 						</>
 					)}
 
-					<Button variant='contained' color='error'>
-						Update
-					</Button>
+					<Grid item xs={12}>
+						{infoText !== '' && <p style={{ color: 'black' }}>{infoText}</p>}
+					</Grid>
 
-					<Button variant='contained' color='error'>
-						Close
-					</Button>
+					<Grid item xs={6} sx={{ marginBottom: '5%' }}>
+						<Button variant='contained' color='primary' onClick={handleUpdate}>
+							Update
+						</Button>
+					</Grid>
+
+					<Grid item xs={6}>
+						<Button
+							variant='contained'
+							color='error'
+							onClick={() => {
+								setOpenEditExp(false);
+							}}>
+							Close
+						</Button>
+					</Grid>
 				</Box>
 			</Modal>
 		</div>

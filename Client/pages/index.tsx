@@ -16,8 +16,6 @@ import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '../Redux/hooks';
 import { RootState } from '../Redux/store';
 import { isMobileChange } from '../Redux/slices/mobileSlice';
-import MobileNav from '../Components/General/MobileNav';
-import Footer from '../Components/Sections/Footer';
 
 const Home: NextPage = () => {
 	const router = useRouter();
@@ -80,44 +78,37 @@ const Home: NextPage = () => {
 
 	return (
 		<>
-			<div className={`${styles.container} ${styles.whiteText}`}>
-				<div className={`${styles.backgroundcustom} ${styles.whiteText}`}></div>
-				<Head>
-					<title>Poke Decks | Boutique cards</title>
-					<meta name='description' content='Pokemon card boutique store' />
-					<link rel='icon' href='/favicon.ico' />
-					<link
-						rel='stylesheet'
-						href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
-					/>
-				</Head>
-				<div className={styles.canvas} />
-				<div style={{ width: '100%' }}>
-					{mobileSize ? <MobileNav /> : <Nav />}
-				</div>
-				<div style={{ marginTop: '5%' }}>
-					<GlassCardHero />
-				</div>
-				<div className={styles.heroContainer}>
-					<div className={styles.flexBetween}>
-						<Image src={Eevee} height={250} width={270} />
-					</div>
-					<div>
-						<Image src={HeroPic} height={350} width={340} />
-					</div>
-				</div>
-				<div>
-					<HomeSectionTwo />
-				</div>
-				<div>
-					<About />
-				</div>
-				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
-					<Footer />
-				</footer>
-				<div
-					className={`${styles.backgroundcustom2} ${styles.whiteText}`}></div>
+			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
+			<Head>
+				<title>Poke Decks | Boutique cards</title>
+				<meta name='description' content='Pokemon card boutique store' />
+				<link rel='icon' href='/favicon.ico' />
+				<link
+					rel='stylesheet'
+					href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+				/>
+			</Head>
+			<div className={styles.canvas} />
+
+			<div style={{ marginTop: '5%' }}>
+				<GlassCardHero />
 			</div>
+			<div className={styles.heroContainer}>
+				<div className={styles.flexBetween}>
+					<Image src={Eevee} height={250} width={270} />
+				</div>
+				<div>
+					<Image src={HeroPic} height={350} width={340} />
+				</div>
+			</div>
+			<div>
+				<HomeSectionTwo />
+			</div>
+			<div>
+				<About />
+			</div>
+
+			<div className={`${styles.backgroundcustom2} ${styles.whiteText}`}></div>
 		</>
 	);
 };
