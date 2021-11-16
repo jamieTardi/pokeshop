@@ -78,7 +78,6 @@ const Home: NextPage = () => {
 
 	return (
 		<>
-			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 			<Head>
 				<title>Poke Decks | Boutique cards</title>
 				<meta name='description' content='Pokemon card boutique store' />
@@ -88,6 +87,8 @@ const Home: NextPage = () => {
 					href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
 				/>
 			</Head>
+			{/* <div className={`${styles.backgroundcustom} ${styles.whiteText}`} /> */}
+
 			<div className={styles.canvas} />
 
 			<div style={{ marginTop: '5%' }}>

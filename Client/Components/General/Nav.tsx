@@ -46,8 +46,10 @@ const Nav = () => {
 
 	return (
 		<nav className={styles.nav}>
-			<div>
-				<Image src={Logo} alt='logo' height={40} width={140} />
+			<div style={{ cursor: 'pointer' }}>
+				<Link href='/'>
+					<Image src={Logo} alt='logo' height={40} width={140} />
+				</Link>
 			</div>
 			<ul className={styles.listContainer}>
 				{navItems.map((item) => (

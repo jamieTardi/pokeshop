@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { useAppSelector } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
+import Link from 'next/link';
 
 interface Props {}
 
@@ -18,13 +19,15 @@ export const GlassCardHero = (props: Props) => {
 				quam minima voluptatum rerum quidem, vero, amet quae hic atque ex nihil
 				animi! Saepe incidunt doloribus suscipit minus aliquam.
 			</p>
+
 			<Button
 				variant='contained'
 				color='primary'
 				sx={{ borderRadius: 25 }}
 				endIcon={<ShoppingBagIcon />}>
-				Shop now
+				<Link href='/shop'>Shop now</Link>
 			</Button>
+
 			<div className={styles.cardImage}>
 				{!isMobile && <Image src={charmander} height={150} width={140} />}
 			</div>

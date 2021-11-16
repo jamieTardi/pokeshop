@@ -17,14 +17,17 @@ import Link from 'next/link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Footer from '../Sections/Footer';
 import { useEffect, useState } from 'react';
-import { getAllProducts, getCategories } from '../../api';
+import { getAllProducts, getCategories, getExpansions } from '../../api';
 import Loading from '../UIComponents/Loading';
 import CardLinkBtn from './CardLinkBtn';
+import { GlassCardHero } from '../UIComponents/GlassCardHero';
 
 interface category {
 	category: string;
 	image: string;
 	key: string;
+	slug: string;
+	expansion: string;
 }
 
 const theme = createTheme({
@@ -40,6 +43,10 @@ const theme = createTheme({
 
 export default function Album() {
 	const [categories, setCategories] = useState<null | Array<category>>(null);
+
+	const handleSearchExpansions = () => {
+		getExpansions(setCategories);
+	};
 
 	useEffect(() => {
 		getCategories(setCategories);
@@ -85,9 +92,10 @@ export default function Album() {
 									View all products
 								</Button>
 							</Link>
-							<Link href='/shop/expansions'>
-								<Button variant='outlined'>View Expansions</Button>
-							</Link>
+
+							<Button variant='outlined' onClick={handleSearchExpansions}>
+								View Expansions
+							</Button>
 						</Stack>
 					</Container>
 				</Box>
@@ -115,7 +123,7 @@ export default function Album() {
 									/>
 									<CardContent sx={{ flexGrow: 1 }}>
 										<Typography gutterBottom variant='h5' component='h2'>
-											{card.category}
+											{card.category ? card.category : card.expansion}
 										</Typography>
 									</CardContent>
 									<CardActions>

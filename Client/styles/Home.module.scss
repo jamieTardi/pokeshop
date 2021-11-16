@@ -232,19 +232,22 @@
 }
 
 @media (max-width: 1000px) {
-	.backgroundcustom2 {
+	.backgroundcustom {
 		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
-		height: 50vh;
-		width: 90%;
-		transform: rotate(-20deg) scale(2);
+		height: 50%;
+		width: 80%;
+		transform: rotate(-90deg) scale(1);
 		position: absolute;
 		z-index: -1;
-		bottom: -300%;
-		margin-right: auto; /* 1 */
-		margin-left: auto; /* 1 */
+		top: -30%;
+
 		border-radius: 40%;
+	}
+
+	.backgroundcustom2 {
+		display: none;
 	}
 }
 

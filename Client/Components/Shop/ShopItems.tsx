@@ -121,7 +121,7 @@ const ShopItems = (props: Props) => {
 							component='h1'
 							variant='h2'
 							align='center'
-							color='white'
+							color='text.primary'
 							gutterBottom>
 							Our Poké shop
 						</Typography>
@@ -129,7 +129,7 @@ const ShopItems = (props: Props) => {
 							component='h4'
 							variant='h4'
 							align='center'
-							color='white'
+							color='text.secondary'
 							gutterBottom>
 							You are currently searching for {currentPageTitle}.
 						</Typography>

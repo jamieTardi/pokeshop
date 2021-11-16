@@ -50,8 +50,10 @@ const MobileNav = (props: Props) => {
 
 	return (
 		<div style={{ marginTop: '5%' }}>
-			<div className={styles.flexCenter}>
-				<Image src={Logo} alt='logo' height={40} width={150} />
+			<div className={styles.flexCenter} style={{ cursor: 'pointer' }}>
+				<Link href='/'>
+					<Image src={Logo} alt='logo' height={40} width={150} />
+				</Link>
 			</div>
 
 			<nav className={open ? `${styles.nav} ${styles.active}` : styles.nav}>
@@ -129,6 +131,9 @@ const MobileNav = (props: Props) => {
 				</Link>
 				<Link href='/shop'>
 					<a
+						onClick={() => {
+							setOpen(false);
+						}}
 						className={
 							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
 						}>
