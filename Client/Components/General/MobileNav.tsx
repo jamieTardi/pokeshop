@@ -127,7 +127,7 @@ const MobileNav = (props: Props) => {
 						News
 					</a>
 				</Link>
-				<Link href='/shop'>
+				<Link href='/Shop'>
 					<a
 						className={
 							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link

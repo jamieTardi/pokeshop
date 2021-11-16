@@ -109,7 +109,11 @@ export const deleteProduct = (id: any, setDeleteResponse: any) => {
 		.catch((err) => console.log(err));
 };
 
-export const getProductByCat = () => {};
+export const getProductByCat = (cat: string, setProducts: Function) => {
+	API.get(`/products/${cat}`)
+		.then((res) => setProducts(res.data))
+		.catch((err) => console.log(err));
+};
 
 //updating
 

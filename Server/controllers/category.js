@@ -1,7 +1,7 @@
 import categories from '../models/category.js';
 
 export const addCategory = async (req, res) => {
-	const { category, image } = req.body;
+	const { category, image, slug } = req.body;
 
 	try {
 		const existingCategory = await categories.findOne({ category: category });
@@ -15,6 +15,7 @@ export const addCategory = async (req, res) => {
 		const result = await categories.create({
 			category,
 			image,
+			slug,
 		});
 		return res.status(201).json({ createdCategory: result });
 	} catch (err) {
@@ -32,7 +33,7 @@ export const getCategory = async (req, res) => {
 };
 
 export const updateCategory = async (req, res) => {
-	const { category, image } = req.body;
+	const { category, image, slug } = req.body;
 	const { id } = req.params;
 
 	const existingCat = categories.findById(id);
@@ -44,6 +45,7 @@ export const updateCategory = async (req, res) => {
 		await categories.findByIdAndUpdate(id, {
 			category,
 			image,
+			slug,
 		});
 		res.status(203).json({ message: 'Item updated' });
 	} catch (err) {

@@ -20,6 +20,7 @@ import {
 	updateCategories,
 	updateExpansion,
 } from '../../api';
+import slugify from 'react-slugify';
 
 const style = {
 	modal: {
@@ -53,6 +54,7 @@ interface items {
 	id: string;
 	category: string;
 	image: string;
+	slug: string;
 }
 interface expansions {
 	id: string;
@@ -85,6 +87,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 	const [modifiedCat, setModifiedCat] = useState<items>({
 		id: '',
 		category: '',
+		slug: '',
 		image: returnedImage,
 	});
 
@@ -126,6 +129,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 			...modifiedCat,
 			id: item._id,
 			category: item.category,
+			slug: item.slug,
 			image: returnedImage,
 		});
 
@@ -151,6 +155,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 			...modifiedCat,
 			category: e.target.value,
 			image: returnedImage,
+			slug: slugify(e.target.value),
 		});
 	};
 
@@ -240,6 +245,9 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 										handleModifyCat(e);
 									}}
 								/>
+							</Grid>
+							<Grid item xs={12}>
+								<p>Current slug is: {modifiedCat.slug}</p>
 							</Grid>
 						</>
 					) : (

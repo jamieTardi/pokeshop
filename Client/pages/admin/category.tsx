@@ -24,12 +24,15 @@ import { addExpansions, addCategories, getImageURL } from '../../api/index';
 import AdminModal from '../../Components/General/AdminModal';
 import axios from 'axios';
 import EditExpansions from '../../Components/Admin/EditExpansions';
+import slugify from 'react-slugify';
 
 interface Props {}
 
 interface categories {
 	addCategory: object;
 	category: any;
+	image: string;
+	slug: string;
 }
 
 const AddCategory = (props: Props) => {
@@ -37,10 +40,12 @@ const AddCategory = (props: Props) => {
 	const [addCategory, setAddCategory] = useState<categories | any>({
 		category: '',
 		image: returnedImage,
+		slug: '',
 	});
 	const [addExpansion, setAddExpansion] = useState<any>({
 		expansion: '',
 		image: returnedImage,
+		slug: '',
 	});
 	const [open, setOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -78,6 +83,19 @@ const AddCategory = (props: Props) => {
 		}, 4000);
 		setIsLoading(false);
 		setInfoText('');
+		setAddCategory({
+			expansion: '',
+			image: returnedImage,
+			slug: '',
+		});
+	};
+
+	const handleAddCat = (e: any) => {
+		setAddCategory({
+			...addCategory,
+			category: e.target.value,
+			slug: slugify(e.target.value),
+		});
 	};
 
 	const handleImageSend = () => {
@@ -104,8 +122,6 @@ const AddCategory = (props: Props) => {
 		}
 	}, [returnedImage]);
 
-	console.log(addCategory);
-
 	useEffect(() => {
 		getImageURL(setImageURL);
 	}, []);
@@ -125,7 +141,7 @@ const AddCategory = (props: Props) => {
 							'& > :not(style)': {
 								m: 1,
 								width: 600,
-								height: 300,
+								height: 400,
 							},
 							['@media (max-width:780px)']: {
 								flexWrap: 'wrap',
@@ -170,12 +186,12 @@ const AddCategory = (props: Props) => {
 										label='Title of category'
 										value={addCategory.category}
 										onChange={(e) => {
-											setAddCategory({
-												...addCategory,
-												category: e.target.value,
-											});
+											handleAddCat(e);
 										}}
 									/>
+								</Grid>
+								<Grid item xs={12}>
+									<p>Current URL slug: {addCategory.slug}</p>
 								</Grid>
 								<Grid item xs={12}>
 									<Button
