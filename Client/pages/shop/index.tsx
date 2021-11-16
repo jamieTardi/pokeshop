@@ -5,7 +5,7 @@ import MobileNav from '../../Components/General/MobileNav';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import { isMobileChange } from '../../Redux/slices/mobileSlice';
-import Main from '../../Components/shop/Main';
+import Main from '../../Components/Shop/Main';
 import Footer from '../../Components/Sections/Footer';
 import styles from '../../styles/Home.module.scss';
 import { useRouter } from 'next/router';
