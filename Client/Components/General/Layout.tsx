@@ -75,7 +75,7 @@ const Layout = ({ children }: any) => {
 		<>
 			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 			<div className={`${styles.container} ${styles.whiteText}`}>
-				{mobileSize ? <MobileNav /> : <Nav />}
+				{/* {mobileSize ? <MobileNav /> : <Nav />} */}
 				{children}
 
 				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
