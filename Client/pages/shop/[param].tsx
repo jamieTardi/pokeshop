@@ -1,7 +1,5 @@
 import React from 'react';
-import ShopItems from '../../Components/shop/ShopItems';
-import Nav from '../../Components/General/Nav';
-import MobileNav from '../../Components/General/MobileNav';
+import ShopItems from '../../Components/Shop/ShopItems';
 import { useAppSelector } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 
