@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5001',
-// });
-
 const API = axios.create({
-	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	baseURL: 'http://localhost:5001',
 });
+
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// });
 
 //users
 
@@ -84,10 +84,9 @@ export const updateCategories = (
 };
 
 export const updateExpansion = (id: string, updateExpansion: object) => {
-	console.log(id);
-	// API.patch(`/expansion/${id}`, updateExpansion)
-	// 	.then((res) => console.log(res))
-	// 	.catch((err) => console.log(err));
+	API.patch(`/expansion/${id}`, updateExpansion)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
 };
 
 export const getExpansions = (setExpansions: any) => {
@@ -111,6 +110,12 @@ export const deleteProduct = (id: any, setDeleteResponse: any) => {
 
 export const getProductByCat = (cat: string, setProducts: Function) => {
 	API.get(`/products/${cat}`)
+		.then((res) => setProducts(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const getProductByExp = (exp: string, setProducts: Function) => {
+	API.get(`/products/expansions/${exp}`)
 		.then((res) => setProducts(res.data))
 		.catch((err) => console.log(err));
 };

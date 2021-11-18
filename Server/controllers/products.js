@@ -64,8 +64,8 @@ export const updateProduct = async (req, res) => {
 
 export const getProductByCat = async (req, res) => {
 	const { cat } = req.params;
-
 	const existingCat = await products.find({ category: cat });
+
 	try {
 		if (!existingCat) {
 			res.status(403).json({
@@ -74,6 +74,24 @@ export const getProductByCat = async (req, res) => {
 		}
 
 		res.status(202).json(existingCat);
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};
+
+export const getProductByExp = async (req, res) => {
+	const { exp } = req.params;
+
+	const existingExp = await products.find({ expansion: exp });
+
+	try {
+		if (!existingExp) {
+			res.status(403).json({
+				message: 'Category not found, please refresh the page or try again.',
+			});
+		}
+
+		res.status(202).json(existingExp);
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button, CircularProgress } from '@mui/material';
 import { getCategories, getExpansions } from '../../api/index';
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
+import { currentPage } from '../../Redux/slices/pagesSlice';
 
 interface Props {}
 
@@ -12,13 +14,18 @@ interface category {
 }
 
 const CardLinkBtn = ({ card }: any) => {
+	const dispatch = useAppDispatch();
 	const [currentLink, setCurrentLink] = useState<string>('');
 	const [cat, setcat] = useState<any>('');
 	const [allCats, setAllCats] = useState<null | Array<category>>(null);
 	const [allExps, setAllExps] = useState<null | Array<category>>(null);
-
 	const [selectedCat, setSelectedCat] = useState<null | category>(null);
 
+	const handleCurrentPage = (page: string) => {
+		dispatch({ type: currentPage, payload: page });
+	};
+
+	//useEffect section
 	useEffect(() => {
 		switch (cat) {
 			case 'Battle Decks':
@@ -62,9 +69,13 @@ const CardLinkBtn = ({ card }: any) => {
 		return (
 			<Link href={`/shop/${selectedCat?.slug}`}>
 				{card.category ? (
-					<Button size='small'>View Category</Button>
+					<Button size='small' onClick={() => handleCurrentPage('category')}>
+						View Category
+					</Button>
 				) : (
-					<Button size='small'>View Expansion</Button>
+					<Button size='small' onClick={() => handleCurrentPage('expansion')}>
+						View Expansion
+					</Button>
 				)}
 			</Link>
 		);

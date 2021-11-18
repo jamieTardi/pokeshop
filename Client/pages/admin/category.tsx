@@ -73,7 +73,7 @@ const AddCategory = (props: Props) => {
 		setInfoText('');
 	};
 
-	const handleAddExpansion = () => {
+	const handleAddExpansion = (e: any) => {
 		addExpansions(addExpansion, setIsLoading, setInfoText);
 		if (!isLoading) {
 			setOpen(true);
@@ -94,6 +94,14 @@ const AddCategory = (props: Props) => {
 		setAddCategory({
 			...addCategory,
 			category: e.target.value,
+			slug: slugify(e.target.value),
+		});
+	};
+
+	const handleAddExp = (e: any) => {
+		setAddExpansion({
+			...addExpansion,
+			expansion: e.target.value,
 			slug: slugify(e.target.value),
 		});
 	};
@@ -254,10 +262,10 @@ const AddCategory = (props: Props) => {
 										id='standard-basic'
 										required
 										fullWidth
-										label='Title of category'
+										label='Title of expansion'
 										value={addExpansion.expansion}
 										onChange={(e) => {
-											setAddExpansion({ expansion: e.target.value });
+											handleAddExp(e);
 										}}
 									/>
 								</Grid>
