@@ -238,6 +238,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 			</Modal>
 		);
 	} else {
-		return <Loading />;
+		// return <Loading />;
+		return <></>;
 	}
 }
