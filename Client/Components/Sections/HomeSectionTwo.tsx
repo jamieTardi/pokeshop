@@ -12,6 +12,51 @@ interface Props {}
 export const HomeSectionTwo = (props: Props) => {
 	return (
 		<div className={styles.blackText} style={{ marginTop: '5%' }}>
+			<figure className={`${cardStyle.card} ${cardStyle.cardfire}`}>
+				<div className={cardStyle.cardimagecontainer}>
+					<Image src={Charizard} alt='charizard' height={150} width={170} />
+				</div>
+
+				<figcaption className={cardStyle.cardcaption}>
+					<h1 className={cardStyle.cardname}>Welcome to Poke-Decks!</h1>
+
+					<h3 className={cardStyle.cardtype}>fire</h3>
+
+					<div className={styles.flexBetween}>
+						<div className={cardStyle.cardenergy}>
+							<div
+								className={styles.flexAround}
+								style={{ marginBottom: '20%' }}>
+								<Image src={Energy} alt='energy' height={20} width={20} />
+								<Image src={Energy} alt='energy' height={20} width={20} />
+							</div>
+							<div className={styles.flexAround}>
+								<Image src={Energy} alt='energy' height={20} width={20} />
+								<Image src={Energy} alt='energy' height={20} width={20} />
+							</div>
+						</div>
+						<div>
+							<p style={{ paddingLeft: '3%' }}>
+								Make yourself comfortable and browse through our collection of
+								Pokemon TCG products – whether you want to add to your existing
+								collection or focus on the latest expansion we’ve got you
+								covered!
+							</p>
+						</div>
+					</div>
+
+					<div className={cardStyle.cardabilities}>
+						<h4 className={cardStyle.cardability}>
+							<span className={cardStyle.cardlabel}>Ability</span>
+							Flamethrower
+						</h4>
+						<h4 className={cardStyle.cardability}>
+							<span className={cardStyle.cardlabel}>Hidden Ability</span>
+							Fly
+						</h4>
+					</div>
+				</figcaption>
+			</figure>
 			<figure className={`${cardStyle.card} ${cardStyle.cardnormal}`}>
 				<div className={cardStyle.cardimagecontainer}>
 					<Image src={eeveeThumb} height={150} width={170} alt='pokemon' />
@@ -97,51 +142,6 @@ export const HomeSectionTwo = (props: Props) => {
 						<h4 className={cardStyle.cardability}>
 							<span className={cardStyle.cardlabel}>Hidden Ability</span>
 							Guts
-						</h4>
-					</div>
-				</figcaption>
-			</figure>
-
-			<figure className={`${cardStyle.card} ${cardStyle.cardfire}`}>
-				<div className={cardStyle.cardimagecontainer}>
-					<Image src={Charizard} alt='charizard' height={150} width={170} />
-				</div>
-
-				<figcaption className={cardStyle.cardcaption}>
-					<h1 className={cardStyle.cardname}>Trade In</h1>
-
-					<h3 className={cardStyle.cardtype}>fire</h3>
-
-					<div className={styles.flexBetween}>
-						<div className={cardStyle.cardenergy}>
-							<div
-								className={styles.flexAround}
-								style={{ marginBottom: '20%' }}>
-								<Image src={Energy} alt='energy' height={20} width={20} />
-								<Image src={Energy} alt='energy' height={20} width={20} />
-							</div>
-							<div className={styles.flexAround}>
-								<Image src={Energy} alt='energy' height={20} width={20} />
-								<Image src={Energy} alt='energy' height={20} width={20} />
-							</div>
-						</div>
-						<div>
-							<p style={{ paddingLeft: '3%' }}>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-								debitis repellendus deleniti, architecto vero omnis numquam
-								fugit iste in,
-							</p>
-						</div>
-					</div>
-
-					<div className={cardStyle.cardabilities}>
-						<h4 className={cardStyle.cardability}>
-							<span className={cardStyle.cardlabel}>Ability</span>
-							Flamethrower
-						</h4>
-						<h4 className={cardStyle.cardability}>
-							<span className={cardStyle.cardlabel}>Hidden Ability</span>
-							Fly
 						</h4>
 					</div>
 				</figcaption>
