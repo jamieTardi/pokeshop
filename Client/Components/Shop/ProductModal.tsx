@@ -127,7 +127,8 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 											<Typography
 												id='transition-modal-description'
 												sx={{ mt: 2 }}>
-												Product code: {cardItem.SKU}
+												Product code:{' '}
+												<span style={{ color: '#989898' }}>{cardItem.SKU}</span>
 											</Typography>
 										</Grid>
 										<Grid item xs={12} sm={6}>
