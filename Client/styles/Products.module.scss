@@ -6,3 +6,15 @@
 		min-height: 100px;
 	}
 }
+
+.divider {
+	height: 2px;
+	width: 100%;
+	background-color: #989898;
+}
+
+@media (max-width: 600px) {
+	.modalContainer {
+		flex-direction: column;
+	}
+}

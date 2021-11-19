@@ -74,7 +74,7 @@ export default function CustomizedMenus() {
 				disableElevation
 				onClick={handleClick}
 				endIcon={<KeyboardArrowDownIcon />}>
-				Options
+				Filters
 			</Button>
 			<StyledMenu
 				id='demo-customized-menu'
@@ -85,21 +85,10 @@ export default function CustomizedMenus() {
 				open={open}
 				onClose={handleClose}>
 				<MenuItem onClick={handleClose} disableRipple>
-					<EditIcon />
-					Edit
+					Price (Lowest - Highest)
 				</MenuItem>
 				<MenuItem onClick={handleClose} disableRipple>
-					<FileCopyIcon />
-					Duplicate
-				</MenuItem>
-				<Divider sx={{ my: 0.5 }} />
-				<MenuItem onClick={handleClose} disableRipple>
-					<ArchiveIcon />
-					Archive
-				</MenuItem>
-				<MenuItem onClick={handleClose} disableRipple>
-					<MoreHorizIcon />
-					More
+					Price (Highest - Lowest)
 				</MenuItem>
 			</StyledMenu>
 		</div>

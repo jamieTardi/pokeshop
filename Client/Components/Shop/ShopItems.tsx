@@ -53,6 +53,19 @@ interface category {
 	expansion: string;
 }
 
+interface card {
+	cardItem: {
+		image: Array<string>;
+		SKU: string;
+		description: string;
+		category: string;
+		price: number;
+		stockAmount: number;
+		title: string;
+		expansion: string;
+	};
+}
+
 const ShopItems = () => {
 	const router = useRouter();
 	const currentpage: any = router.query.param;
@@ -67,7 +80,7 @@ const ShopItems = () => {
 	const [categories, setCategories] = useState<null | Array<category>>(null);
 	const [expansions, setExpansions] = useState<null | Array<category>>(null);
 	const [open, setOpen] = useState<boolean>(false);
-	const [cardItem, setCardItem] = useState<object | null>(null);
+	const [cardItem, setCardItem] = useState<any | null>(null);
 	//redux
 	const page = useAppSelector((state: RootState) => state.currentPage.value);
 
@@ -192,7 +205,7 @@ const ShopItems = () => {
 												card.image[0] === '' ||
 												card.image.length === 0
 													? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
-													: card.image
+													: card.image[0]
 											}
 											alt='random'
 										/>
@@ -249,6 +262,7 @@ const ShopItems = () => {
 						) : (
 							<Loading />
 						)}
+						<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
 					</Grid>
 
 					<CustomPagination
@@ -256,7 +270,6 @@ const ShopItems = () => {
 						totalPages={totalPages}
 					/>
 				</main>
-				<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
 			</div>
 		);
 	} else if (cardItem === null) {
