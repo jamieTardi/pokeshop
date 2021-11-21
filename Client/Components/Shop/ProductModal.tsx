@@ -15,6 +15,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CloseIcon from '@mui/icons-material/Close';
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
+import { RootState } from '../../Redux/store';
+import { createCart } from '../../api/index';
+import { updateCart } from '../../Redux/slices/cartSlice';
 const style = {
 	position: 'absolute' as 'absolute',
 	top: '50%',
@@ -31,6 +35,11 @@ const style = {
 		overflow: 'scroll',
 	},
 };
+
+interface result {
+	user: Array<{}>;
+	result: { _id: string };
+}
 
 interface props {
 	open: boolean;
@@ -49,6 +58,21 @@ interface props {
 
 export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 	const handleClose = () => setOpen(false);
+
+	const cart = useAppSelector((state: RootState) => state.cart.value);
+
+	const handleAddToCart = (item: typeof cardItem) => {
+		if (cart) {
+			// updateCart(cart._id, item)
+			console.log('exists');
+		} else {
+			if (localStorage.getItem('poke-decks')) {
+				let user = JSON.parse(localStorage.getItem('poke-decks') || '{}');
+				const { token } = user.userDetails;
+				createCart(item, token);
+			}
+		}
+	};
 
 	if (cardItem) {
 		return (
@@ -211,6 +235,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 											<Button
 												variant='contained'
 												color='success'
+												onClick={() => handleAddToCart(cardItem)}
 												disabled={cardItem.stockAmount === 0}
 												startIcon={<ShoppingBagIcon />}>
 												{cardItem.stockAmount === 0

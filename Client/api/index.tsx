@@ -139,3 +139,17 @@ export const getImageURL = (setImageURL: any) => {
 		.then((res) => setImageURL(res.data.url))
 		.catch((err) => console.log(err));
 };
+
+//cart
+
+export const createCart = (item: object, id: string) => {
+	API.post('/cart', item, { params: { id } })
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+};
+
+export const getCart = (token: string, setCurrentCart: Function) => {
+	API.get('/cart', { params: { token } })
+		.then((res) => setCurrentCart(res.data.cart))
+		.catch((err) => console.log(err));
+};

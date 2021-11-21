@@ -13,7 +13,6 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		SignInAuth: (state, action: PayloadAction<any>) => {
-			console.log(action.payload);
 			const userDetails: any = {
 				token: action.payload.token,
 			};
