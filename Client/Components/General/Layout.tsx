@@ -6,7 +6,7 @@ import { RootState } from '../../Redux/store';
 import Footer from '../Sections/Footer';
 import styles from '../../styles/Home.module.scss';
 import { updateUser } from '../../Redux/slices/userSlice';
-import { getCart, getUsers } from '../../api';
+import { getUsers } from '../../api';
 import { useRouter } from 'next/router';
 import { isMobileChange } from '../../Redux/slices/mobileSlice';
 import { updateCart } from '../../Redux/slices/cartSlice';
@@ -16,7 +16,7 @@ interface Props {}
 const Layout = ({ children }: any) => {
 	const [width, setWidth] = useState<number>(0);
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
-	const [currentCart, setCurrentCart] = useState<null | object>(null);
+
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 
@@ -33,16 +33,16 @@ const Layout = ({ children }: any) => {
 			if (localStorage.getItem('poke-decks')) {
 				let user = JSON.parse(localStorage.getItem('poke-decks') || '{}');
 				const { token } = user.userDetails;
-				getCart(token, setCurrentCart);
 			}
 		}
 	}, [user]);
 
 	useEffect(() => {
-		if (currentCart) {
-			dispatch({ type: updateCart, payload: currentCart });
+		if (localStorage.getItem('poke-cart')) {
+			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+			dispatch({ type: updateCart, payload: cart });
 		}
-	}, [currentCart]);
+	}, []);
 
 	//Event listener for mobile TS
 	useEffect(() => {

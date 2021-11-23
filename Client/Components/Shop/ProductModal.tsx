@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -17,7 +18,6 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
-import { createCart } from '../../api/index';
 import { updateCart } from '../../Redux/slices/cartSlice';
 const style = {
 	position: 'absolute' as 'absolute',
@@ -35,6 +35,10 @@ const style = {
 		overflow: 'scroll',
 	},
 };
+
+interface cartItems {
+	_id: string;
+}
 
 interface result {
 	user: Array<{}>;
@@ -57,22 +61,27 @@ interface props {
 }
 
 export default function TransitionsModal({ open, setOpen, cardItem }: props) {
+	const dispatch = useAppDispatch();
+	const [currentCart, setCurrentCart] = useState<any>([]);
+	const user = useAppSelector((state: RootState) => state.auth.value);
+
 	const handleClose = () => setOpen(false);
 
-	const cart = useAppSelector((state: RootState) => state.cart.value);
-
 	const handleAddToCart = (item: typeof cardItem) => {
-		if (cart) {
-			// updateCart(cart._id, item)
-			console.log('exists');
+		if (localStorage.getItem('poke-cart')) {
+			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+			setCurrentCart([...cart, item]);
 		} else {
-			if (localStorage.getItem('poke-decks')) {
-				let user = JSON.parse(localStorage.getItem('poke-decks') || '{}');
-				const { token } = user.userDetails;
-				createCart(item, token);
-			}
+			setCurrentCart([...currentCart, item]);
 		}
 	};
+
+	useEffect(() => {
+		if (currentCart.length !== 0) {
+			localStorage.setItem('poke-cart', JSON.stringify(currentCart));
+			dispatch({ type: updateCart, payload: currentCart });
+		}
+	}, [currentCart]);
 
 	if (cardItem) {
 		return (

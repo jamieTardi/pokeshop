@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface InitialState {
-	value: object | null;
+	value: CartState | null;
 }
 
 export interface CartState {
 	id: string;
 	items: Array<object>;
 	user: string;
+	_id: string;
 }
 
 const initialState: InitialState = {
@@ -19,13 +20,7 @@ export const cartSlice = createSlice({
 	initialState,
 	reducers: {
 		updateCart: (state, action: PayloadAction<CartState>) => {
-			state.value === null
-				? (state.value = {
-						id: action.payload.id,
-						items: [action.payload.items],
-						user: action.payload.user,
-				  })
-				: (state.value = action.payload);
+			state.value = action.payload;
 		},
 	},
 });

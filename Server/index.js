@@ -8,7 +8,7 @@ import productsRoutes from './routes/products.js';
 import cookieParser from 'cookie-parser';
 import expansionRoutes from './routes/expansions.js';
 import categoryRoutes from './routes/category.js';
-import cartRoutes from './routes/cart.js';
+
 import { generateUploadURL } from './middleware/imageHandler.js';
 
 const app = express();
@@ -22,7 +22,6 @@ app.use('/users', userRoutes);
 app.use('/products', productsRoutes);
 app.use('/expansion', expansionRoutes);
 app.use('/category', categoryRoutes);
-app.use('/cart', cartRoutes);
 app.get('/s3URL', async (req, res) => {
 	const url = await generateUploadURL();
 	res.send({ url });

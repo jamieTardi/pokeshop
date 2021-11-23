@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema({
 		enum: ['member', 'admin', 'subscriber', 'premiumMember'],
 	},
 	dob: { type: String },
+	cart: { type: [Object] },
 	address: { type: Object },
 	isPromtions: { type: Boolean, required: true },
 	refreshToken: { type: String },

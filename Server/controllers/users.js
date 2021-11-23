@@ -41,6 +41,7 @@ export const signup = async (req, res) => {
 			isPromtions,
 			password: hashedPassword,
 			name: `${firstName} ${lastName}`,
+			cart: [],
 			phoneNo,
 			refreshToken,
 		});
@@ -92,5 +93,31 @@ export const getAllUsers = async (req, res) => {
 		res.status(200).json(userConfig);
 	} catch (e) {
 		res.status(404).json({ message: 'Error fetching users.' });
+	}
+};
+
+export const updateCart = async (req, res) => {
+	const { id } = req.params;
+	const cartItem = req.body;
+	console.log(req.params);
+	const existingUser = await users.findById(id);
+
+	if (!existingUser) {
+		res.status(404).json({ message: 'No user found by that id.' });
+	}
+	try {
+		const updateUser = await users.findByIdAndUpdate(id, {
+			...existingUser,
+			cart: [...existingUser, cartItem],
+		});
+		res.status(202).json({
+			cart: updateUser.cart,
+			message: 'Item has been added to cart 🎊',
+		});
+	} catch (err) {
+		res.status(500).json({
+			message:
+				'An issue has occured, please login or refresh the page and try again.',
+		});
 	}
 };

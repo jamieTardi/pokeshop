@@ -1,3 +1,4 @@
+import { ControlPointSharp } from '@mui/icons-material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface AuthState {
@@ -19,10 +20,14 @@ export const authSlice = createSlice({
 			localStorage.setItem('poke-decks', JSON.stringify({ userDetails }));
 			state.value = action.payload;
 		},
+		UpdateCart: (state, action: PayloadAction<any>) => {
+			console.log(action.payload);
+			state.value = action.payload;
+		},
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { SignInAuth } = authSlice.actions;
+export const { SignInAuth, UpdateCart } = authSlice.actions;
 
 export default authSlice.reducer;

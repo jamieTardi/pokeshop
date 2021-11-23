@@ -142,14 +142,34 @@ export const getImageURL = (setImageURL: any) => {
 
 //cart
 
-export const createCart = (item: object, id: string) => {
-	API.post('/cart', item, { params: { id } })
-		.then((res) => console.log(res))
+export const updateCart = (id: string, item: object) => {
+	API.patch(`/users/cart/${id}`, item)
+		.then((res) => console.log(res.data))
 		.catch((err) => console.log(err));
 };
 
-export const getCart = (token: string, setCurrentCart: Function) => {
-	API.get('/cart', { params: { token } })
-		.then((res) => setCurrentCart(res.data.cart))
-		.catch((err) => console.log(err));
-};
+// export const createCart = (
+// 	item: object,
+// 	id: string,
+// 	setCurrentCart: Function,
+// ) => {
+// 	API.post('/cart', item, { params: { id } })
+// 		.then((res) => setCurrentCart(res.data.cart))
+// 		.catch((err) => console.log(err));
+// };
+
+// export const getCart = (token: string, setCurrentCart: Function) => {
+// 	API.get('/cart', { params: { token } })
+// 		.then((res) => console.log(res.data.cart))
+// 		.catch((err) => console.log(err));
+// };
+
+// export const updateCarts = (
+// 	id: string,
+// 	cartItems: object,
+// 	setCurrentCart: Function,
+// ) => {
+// 	API.patch(`/cart/${id}`, cartItems)
+// 		.then((res) => console.log(res.data))
+// 		.catch((err) => console.log(err));
+// };
