@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.scss';
 import Image from 'next/image';
+import { Badge } from '@mui/material';
 import Logo from '../../Images/pokeLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../Redux/slices/userSlice';
@@ -19,6 +20,7 @@ const Nav = () => {
 	const currentUser: any = useAppSelector(
 		(state: RootState) => state.user.value,
 	);
+	const cart: any = useAppSelector((state: RootState) => state.cart.value);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
 	let navItems: string[] = ['Products', 'News', 'shop', 'Contact'];
@@ -65,7 +67,9 @@ const Nav = () => {
 					</li>
 				)}
 				<li className={styles.navitems}>
-					<ShoppingCartIcon />
+					<Badge badgeContent={cart && cart.length} color='primary'>
+						<ShoppingCartIcon />
+					</Badge>
 				</li>
 			</ul>
 			<div>

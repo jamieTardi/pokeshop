@@ -8,6 +8,7 @@ import productsRoutes from './routes/products.js';
 import cookieParser from 'cookie-parser';
 import expansionRoutes from './routes/expansions.js';
 import categoryRoutes from './routes/category.js';
+
 import { generateUploadURL } from './middleware/imageHandler.js';
 
 const app = express();

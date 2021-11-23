@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -15,6 +16,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CloseIcon from '@mui/icons-material/Close';
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
+import { RootState } from '../../Redux/store';
+import { updateCart } from '../../Redux/slices/cartSlice';
 const style = {
 	position: 'absolute' as 'absolute',
 	top: '50%',
@@ -32,6 +36,15 @@ const style = {
 	},
 };
 
+interface cartItems {
+	_id: string;
+}
+
+interface result {
+	user: Array<{}>;
+	result: { _id: string };
+}
+
 interface props {
 	open: boolean;
 	setOpen: Function;
@@ -48,7 +61,27 @@ interface props {
 }
 
 export default function TransitionsModal({ open, setOpen, cardItem }: props) {
+	const dispatch = useAppDispatch();
+	const [currentCart, setCurrentCart] = useState<any>([]);
+	const user = useAppSelector((state: RootState) => state.auth.value);
+
 	const handleClose = () => setOpen(false);
+
+	const handleAddToCart = (item: typeof cardItem) => {
+		if (localStorage.getItem('poke-cart')) {
+			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+			setCurrentCart([...cart, item]);
+		} else {
+			setCurrentCart([...currentCart, item]);
+		}
+	};
+
+	useEffect(() => {
+		if (currentCart.length !== 0) {
+			localStorage.setItem('poke-cart', JSON.stringify(currentCart));
+			dispatch({ type: updateCart, payload: currentCart });
+		}
+	}, [currentCart]);
 
 	if (cardItem) {
 		return (
@@ -211,6 +244,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 											<Button
 												variant='contained'
 												color='success'
+												onClick={() => handleAddToCart(cardItem)}
 												disabled={cardItem.stockAmount === 0}
 												startIcon={<ShoppingBagIcon />}>
 												{cardItem.stockAmount === 0
