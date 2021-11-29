@@ -33,12 +33,14 @@
 		"recharts": "^2.1.6",
 		"redux-devtools-extension": "^2.13.9",
 		"redux-thunk": "^2.4.0",
-		"sass": "^1.43.4"
+		"sass": "^1.43.4",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@types/node": "16.11.6",
 		"@types/react": "17.0.33",
 		"@types/recharts": "^1.8.23",
+		"@types/uuid": "^8.3.3",
 		"eslint": "7.32.0",
 		"eslint-config-next": "12.0.1",
 		"typescript": "4.4.4"

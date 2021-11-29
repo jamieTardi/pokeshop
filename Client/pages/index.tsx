@@ -55,8 +55,9 @@ const Home: NextPage = () => {
 		getUsers(SetAllUsers);
 		if (allUsers) {
 			if (localStorage.getItem('poke-decks')) {
-				let userToken: string = JSON.parse(localStorage.getItem('poke-decks'))
-					.userDetails.token;
+				let userToken: string = JSON.parse(
+					localStorage.getItem('poke-decks') || '{}',
+				).userDetails.token;
 
 				let filitered: any = allUsers.data.filter((user: any) => {
 					return user.refreshToken === userToken;

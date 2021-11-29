@@ -55,7 +55,7 @@ const Nav = () => {
 			</div>
 			<ul className={styles.listContainer}>
 				{navItems.map((item) => (
-					<Link href={`/${item}`}>
+					<Link key={`/${item}`} href={`/${item.toLowerCase()}`}>
 						<li className={styles.navitems} key={item}>
 							{item}
 						</li>
@@ -66,11 +66,13 @@ const Nav = () => {
 						<Link href='/admin'>Dashboard</Link>
 					</li>
 				)}
-				<li className={styles.navitems}>
-					<Badge badgeContent={cart && cart.length} color='primary'>
-						<ShoppingCartIcon />
-					</Badge>
-				</li>
+				<Link href='/cart'>
+					<li className={styles.navitems}>
+						<Badge badgeContent={cart && cart.length} color='primary'>
+							<ShoppingCartIcon />
+						</Badge>
+					</li>
+				</Link>
 			</ul>
 			<div>
 				{!isSignedIn ? (

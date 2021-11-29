@@ -13,4 +13,5 @@ router.get('/', getAllUsers);
 router.post('/signup', signup);
 router.post('/signin', signin);
 router.patch('/cart/:id', updateCart);
+router.patch('/user/:email');
 export default router;
