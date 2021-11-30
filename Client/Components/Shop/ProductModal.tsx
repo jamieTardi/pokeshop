@@ -63,6 +63,7 @@ interface props {
 export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 	const dispatch = useAppDispatch();
 	const [currentCart, setCurrentCart] = useState<any>([]);
+	const [cartTxt, setCartTxt] = useState<string>('');
 	const user = useAppSelector((state: RootState) => state.auth.value);
 
 	const handleClose = () => setOpen(false);
@@ -74,6 +75,10 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 		} else {
 			setCurrentCart([...currentCart, item]);
 		}
+		setCartTxt(`${item.title} has been added to your cart ✔️`);
+		setTimeout(() => {
+			setCartTxt('');
+		}, 2000);
 	};
 
 	useEffect(() => {
@@ -252,6 +257,16 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 													: 'Add to cart'}
 											</Button>
 										</Grid>
+										{cartTxt !== '' && (
+											<Grid item xs={12}>
+												<Typography
+													id='transition-modal-description'
+													sx={{ mt: 2 }}>
+													Info:{' '}
+													<span style={{ color: '#989898' }}>{cartTxt}</span>
+												</Typography>
+											</Grid>
+										)}
 										<Grid item xs={12}>
 											<Typography
 												id='transition-modal-description'

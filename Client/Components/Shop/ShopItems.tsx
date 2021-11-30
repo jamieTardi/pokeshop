@@ -22,14 +22,15 @@ import {
 	Collapse,
 } from '@mui/material';
 import Loading from '../UIComponents/Loading';
-import Link from 'next/link';
+import AdminModal from '../General/AdminModal';
 import styles from '../../styles/Home.module.scss';
 import FilterOptions from './FilterOptions';
 import CustomPagination from '../UIComponents/CustomPagination';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { useAppSelector } from '../../Redux/hooks';
+import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import ProductModal from './ProductModal';
+import { updateCart } from '../../Redux/slices/cartSlice';
 
 interface Props {
 	pageType: string;
@@ -66,9 +67,14 @@ interface card {
 	};
 }
 
+interface item {
+	_id: string;
+	title: string;
+	expansion: string;
+	price: number;
+}
+
 const ShopItems = () => {
-	const router = useRouter();
-	const currentpage: any = router.query.param;
 	const [products, setProducts] = useState<null | Array<items>>(null);
 	const [expandedArr, setExpandedArr] = useState([]);
 	const [currentPageTitle, setCurrentPageTitle] = useState<string>('');
@@ -81,6 +87,15 @@ const ShopItems = () => {
 	const [expansions, setExpansions] = useState<null | Array<category>>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [cardItem, setCardItem] = useState<any | null>(null);
+	const [currentCart, setCurrentCart] = useState<Array<typeof cardItem>>([]);
+	const [isShowModal, setIsShowModal] = useState<boolean>(false);
+
+	//General constants and variables
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+	const currentpage: any = router.query.param;
+	const infoTxt: string = 'Item has been added to cart ✔️';
+
 	//redux
 	const page = useAppSelector((state: RootState) => state.currentPage.value);
 
@@ -91,6 +106,20 @@ const ShopItems = () => {
 
 	//General functions
 
+	const handleAddToCart = (item: card) => {
+		// if(item.s)
+		if (localStorage.getItem('poke-cart')) {
+			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+			setCurrentCart([...cart, item]);
+		} else {
+			setCurrentCart([...currentCart, item]);
+		}
+		setIsShowModal(true);
+		setTimeout(() => {
+			setIsShowModal(false);
+		}, 2000);
+	};
+
 	//useEffect section
 
 	useEffect(() => {
@@ -98,6 +127,13 @@ const ShopItems = () => {
 			setOpen((prev) => !prev);
 		}
 	}, [cardItem]);
+
+	useEffect(() => {
+		if (currentCart.length !== 0) {
+			localStorage.setItem('poke-cart', JSON.stringify(currentCart));
+			dispatch({ type: updateCart, payload: currentCart });
+		}
+	}, [currentCart]);
 
 	useEffect(() => {
 		if (products) {
@@ -187,7 +223,7 @@ const ShopItems = () => {
 					{/* End hero unit */}
 					<Grid container spacing={4}>
 						{currentProducts ? (
-							currentProducts.map((card, i) => (
+							currentProducts.map((card: item, i) => (
 								<Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
 									<Card
 										sx={{
@@ -252,7 +288,11 @@ const ShopItems = () => {
 												View Details
 											</Button>
 
-											<Button size='small' color='success' variant='contained'>
+											<Button
+												size='small'
+												color='success'
+												variant='contained'
+												onClick={() => handleAddToCart(card)}>
 												Add to basket
 											</Button>
 										</CardActions>
@@ -263,6 +303,11 @@ const ShopItems = () => {
 							<Loading />
 						)}
 						<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
+						<AdminModal
+							open={isShowModal}
+							setOpen={setIsShowModal}
+							infoText={infoTxt}
+						/>
 					</Grid>
 
 					<CustomPagination
