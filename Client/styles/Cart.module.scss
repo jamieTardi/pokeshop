@@ -1,0 +1,33 @@
+//Has items styles
+
+.container {
+	min-height: 90vh;
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+	grid-auto-rows: minmax(100px, auto);
+	margin-top: 5%;
+	.cardContent {
+		width: 100%;
+	}
+
+	.gridItem1 {
+		grid-column: 1 / 3;
+		grid-row: 1;
+	}
+
+	.gridItem2 {
+		grid-column: 3/4;
+		grid-row: 1;
+	}
+
+	.cartCardTypography {
+		display: flex;
+		justify-content: space-between;
+		p {
+			margin: 0% 0% 0% 0%;
+			// padding-top: 3%;
+		}
+	}
+}

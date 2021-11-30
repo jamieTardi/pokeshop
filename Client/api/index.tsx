@@ -148,28 +148,16 @@ export const updateCart = (id: string, item: object) => {
 		.catch((err) => console.log(err));
 };
 
-// export const createCart = (
-// 	item: object,
-// 	id: string,
-// 	setCurrentCart: Function,
-// ) => {
-// 	API.post('/cart', item, { params: { id } })
-// 		.then((res) => setCurrentCart(res.data.cart))
-// 		.catch((err) => console.log(err));
-// };
+export const getCartTotal = (cart: Array<object>, setPrice: Function) => {
+	API.get(`/cart/total`, { params: { cart } })
+		.then((res) => setPrice(res.data))
+		.catch((err) => console.log(err));
+};
 
-// export const getCart = (token: string, setCurrentCart: Function) => {
-// 	API.get('/cart', { params: { token } })
-// 		.then((res) => console.log(res.data.cart))
-// 		.catch((err) => console.log(err));
-// };
+//Checkout
 
-// export const updateCarts = (
-// 	id: string,
-// 	cartItems: object,
-// 	setCurrentCart: Function,
-// ) => {
-// 	API.patch(`/cart/${id}`, cartItems)
-// 		.then((res) => console.log(res.data))
-// 		.catch((err) => console.log(err));
-// };
+export const updateAddress = (email: string) => {
+	API.patch(`/user/${email}`)
+		.then((res) => res.data)
+		.catch((err) => console.log(err));
+};
