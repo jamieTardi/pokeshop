@@ -4,7 +4,7 @@ export const getCartTotal = async (req, res) => {
 	let items = new Array();
 	let total = new Array();
 	let cartTotal = 0;
-	let shipping = 4;
+	let shipping = 1;
 	let finalTotal = 0;
 
 	try {

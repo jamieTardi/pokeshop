@@ -164,13 +164,11 @@ export const updateAddress = (email: string) => {
 
 //change to axios
 
-export const paymentIntent = (items: Array<object>) => {
-	fetch('/create-payment-intent', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(items),
-	})
-		.then((res) => res.json())
-		// .then((data) => setClientSecret(data.clientSecret))
+export const paymentIntent = (
+	items: Array<object>,
+	setClientSecret: Function,
+) => {
+	API.post('/create-payment-intent', items)
+		.then((res) => setClientSecret(res.data.clientSecret))
 		.catch((err) => console.log(err));
 };

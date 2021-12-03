@@ -11,14 +11,19 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { paymentIntent } from '../../api';
+import { RootState } from '../../Redux/store';
 
-const stripePromise = loadStripe('pk_test_qblFNYngBkEdjEZ16jxxoWSM');
+const stripePromise = loadStripe(
+	'pk_live_51K1SFhJzDUpYRbdF7dL2wZCWNtFNbB1YflwwRkIN4SzG4kbabjCjmv1WZ5DCoFDBLc7JfhJ20E08l1nnpXAzZdHf00TgUzSlsn',
+);
 interface props {
 	address: { email: string };
 }
 
 export default function PaymentForm({ address }: props) {
-	const cartItems = useAppSelector((state) => state.cart.value);
+	const cartItems: object[] = useAppSelector(
+		(state: RootState) => state.cart.value,
+	);
 
 	const [clientSecret, setClientSecret] = useState<string>('');
 	useEffect(() => {
@@ -28,7 +33,7 @@ export default function PaymentForm({ address }: props) {
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
 
-		paymentIntent(cartItems);
+		paymentIntent(cartItems, setClientSecret);
 	}, []);
 
 	const appearance = {
