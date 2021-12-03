@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect } from 'react';
@@ -17,6 +18,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 			},
 		},
 	});
+
+	const appearance = {
+		theme: 'stripe',
+	};
 
 	return (
 		<Provider store={store}>

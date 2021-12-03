@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import expansionRoutes from './routes/expansions.js';
 import categoryRoutes from './routes/category.js';
 import cartRoutes from './routes/cart.js';
+import stripeRoutes from './routes/stripe.js';
 
 import { generateUploadURL } from './middleware/imageHandler.js';
 
@@ -24,6 +25,7 @@ app.use('/products', productsRoutes);
 app.use('/expansion', expansionRoutes);
 app.use('/category', categoryRoutes);
 app.use('/cart', cartRoutes);
+app.use('/create-payment-intent', stripeRoutes);
 app.get('/s3URL', async (req, res) => {
 	const url = await generateUploadURL();
 	res.send({ url });
