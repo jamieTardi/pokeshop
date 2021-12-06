@@ -6,6 +6,7 @@ import isAdminSlice from './slices/isAdminSlice';
 import isMobileSlice from './slices/mobileSlice';
 import pagesSlice from './slices/pagesSlice';
 import cartSlice from './slices/cartSlice';
+import FormCompleteSlice from './slices/formComplete';
 
 export const store = configureStore({
 	reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
 		isMobile: isMobileSlice,
 		currentPage: pagesSlice,
 		cart: cartSlice,
+		form: FormCompleteSlice,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

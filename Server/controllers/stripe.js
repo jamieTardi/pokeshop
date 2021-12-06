@@ -26,7 +26,7 @@ const calculateOrderAmount = (cartItems) => {
 	}
 
 	if (cartTotal !== 0) {
-		finalTotal = shipping + cartTotal;
+		finalTotal = (shipping + cartTotal) * 100;
 	}
 
 	return finalTotal;
@@ -36,7 +36,7 @@ const calculateOrderAmount = (cartItems) => {
 export const createPayment = async (req, res) => {
 	let total = calculateOrderAmount(req.body);
 	const paymentIntent = await stripe.paymentIntents.create({
-		amount: 30,
+		amount: total,
 		currency: 'gbp',
 		// automatic_payment_methods: {
 		// 	enabled: true,
@@ -44,5 +44,6 @@ export const createPayment = async (req, res) => {
 	});
 	res.send({
 		clientSecret: paymentIntent.client_secret,
+		total,
 	});
 };

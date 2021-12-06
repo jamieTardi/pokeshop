@@ -5,6 +5,7 @@ import {
 	signin,
 	getAllUsers,
 	updateCart,
+	checkUsers,
 } from '../controllers/users.js';
 
 const router = express.Router();
@@ -14,4 +15,5 @@ router.post('/signup', signup);
 router.post('/signin', signin);
 router.patch('/cart/:id', updateCart);
 router.patch('/user/:email');
+router.patch('/check-users/:token', checkUsers);
 export default router;

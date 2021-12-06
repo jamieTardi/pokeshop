@@ -12,6 +12,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { paymentIntent } from '../../api';
 import { RootState } from '../../Redux/store';
+import Loading from '../UIComponents/Loading';
 
 const stripePromise = loadStripe(
 	'pk_live_51K1SFhJzDUpYRbdF7dL2wZCWNtFNbB1YflwwRkIN4SzG4kbabjCjmv1WZ5DCoFDBLc7JfhJ20E08l1nnpXAzZdHf00TgUzSlsn',
@@ -26,6 +27,10 @@ export default function PaymentForm({ address }: props) {
 	);
 
 	const [clientSecret, setClientSecret] = useState<string>('');
+	const [clientData, setClientData] = useState<null | {
+		clientSecret: string;
+		total: number;
+	}>(null);
 	useEffect(() => {
 		updateAddress(address.email);
 	}, []);
@@ -33,8 +38,14 @@ export default function PaymentForm({ address }: props) {
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
 
-		paymentIntent(cartItems, setClientSecret);
+		paymentIntent(cartItems, setClientData);
 	}, []);
+
+	useEffect(() => {
+		if (clientData) {
+			setClientSecret(clientData.clientSecret);
+		}
+	}, [clientData]);
 
 	const appearance = {
 		theme: 'stripe',
@@ -48,14 +59,22 @@ export default function PaymentForm({ address }: props) {
 	return (
 		<React.Fragment>
 			{clientSecret && (
-				<Elements options={options} stripe={stripePromise}>
-					<Typography variant='h6' gutterBottom>
-						Payment method
-					</Typography>
-					<Grid container spacing={3}>
-						<Stripe />
-					</Grid>
-				</Elements>
+				<Grid container spacing={3}>
+					<Elements options={options} stripe={stripePromise}>
+						<Grid item xs={12}>
+							<Typography variant='h6' gutterBottom>
+								Payment method
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							{clientData ? (
+								<Stripe clientData={clientData} address={address} />
+							) : (
+								<Loading />
+							)}
+						</Grid>
+					</Elements>
+				</Grid>
 			)}
 		</React.Fragment>
 	);

@@ -4,17 +4,31 @@ import {
 	useStripe,
 	useElements,
 } from '@stripe/react-stripe-js';
+import stripeCSS from '../../styles/Stripe.module.scss';
 
 interface payment {
 	paymentIntent: { status: string };
 }
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ clientData, address }: any) {
 	const stripe = useStripe();
 	const elements = useElements();
 
 	const [message, setMessage] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [total, setTotal] = useState<string>('');
+
+	const fullTotal: number = clientData.total / 100;
+
+	useEffect(() => {
+		if (clientData) {
+			setTotal(
+				fullTotal - Math.floor(fullTotal) === 0
+					? fullTotal.toString() + '.00'
+					: fullTotal.toString(),
+			);
+		}
+	}, [clientData]);
 
 	useEffect(() => {
 		if (!stripe) {
@@ -83,11 +97,18 @@ export default function CheckoutForm() {
 	};
 
 	return (
-		<form id='payment-form' onSubmit={handleSubmit}>
+		<form
+			id='payment-form'
+			onSubmit={handleSubmit}
+			className={stripeCSS.container}>
 			<PaymentElement id='payment-element' />
 			<button disabled={isLoading || !stripe || !elements} id='submit'>
 				<span id='button-text'>
-					{isLoading ? <div className='spinner' id='spinner'></div> : 'Pay now'}
+					{isLoading ? (
+						<div className='spinner' id='spinner'></div>
+					) : (
+						`Pay now £${total}`
+					)}
 				</span>
 			</button>
 			{/* Show any error or success messages */}

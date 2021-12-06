@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from '../Components/Checkout/AddressForm';
 import PaymentForm from '../Components/Checkout/PaymentForm';
 import Review from '../Components/Checkout/Review';
+import { useAppSelector } from '../Redux/hooks';
+import { RootState } from '../Redux/store';
 
 interface address {
 	firstName: string;
@@ -28,20 +30,7 @@ interface address {
 	country: string;
 }
 
-function Copyright() {
-	return (
-		<Typography variant='body2' color='text.secondary' align='center'>
-			{'Copyright © '}
-			<Link color='inherit' href='https://mui.com/'>
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Shipping address', 'Payment details'];
 
 function getStepContent(step: number) {
 	const [address, setAddress] = useState<address>({
@@ -59,8 +48,6 @@ function getStepContent(step: number) {
 			return <AddressForm address={address} setAddress={setAddress} />;
 		case 1:
 			return <PaymentForm address={address} />;
-		case 2:
-			return <Review />;
 		default:
 			throw new Error('Unknown step');
 	}
@@ -70,6 +57,7 @@ const theme = createTheme();
 
 export default function Checkout() {
 	const [activeStep, setActiveStep] = React.useState(0);
+	const isComplete = useAppSelector((state: RootState) => state.form.value);
 
 	const handleNext = () => {
 		setActiveStep(activeStep + 1);
@@ -118,18 +106,22 @@ export default function Checkout() {
 											Back
 										</Button>
 									)}
-									<Button
-										variant='contained'
-										onClick={handleNext}
-										sx={{ mt: 3, ml: 1 }}>
-										{activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-									</Button>
+									{activeStep === steps.length - 1 ? (
+										''
+									) : (
+										<Button
+											variant='contained'
+											onClick={handleNext}
+											disabled={!isComplete}
+											sx={{ mt: 3, ml: 1 }}>
+											Next
+										</Button>
+									)}
 								</Box>
 							</React.Fragment>
 						)}
 					</React.Fragment>
 				</Paper>
-				<Copyright />
 			</Container>
 		</ThemeProvider>
 	);

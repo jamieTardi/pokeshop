@@ -39,6 +39,7 @@ export const signup = async (req, res) => {
 			email,
 			createdOn,
 			isPromtions,
+			address: {},
 			password: hashedPassword,
 			name: `${firstName} ${lastName}`,
 			cart: [],
@@ -99,7 +100,7 @@ export const getAllUsers = async (req, res) => {
 export const updateCart = async (req, res) => {
 	const { id } = req.params;
 	const cartItem = req.body;
-	console.log(req.params);
+
 	const existingUser = await users.findById(id);
 
 	if (!existingUser) {
@@ -119,5 +120,37 @@ export const updateCart = async (req, res) => {
 			message:
 				'An issue has occured, please login or refresh the page and try again.',
 		});
+	}
+};
+
+export const checkUsers = async (req, res) => {
+	const address = req.body;
+	const { token } = req.params;
+
+	const existingUser = await users.findOne({ refreshToken: token });
+
+	try {
+		const checkIfVerifiedAddress = () => {
+			return existingUser &&
+				existingUser.address &&
+				Object.keys(existingUser.address).length
+				? true
+				: false;
+		};
+
+		if (checkIfVerifiedAddress()) {
+			res.status(200).json({ user: existingUser });
+		} else if (checkIfVerifiedAddress() === false) {
+			console.log(address);
+			const update = await users.findByIdAndUpdate(existingUser._id, {
+				...existingUser,
+				address,
+			});
+			res.status(201).json({ user: update });
+		} else {
+			res.status(500).json({ message: 'Something gone wrong....' });
+		}
+	} catch (err) {
+		res.status(500).json({ message: err });
 	}
 };

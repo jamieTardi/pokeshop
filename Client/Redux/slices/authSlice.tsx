@@ -2,11 +2,15 @@ import { ControlPointSharp } from '@mui/icons-material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface AuthState {
-	value: object;
+	value: {
+		token: string;
+	};
 }
 
 const initialState: AuthState = {
-	value: {},
+	value: {
+		token: '',
+	},
 };
 
 export const authSlice = createSlice({
@@ -18,10 +22,10 @@ export const authSlice = createSlice({
 				token: action.payload.token,
 			};
 			localStorage.setItem('poke-decks', JSON.stringify({ userDetails }));
-			state.value = action.payload;
+
+			state.value = userDetails;
 		},
 		UpdateCart: (state, action: PayloadAction<any>) => {
-			console.log(action.payload);
 			state.value = action.payload;
 		},
 	},

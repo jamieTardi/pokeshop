@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { apiResolver } from 'next/dist/server/api-utils';
 
 const API = axios.create({
 	baseURL: 'http://localhost:5001',
@@ -10,20 +11,30 @@ const API = axios.create({
 
 //users
 
-export const signUp = (formData: object, setIsLoading: any) =>
+export const signUp = (formData: object, setIsLoading: Function) =>
 	API.post('/users/signup', formData)
 		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 
-export const signInUser = (formData: object, setResponse: any) =>
+export const signInUser = (formData: object, setResponse: Function) =>
 	API.post('/users/signin', formData)
 		.then((res) => setResponse(res))
 		.catch((err) => console.log(err));
 
-export const getUsers = (setAllUsers: any) =>
+export const getUsers = (setAllUsers: Function) =>
 	API.get('/users')
 		.then((res) => setAllUsers(res))
 		.catch((err) => console.log(err));
+
+export const checkUsers = (
+	token: string,
+	address: object,
+	setReturnedDetails: Function,
+) => {
+	API.patch(`/users/check-users/${token}`, address)
+		.then((res) => setReturnedDetails(res.data))
+		.catch((err) => console.log(err));
+};
 
 //Products
 
@@ -158,7 +169,7 @@ export const getCartTotal = (cart: Array<object>, setPrice: Function) => {
 
 export const updateAddress = (email: string) => {
 	API.patch(`/user/${email}`)
-		.then((res) => res.data)
+		.then((res) => console.log(res.data))
 		.catch((err) => console.log(err));
 };
 
@@ -166,9 +177,9 @@ export const updateAddress = (email: string) => {
 
 export const paymentIntent = (
 	items: Array<object>,
-	setClientSecret: Function,
+	setClientData: Function,
 ) => {
 	API.post('/create-payment-intent', items)
-		.then((res) => setClientSecret(res.data.clientSecret))
+		.then((res) => setClientData(res.data))
 		.catch((err) => console.log(err));
 };
