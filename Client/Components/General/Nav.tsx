@@ -23,7 +23,7 @@ const Nav = () => {
 	const cart: any = useAppSelector((state: RootState) => state.cart.value);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-	let navItems: string[] = ['Products', 'News', 'shop', 'Contact'];
+	let navItems: string[] = ['My Account', 'News', 'shop', 'Contact'];
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
@@ -55,7 +55,9 @@ const Nav = () => {
 			</div>
 			<ul className={styles.listContainer}>
 				{navItems.map((item) => (
-					<Link key={`/${item}`} href={`/${item.toLowerCase()}`}>
+					<Link
+						key={`/${item}`}
+						href={`/${item.toLowerCase().replace(/\s+/g, '')}`}>
 						<li className={styles.navitems} key={item}>
 							{item}
 						</li>

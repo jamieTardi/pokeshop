@@ -1,0 +1,9 @@
+.inlineInput {
+	background-color: transparent;
+	border: 0;
+	padding: 8px;
+	&:hover {
+		background-color: #d3d3d3;
+		cursor: pointer;
+	}
+}

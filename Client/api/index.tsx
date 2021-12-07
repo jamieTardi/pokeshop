@@ -36,6 +36,23 @@ export const checkUsers = (
 		.catch((err) => console.log(err));
 };
 
+export const getUser = (token: string, setCurrentUser: Function) => {
+	API.get('/users/current-user', { params: { token } })
+		.then((res) => setCurrentUser(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const updateUser = (
+	id: string,
+	details: object,
+	setIsLoading: Function,
+) => {
+	API.patch(`/users/update-user/${id}`, details)
+		.then((res) => console.log(res))
+		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err));
+};
+
 //Products
 
 export const createProduct = (

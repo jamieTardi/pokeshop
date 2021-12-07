@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import users from '../models/users.js';
+import User from '../models/users.js';
 import express from 'express';
 import dotenv from 'dotenv';
 
@@ -21,10 +21,11 @@ export const signup = async (req, res) => {
 		createdOn,
 		isPromtions,
 		refreshToken,
+		address,
 	} = req.body;
 
 	try {
-		const existingUser = await users.findOne({ email });
+		const existingUser = await User.findOne({ email });
 		if (existingUser)
 			return res.status(400).json({ message: 'User already exist' });
 		if (password !== confirmPassword)
@@ -33,16 +34,24 @@ export const signup = async (req, res) => {
 
 		// test arg is client secret
 
-		const result = await users.create({
+		const result = await User.create({
 			firstName,
 			lastName,
 			email,
 			createdOn,
 			isPromtions,
-			address: {},
+			address: {
+				firstName: firstName,
+				lastName: lastName,
+				addressLineOne: '',
+				email: email,
+				city: '',
+				county: '',
+				postCode: '',
+				country: '',
+			},
 			password: hashedPassword,
-			name: `${firstName} ${lastName}`,
-			cart: [],
+			fullName: `${firstName} ${lastName}`,
 			phoneNo,
 			refreshToken,
 		});
@@ -58,7 +67,7 @@ export const signin = async (req, res) => {
 	const body = req.body;
 
 	try {
-		const existingUser = await users.findOne({ email });
+		const existingUser = await User.findOne({ email });
 
 		if (!existingUser)
 			return res.status(404).json({ message: "User dosen't exist" });
@@ -76,7 +85,7 @@ export const signin = async (req, res) => {
 			key,
 		);
 
-		await users.findByIdAndUpdate(existingUser._id, {
+		await User.findByIdAndUpdate(existingUser._id, {
 			...body,
 			password: existingUser.password,
 			refreshToken: token,
@@ -90,10 +99,10 @@ export const signin = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
 	try {
-		const userConfig = await users.find();
+		const userConfig = await User.find();
 		res.status(200).json(userConfig);
 	} catch (e) {
-		res.status(404).json({ message: 'Error fetching users.' });
+		res.status(404).json({ message: 'Error fetching User.' });
 	}
 };
 
@@ -101,13 +110,13 @@ export const updateCart = async (req, res) => {
 	const { id } = req.params;
 	const cartItem = req.body;
 
-	const existingUser = await users.findById(id);
+	const existingUser = await User.findById(id);
 
 	if (!existingUser) {
 		res.status(404).json({ message: 'No user found by that id.' });
 	}
 	try {
-		const updateUser = await users.findByIdAndUpdate(id, {
+		const updateUser = await User.findByIdAndUpdate(id, {
 			...existingUser,
 			cart: [...existingUser, cartItem],
 		});
@@ -127,7 +136,7 @@ export const checkUsers = async (req, res) => {
 	const address = req.body;
 	const { token } = req.params;
 
-	const existingUser = await users.findOne({ refreshToken: token });
+	const existingUser = await User.findOne({ refreshToken: token });
 
 	try {
 		const checkIfVerifiedAddress = () => {
@@ -141,8 +150,7 @@ export const checkUsers = async (req, res) => {
 		if (checkIfVerifiedAddress()) {
 			res.status(200).json({ user: existingUser });
 		} else if (checkIfVerifiedAddress() === false) {
-			console.log(address);
-			const update = await users.findByIdAndUpdate(existingUser._id, {
+			const update = await User.findByIdAndUpdate(existingUser._id, {
 				...existingUser,
 				address,
 			});
@@ -153,4 +161,21 @@ export const checkUsers = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
+};
+
+export const getCurrentUser = async (req, res) => {
+	const { token } = req.query;
+
+	const existingUser = await User.findOne({ refreshToken: token });
+
+	try {
+		res.status(200).json(existingUser);
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};
+
+export const updateUser = async (req, res) => {
+	console.log(req.body);
+	console.log(req.param);
 };

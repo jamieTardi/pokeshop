@@ -5,6 +5,7 @@ const userSchema = mongoose.Schema({
 	lastName: { type: String, required: true },
 	fullName: { type: String },
 	email: { type: String, required: true },
+	address: { type: Object, required: true },
 	password: { type: String, required: true },
 	phoneNo: { type: String, required: true },
 	createdOn: { type: String, required: true },
@@ -15,8 +16,7 @@ const userSchema = mongoose.Schema({
 		enum: ['member', 'admin', 'subscriber', 'premiumMember'],
 	},
 	dob: { type: String },
-	cart: { type: [Object] },
-	address: { type: Object },
+
 	isPromtions: { type: Boolean, required: true },
 	refreshToken: { type: String },
 });
