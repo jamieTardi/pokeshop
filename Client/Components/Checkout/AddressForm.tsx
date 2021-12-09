@@ -31,15 +31,17 @@ interface user {
 
 interface returnedDetails {
 	returnedDetails: {};
-	address: {
-		firstName: string;
-		lastName: string;
-		addressLineOne: string;
-		email: string;
-		city: string;
-		county: string;
-		postCode: string;
-		country: string;
+	user: {
+		address: {
+			firstName: string;
+			lastName: string;
+			addressLineOne: string;
+			email: string;
+			city: string;
+			county: string;
+			postCode: string;
+			country: string;
+		};
 	};
 }
 
@@ -60,18 +62,7 @@ export default function AddressForm({ address, setAddress }: address) {
 
 	//General Logic
 
-	const updateFields = () => {
-		setAddress({
-			firstName: returnedDetails?.address.firstName,
-			lastName: returnedDetails?.address.lastName,
-			addressLineOne: returnedDetails?.address.addressLineOne,
-			email: returnedDetails?.address.email,
-			city: returnedDetails?.address.city,
-			county: returnedDetails?.address.county,
-			postCode: returnedDetails?.address.postCode,
-			country: returnedDetails?.address.country,
-		});
-	};
+	const updateFields = () => {};
 
 	//UseEffects
 
@@ -95,9 +86,20 @@ export default function AddressForm({ address, setAddress }: address) {
 				checkUsers(user.token, address, setReturnedDetails);
 			}
 		}
-	}, [userDetails]);
+	}, []);
 
-	console.log(returnedDetails);
+	useEffect(() => {
+		setAddress({
+			firstName: returnedDetails?.user.address.firstName,
+			lastName: returnedDetails?.user.address.lastName,
+			addressLineOne: returnedDetails?.user.address.addressLineOne,
+			email: returnedDetails?.user.address.email,
+			city: returnedDetails?.user.address.city,
+			county: returnedDetails?.user.address.county,
+			postCode: returnedDetails?.user.address.postCode,
+			country: returnedDetails?.user.address.country,
+		});
+	}, [returnedDetails]);
 
 	useEffect(() => {
 		setIsComplete(Object.values(address).every((item) => item !== ''));
@@ -106,9 +108,6 @@ export default function AddressForm({ address, setAddress }: address) {
 	useEffect(() => {
 		if (isComplete) {
 			dispatch({ type: formComplete, payload: true });
-			if (returnedDetails && returnedDetails.address === new Object()) {
-				checkUsers(user.token, address, setReturnedDetails);
-			}
 		} else if (!isComplete && globalForm && !isEmail) {
 			dispatch({ type: formComplete, payload: false });
 		}
@@ -133,6 +132,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							label='First name'
 							fullWidth
 							autoComplete='given-name'
+							value={address.firstName || ''}
 							variant='standard'
 							onChange={(e) => {
 								setAddress({ ...address, firstName: e.target.value });
@@ -146,6 +146,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							name='lastName'
 							label='Last name'
 							fullWidth
+							value={address.lastName}
 							autoComplete='family-name'
 							variant='standard'
 							onChange={(e) => {
@@ -159,6 +160,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							id='address1'
 							name='address1'
 							label='Address line 1'
+							value={address.addressLineOne}
 							fullWidth
 							autoComplete='shipping address-line1'
 							variant='standard'
@@ -172,6 +174,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							id='address2'
 							name='address2'
 							label='email'
+							value={address.email}
 							required
 							fullWidth
 							autoComplete='shipping address-line2'
@@ -188,6 +191,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							id='city'
 							name='city'
 							label='City'
+							value={address.city}
 							fullWidth
 							autoComplete='shipping address-level2'
 							variant='standard'
@@ -202,6 +206,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							name='county'
 							label='County'
 							fullWidth
+							value={address.county}
 							variant='standard'
 							onChange={(e) => {
 								setAddress({ ...address, county: e.target.value });
@@ -216,6 +221,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							label='Postal code'
 							fullWidth
 							autoComplete='shipping postal-code'
+							value={address.postCode}
 							variant='standard'
 							onChange={(e) => {
 								setAddress({ ...address, postCode: e.target.value });
@@ -231,6 +237,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							fullWidth
 							autoComplete='shipping country'
 							variant='standard'
+							value={address.country}
 							onChange={(e) => {
 								setAddress({ ...address, country: e.target.value });
 							}}

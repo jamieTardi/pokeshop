@@ -200,3 +200,11 @@ export const paymentIntent = (
 		.then((res) => setClientData(res.data))
 		.catch((err) => console.log(err));
 };
+
+//Orders
+
+export const createOrder = (order: Array<object>) => {
+	API.post('/orders', order)
+		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+};

@@ -5,6 +5,7 @@ import {
 	useElements,
 } from '@stripe/react-stripe-js';
 import stripeCSS from '../../styles/Stripe.module.scss';
+import { createOrder } from '../../api';
 
 interface payment {
 	paymentIntent: { status: string };
@@ -63,37 +64,40 @@ export default function CheckoutForm({ clientData, address }: any) {
 			});
 	}, [stripe]);
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
-		if (!stripe || !elements) {
-			// Stripe.js has not yet loaded.
-			// Make sure to disable form submission until Stripe.js has loaded.
-			return;
-		}
+		// if (!stripe || !elements) {
+		// 	// Stripe.js has not yet loaded.
+		// 	// Make sure to disable form submission until Stripe.js has loaded.
+		// 	return;
+		// }
 
-		setIsLoading(true);
+		// setIsLoading(true);
 
-		const { error } = await stripe.confirmPayment({
-			elements,
-			confirmParams: {
-				// Make sure to change this to your payment completion page
-				return_url: 'http://localhost:3000',
-			},
-		});
+		// const { error } = await stripe.confirmPayment({
+		// 	elements,
+		// 	confirmParams: {
+		// 		// Make sure to change this to your payment completion page
+		// 		return_url: 'http://localhost:3000',
+		// 	},
+		// });
+		const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 
-		// This point will only be reached if there is an immediate error when
-		// confirming the payment. Otherwise, your customer will be redirected to
-		// your `return_url`. For some payment methods like iDEAL, your customer will
-		// be redirected to an intermediate site first to authorize the payment, then
-		// redirected to the `return_url`.
-		if (error.type === 'card_error' || error.type === 'validation_error') {
-			setMessage(error.message);
-		} else {
-			setMessage('An unexpected error occured.');
-		}
+		createOrder(order);
 
-		setIsLoading(false);
+		// // This point will only be reached if there is an immediate error when
+		// // confirming the payment. Otherwise, your customer will be redirected to
+		// // your `return_url`. For some payment methods like iDEAL, your customer will
+		// // be redirected to an intermediate site first to authorize the payment, then
+		// // redirected to the `return_url`.
+		// if (error.type === 'card_error' || error.type === 'validation_error') {
+		// 	setMessage(error.message);
+		// } else {
+		// 	setMessage('An unexpected error occured.');
+		// }
+
+		// setIsLoading(false);
 	};
 
 	return (

@@ -22,18 +22,13 @@ interface props {
 }
 
 export default function PaymentForm({ address }: props) {
-	const cartItems: object[] = useAppSelector(
-		(state: RootState) => state.cart.value,
-	);
+	const cartItems: any = useAppSelector((state: RootState) => state.cart.value);
 
 	const [clientSecret, setClientSecret] = useState<string>('');
 	const [clientData, setClientData] = useState<null | {
 		clientSecret: string;
 		total: number;
 	}>(null);
-	useEffect(() => {
-		updateAddress(address.email);
-	}, []);
 
 	useEffect(() => {
 		// Create PaymentIntent as soon as the page loads
@@ -51,7 +46,7 @@ export default function PaymentForm({ address }: props) {
 		theme: 'stripe',
 	};
 
-	const options = {
+	const options: object = {
 		clientSecret,
 		appearance,
 	};

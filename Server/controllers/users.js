@@ -187,6 +187,11 @@ export const updateUser = async (req, res) => {
 	try {
 		await User.findByIdAndUpdate(_id, {
 			...user,
+			address: {
+				...user.address,
+				firstName: user.firstName,
+				lastName: user.lastName,
+			},
 		});
 		res.status(204).json({ message: 'Details have been sucessfully updated!' });
 	} catch (err) {
