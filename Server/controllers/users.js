@@ -176,6 +176,20 @@ export const getCurrentUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-	console.log(req.body);
-	console.log(req.param);
+	const { _id } = req.body;
+	const user = req.body;
+
+	const existingUser = await User.findById(_id);
+
+	if (!existingUser) {
+		res.status(404).json({ message: 'User not found!' });
+	}
+	try {
+		await User.findByIdAndUpdate(_id, {
+			...user,
+		});
+		res.status(204).json({ message: 'Details have been sucessfully updated!' });
+	} catch (err) {
+		res.status(500).json({ message: 'Something has gone wrong' });
+	}
 };

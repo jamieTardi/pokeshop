@@ -43,7 +43,11 @@ const InLineEdit = ({
 	const onKeyDown = (
 		event: KeyboardEvent<HTMLInputElement> | React.KeyboardEvent,
 	) => {
-		if (event.key === 'Enter' || event.key === 'Escape') {
+		if (
+			event.key === 'Enter' ||
+			event.key === 'Escape' ||
+			event.key === 'Tab'
+		) {
 			event.target.blur();
 		}
 	};

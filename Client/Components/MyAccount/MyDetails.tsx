@@ -31,21 +31,28 @@ const MyDetails = () => {
 	const [isError, setIsError] = useState<boolean>(false);
 	const [type, setType] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [infoTxt, setInfoTxt] = useState<string>('');
 
 	//Redux state
 	const user = useAppSelector((state: RootState) => state.auth.value);
 
 	//General logic
 	const handleUpdate = () => {
+		setIsLoading(true);
 		if (currentUser) {
 			updateUser(currentUser._id, currentUser, setIsLoading);
 		}
+		setInfoTxt('Information updated sucessfully');
+		setTimeout(() => {
+			setInfoTxt('');
+		}, 2500);
 	};
 
 	//UseEffects
 
 	useEffect(() => {
 		getUser(user.token, setCurrentUser);
+		setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
@@ -62,6 +69,18 @@ const MyDetails = () => {
 		return (
 			<>
 				<h3>My Personal and delivery details</h3>
+				<p>
+					To edit your details please click on the area you wish to edit and
+					once finished editing each box press enter or click off. Finally press
+					update details to confirm.
+				</p>
+				<p className={styles.cardBlurb}>
+					We do not store any of your credit card or debit card details, all
+					payments are securely handled externally by{' '}
+					<a href='https://stripe.com/gb' target='_blank'>
+						stripe
+					</a>
+				</p>
 				{currentUser ? (
 					<div className={styles.gridContainer}>
 						<div
@@ -198,9 +217,16 @@ const MyDetails = () => {
 								/>
 							</div>
 						</div>
-						<Button variant='contained' color='success' onClick={handleUpdate}>
-							Update Details
-						</Button>
+						<div>
+							<Button
+								variant='contained'
+								color='success'
+								disabled={isLoading}
+								onClick={handleUpdate}>
+								Update Details
+							</Button>
+							{infoTxt !== '' ? <p> {infoTxt} </p> : ''}
+						</div>
 					</div>
 				) : (
 					<p>loading</p>

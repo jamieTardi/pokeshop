@@ -25,6 +25,9 @@ export const authSlice = createSlice({
 
 			state.value = userDetails;
 		},
+		KeepSignedIn: (state, action: PayloadAction<string>) => {
+			state.value.token = action.payload;
+		},
 		UpdateCart: (state, action: PayloadAction<any>) => {
 			state.value = action.payload;
 		},
@@ -32,6 +35,6 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { SignInAuth, UpdateCart } = authSlice.actions;
+export const { SignInAuth, UpdateCart, KeepSignedIn } = authSlice.actions;
 
 export default authSlice.reducer;

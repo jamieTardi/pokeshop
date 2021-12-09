@@ -19,10 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 		},
 	});
 
-	const appearance = {
-		theme: 'stripe',
-	};
-
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>

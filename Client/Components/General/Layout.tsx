@@ -10,6 +10,7 @@ import { getUsers } from '../../api';
 import { useRouter } from 'next/router';
 import { isMobileChange } from '../../Redux/slices/mobileSlice';
 import { updateCart } from '../../Redux/slices/cartSlice';
+import { KeepSignedIn } from '../../Redux/slices/authSlice';
 
 interface Props {}
 
@@ -33,6 +34,7 @@ const Layout = ({ children }: any) => {
 			if (localStorage.getItem('poke-decks')) {
 				let user = JSON.parse(localStorage.getItem('poke-decks') || '{}');
 				const { token } = user.userDetails;
+				dispatch({ type: KeepSignedIn, payload: token });
 			}
 		}
 	}, [user]);

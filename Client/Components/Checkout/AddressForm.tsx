@@ -72,7 +72,7 @@ export default function AddressForm({ address, setAddress }: address) {
 			country: returnedDetails?.address.country,
 		});
 	};
-	console.log(returnedDetails);
+
 	//UseEffects
 
 	//Looping over the object and checking that fields are filled in and not a empty string
@@ -93,12 +93,11 @@ export default function AddressForm({ address, setAddress }: address) {
 		if (userDetails) {
 			if (userDetails.isUser) {
 				checkUsers(user.token, address, setReturnedDetails);
-				console.log(user.token);
 			}
 		}
 	}, [userDetails]);
 
-	useEffect(() => {}, []);
+	console.log(returnedDetails);
 
 	useEffect(() => {
 		setIsComplete(Object.values(address).every((item) => item !== ''));
