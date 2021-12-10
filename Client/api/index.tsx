@@ -203,8 +203,41 @@ export const paymentIntent = (
 
 //Orders
 
-export const createOrder = (order: Array<object>) => {
-	API.post('/orders', order)
+export const createOrder = (
+	order: Array<object>,
+	address: object,
+	total: string,
+) => {
+	API.post('/orders', order, {
+		params: {
+			address,
+			total,
+		},
+	})
 		.then((res) => console.log(res))
+		.catch((err) => console.log(err));
+};
+
+export const getAllOrders = (setOrders: Function, setIsLoading: Function) => {
+	API.get('/orders')
+		.then((res) => setOrders(res.data))
+		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err));
+};
+
+export const getTotals = (setMonthTotal: Function, setIsLoading: Function) => {
+	API.get('/orders/totals')
+		.then((res) => setMonthTotal(res.data))
+		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err));
+};
+
+export const getWeeklyTotals = (
+	setWeeklyTotals: Function,
+	setIsLoading: Function,
+) => {
+	API.get('/orders/weekly')
+		.then((res) => setWeeklyTotals(res.data))
+		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 };

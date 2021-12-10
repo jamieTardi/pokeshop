@@ -84,7 +84,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 		// });
 		const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 
-		createOrder(order);
+		createOrder(order, address, total);
 
 		// // This point will only be reached if there is an immediate error when
 		// // confirming the payment. Otherwise, your customer will be redirected to
