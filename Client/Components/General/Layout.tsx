@@ -97,8 +97,10 @@ const Layout = ({ children }: any) => {
 	return (
 		<>
 			<div>
-				<div className={`${styles.whiteText} ${styles.containerPadding}`}>
+				<div className={styles.whiteText}>
 					{mobileSize ? <MobileNav /> : <Nav />}
+				</div>
+				<div className={`${styles.whiteText} ${styles.containerPadding}`}>
 					{children}
 				</div>
 				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
