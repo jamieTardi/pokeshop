@@ -240,20 +240,6 @@
 }
 
 @media (max-width: 1000px) {
-	.backgroundcustom {
-		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-		background-size: 400% 400%;
-		animation: gradient 15s ease infinite;
-		height: 100%;
-		width: 100%;
-		transform: rotate(-70deg) scale(1);
-		position: absolute;
-		z-index: -1;
-		top: -30%;
-
-		border-radius: 40%;
-	}
-
 	.backgroundcustom2 {
 		display: none;
 	}
@@ -430,6 +416,7 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 100vw;
+	padding: 0% 2%;
 	background-color: #0070f3;
 }
 
