@@ -4,7 +4,7 @@ import CartNoItems from '../../Components/Cart/CartNoItems';
 
 interface Props {}
 
-const index = (props: Props) => {
+const Index = (props: Props) => {
 	const [hasItems, setHasItems] = useState<boolean>(false);
 	useEffect(() => {
 		if (localStorage.getItem('poke-cart')) {
@@ -20,4 +20,4 @@ const index = (props: Props) => {
 	}
 };
 
-export default index;
+export default Index;

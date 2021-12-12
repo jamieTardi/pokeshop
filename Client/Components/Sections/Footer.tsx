@@ -11,7 +11,12 @@ interface Props {}
 
 const date = new Date();
 
-const logos = [<FacebookOutlined />, <YouTube />, <Twitter />, <Instagram />];
+const logos = [
+	<FacebookOutlined key={1} />,
+	<YouTube key={2} />,
+	<Twitter key={3} />,
+	<Instagram key={4} />,
+];
 
 const Footer = (props: Props) => {
 	return (

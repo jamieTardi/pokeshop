@@ -77,7 +77,7 @@ const MyDetails = () => {
 				<p className={styles.cardBlurb}>
 					We do not store any of your credit card or debit card details, all
 					payments are securely handled externally by{' '}
-					<a href='https://stripe.com/gb' target='_blank'>
+					<a href='https://stripe.com/gb' target='_blank' rel='noreferrer'>
 						stripe
 					</a>
 				</p>

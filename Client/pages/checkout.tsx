@@ -32,7 +32,7 @@ interface address {
 
 const steps = ['Shipping address', 'Payment details'];
 
-function getStepContent(step: number) {
+function GetStepContent(step: number) {
 	const [address, setAddress] = useState<address>({
 		firstName: '',
 		lastName: '',
@@ -99,7 +99,7 @@ export default function Checkout() {
 							</React.Fragment>
 						) : (
 							<React.Fragment>
-								{getStepContent(activeStep)}
+								{GetStepContent(activeStep)}
 								<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 									{activeStep !== 0 && (
 										<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

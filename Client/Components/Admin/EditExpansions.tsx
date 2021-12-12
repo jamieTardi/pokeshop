@@ -226,6 +226,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 									{category?.map((item: any) => (
 										<option
 											value={item}
+											key={item.category}
 											onClick={(e) => {
 												handleClick(e, item);
 											}}>
@@ -280,6 +281,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 									{expansion?.map((item) => (
 										<option
 											value={item.expansion}
+											key={item.expansion}
 											onClick={(e) => {
 												handleClick(e, item);
 											}}>
