@@ -17,6 +17,7 @@ const style = {
 		height: '90%',
 		bgcolor: 'white',
 		border: '2px solid #000',
+		background: 'white',
 		boxShadow: 24,
 		p: 4,
 		['@media (max-width:780px)']: {
@@ -32,7 +33,7 @@ const style = {
 interface props {
 	setOpenEdit: Function;
 	openEdit: boolean;
-	currentProduct: object;
+	currentProduct: any;
 	setProducts: Function;
 }
 
@@ -59,18 +60,20 @@ export default function EditModal({
 				onClose={(event, reason) => handleClose(event, reason)}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'>
-				<Box sx={style.box}>
+				<>
 					<div style={{ display: 'flex', justifyContent: 'end' }}>
 						<Button variant='text' onClick={() => setOpenEdit(false)}>
 							<CloseIcon />
 						</Button>
 					</div>
-					<AddProduct
-						setOpenEdit={setOpenEdit}
-						currentProduct={currentProduct}
-						setProducts={setProducts}
-					/>
-				</Box>
+					{currentProduct && currentProduct !== undefined && (
+						<AddProduct
+							setOpenEdit={setOpenEdit}
+							currentProduct={currentProduct}
+							setProducts={setProducts}
+						/>
+					)}
+				</>
 			</Modal>
 		</div>
 	);
