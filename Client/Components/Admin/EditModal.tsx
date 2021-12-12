@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AddProduct from '../../Components/Admin/AddProduct';
 import CloseIcon from '@mui/icons-material/Close';
+import styles from '../../styles/Admin.module.scss';
 
 const style = {
 	modal: {
@@ -53,10 +54,11 @@ export default function EditModal({
 	};
 
 	return (
-		<div>
+		<div style={{ background: '#fff' }}>
 			<Modal
 				open={openEdit}
 				sx={style.modal}
+				BackdropProps={{ style: { backgroundColor: 'white' } }}
 				onClose={(event, reason) => handleClose(event, reason)}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'>
