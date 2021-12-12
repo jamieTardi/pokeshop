@@ -5,7 +5,7 @@ export interface orders {
 	orderDate: string;
 	total: string;
 	name: string;
-
+	isShipped: boolean;
 	customer: {
 		addressLineOne: string;
 		firstName: string;

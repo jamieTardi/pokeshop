@@ -96,10 +96,11 @@ const Layout = ({ children }: any) => {
 
 	return (
 		<>
-			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
-			<div className={`${styles.container} ${styles.whiteText}`}>
-				{mobileSize ? <MobileNav /> : <Nav />}
-				{children}
+			<div>
+				<div className={`${styles.whiteText} ${styles.containerPadding}`}>
+					{mobileSize ? <MobileNav /> : <Nav />}
+					{children}
+				</div>
 				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
 					<Footer />
 				</footer>

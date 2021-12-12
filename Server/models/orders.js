@@ -7,6 +7,7 @@ const ordersSchema = mongoose.Schema({
 	total: { type: String, required: true },
 	orderDate: { type: Date, required: true },
 	totalRaw: { type: Number, required: true },
+	isShipped: { type: Boolean, required: true },
 });
 
 export default mongoose.model('Orders', ordersSchema);

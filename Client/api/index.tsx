@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { apiResolver } from 'next/dist/server/api-utils';
 
-const API = axios.create({
-	baseURL: 'http://localhost:5001',
-});
-
 // const API = axios.create({
-// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// 	baseURL: 'http://localhost:5001',
 // });
+
+const API = axios.create({
+	baseURL: 'https://poke-decks-uk.herokuapp.com',
+});
 
 //users
 
@@ -218,6 +218,12 @@ export const createOrder = (
 		.catch((err) => console.log(err));
 };
 
+export const deleteOrder = (id: string, setDeleteMessage: Function) => {
+	API.delete(`/orders/delete/${id}`)
+		.then((res) => setDeleteMessage(res.data.message))
+		.catch((err) => setDeleteMessage(err.message));
+};
+
 export const getAllOrders = (setOrders: Function, setIsLoading: Function) => {
 	API.get('/orders')
 		.then((res) => setOrders(res.data))
@@ -239,5 +245,16 @@ export const getWeeklyTotals = (
 	API.get('/orders/weekly')
 		.then((res) => setWeeklyTotals(res.data))
 		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err));
+};
+
+export const updateShipping = (
+	id: string,
+	customer: object,
+	setCurrentCustomer: Function,
+) => {
+	API.patch(`/orders/shipping/${id}`, customer)
+		.then((res) => console.log(res))
+		.then(() => setCurrentCustomer({ ...customer, isShipped: true }))
 		.catch((err) => console.log(err));
 };

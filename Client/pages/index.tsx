@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '../Redux/hooks';
 import { RootState } from '../Redux/store';
 import { isMobileChange } from '../Redux/slices/mobileSlice';
+import Footer from '../Components/Sections/Footer';
 
 const Home: NextPage = () => {
 	const router = useRouter();
@@ -88,28 +89,28 @@ const Home: NextPage = () => {
 					href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
 				/>
 			</Head>
-			{/* <div className={`${styles.backgroundcustom} ${styles.whiteText}`} /> */}
+			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
+			<div className={`${styles.container} ${styles.whiteText}`}>
+				<div className={styles.canvas} />
 
-			<div className={styles.canvas} />
-
-			<div style={{ marginTop: '5%' }}>
-				<GlassCardHero />
-			</div>
-			<div className={styles.heroContainer}>
-				<div className={styles.flexBetween}>
-					<Image src={Eevee} height={250} width={270} />
+				<div style={{ marginTop: '5%' }}>
+					<GlassCardHero />
+				</div>
+				<div className={styles.heroContainer}>
+					<div className={styles.flexBetween}>
+						<Image src={Eevee} height={250} width={270} />
+					</div>
+					<div>
+						<Image src={HeroPic} height={350} width={340} />
+					</div>
 				</div>
 				<div>
-					<Image src={HeroPic} height={350} width={340} />
+					<HomeSectionTwo />
+				</div>
+				<div>
+					<About />
 				</div>
 			</div>
-			<div>
-				<HomeSectionTwo />
-			</div>
-			<div>
-				<About />
-			</div>
-
 			<div className={`${styles.backgroundcustom2} ${styles.whiteText}`}></div>
 		</>
 	);

@@ -1,10 +1,10 @@
+import { shipping } from '../lib/variables.js';
 export const getCartTotal = async (req, res) => {
 	const { cart } = req.query;
 
 	let items = new Array();
 	let total = new Array();
 	let cartTotal = 0;
-	let shipping = 1;
 	let finalTotal = 0;
 
 	try {

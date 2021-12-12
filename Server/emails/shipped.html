@@ -1,0 +1,51 @@
+<style>
+	table {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	td,
+	th {
+		border: 1px solid #dddddd;
+		text-align: left;
+		padding: 8px;
+	}
+
+	tr:nth-child(even) {
+		background-color: #dddddd;
+	}
+</style>
+
+<h2>Hello {{username}}! Your order has just shipped!</h2>
+
+<p>Your order number is: {{orderNumber}}</p>
+
+<p>The items you have ordered are:</p>
+<table>
+	<tr>
+		<th>SKU</th>
+		<th>Item Name</th>
+		<th>Item price</th>
+	</tr>
+	{{#items}}
+	<tr>
+		<td>{{SKU}}</td>
+		<td>{{title}}</td>
+		<td>{{price}}</td>
+	</tr>
+	{{/items}}
+</table>
+
+<p>The shipping for this order was: {{shippingStr}}</p>
+
+<p>The total including shipping for this order was: {{total}}</p>
+
+<p>
+	You can expect it in the next 3-4 days at the latest. If you require and
+	further information please contact us on this email address.
+</p>
+
+<p>Thank you for your custom and we will see you soon!</p>
+
+<p>Poke decks team</p>

@@ -6,27 +6,14 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import { TableRow, Button } from '@mui/material';
 import Title from './Title';
-import { getAllOrders } from '../../../api';
+import { deleteOrder, getAllOrders } from '../../../api';
 import { CircularProgress } from '@mui/material';
 import CustomPagination from '../../UIComponents/CustomPagination';
 import CustomerModal from './CustomerModal';
 import { orders, item } from '../../../Interfaces/Orders';
-
-// Generate Order Data
-function createData(
-	id: number,
-	date: string,
-	name: string,
-	shipTo: string,
-
-	amount: number,
-) {
-	return { id, date, name, shipTo, amount };
-}
-
-function preventDefault(event: React.MouseEvent) {
-	event.preventDefault();
-}
+import AdminModal from '../../General/AdminModal';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function Orders() {
 	const [orders, setOrders] = useState<null | Array<orders>>(null);
@@ -36,6 +23,8 @@ export default function Orders() {
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [open, setOpen] = useState<boolean>(false);
 	const [currentCustomer, setCurrentCustomer] = useState<orders | null>(null);
+	const [deleteTxt, setDeleteTxt] = useState<string>('');
+	const [adminOpen, setAdminOpen] = useState<boolean>(false);
 
 	//logic for pagination
 	const indexOfLastPage = currentPage * itemsPerPage;
@@ -49,7 +38,11 @@ export default function Orders() {
 		setOpen((prev: any) => !prev);
 	};
 
-	console.log(currentCustomer);
+	const handleDelete = (customer: orders) => {
+		deleteOrder(customer._id, setDeleteTxt);
+		getAllOrders(setOrders, setIsLoading);
+		setAdminOpen(true);
+	};
 
 	//UseEffects
 
@@ -73,9 +66,10 @@ export default function Orders() {
 							<TableCell>Order No</TableCell>
 							<TableCell>Email</TableCell>
 							<TableCell>Ship To</TableCell>
-							<TableCell>View Order</TableCell>
-
 							<TableCell>Sale Amount</TableCell>
+							<TableCell>Shipped</TableCell>
+							<TableCell>View Order</TableCell>
+							<TableCell>Delete Order</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -86,24 +80,29 @@ export default function Orders() {
 								<TableCell>
 									{row.customer.firstName + ' ' + row.customer.lastName}
 								</TableCell>
-								{/* <TableCell>
-									{row.customer.addressLineOne +
-										', \n' +
-										row.customer.city +
-										', \n' +
-										row.customer.county +
-										', \n' +
-										row.customer.postCode +
-										', \n' +
-										row.customer.country}
-								</TableCell> */}
+
 								<TableCell>{`${row.total}`}</TableCell>
+								<TableCell>
+									{row.isShipped ? (
+										<CheckCircleOutlineIcon color='success' />
+									) : (
+										<CancelIcon color='error' />
+									)}
+								</TableCell>
 								<TableCell>
 									<Button
 										variant='contained'
 										color='warning'
 										onClick={() => handleOpenModal(row)}>
 										View
+									</Button>
+								</TableCell>
+								<TableCell>
+									<Button
+										variant='contained'
+										color='error'
+										onClick={() => handleDelete(row)}>
+										Delete
 									</Button>
 								</TableCell>
 							</TableRow>
@@ -115,12 +114,20 @@ export default function Orders() {
 					/>
 				</Table>
 				{currentCustomer && currentCustomer !== undefined && (
-					<CustomerModal
-						open={open}
-						setOpen={setOpen}
-						currentCustomer={currentCustomer}
-					/>
+					<>
+						<CustomerModal
+							open={open}
+							setOpen={setOpen}
+							currentCustomer={currentCustomer}
+							setCurrentCustomer={setCurrentCustomer}
+						/>
+					</>
 				)}
+				<AdminModal
+					open={adminOpen}
+					setOpen={setAdminOpen}
+					infoText={deleteTxt}
+				/>
 			</>
 		);
 	} else {

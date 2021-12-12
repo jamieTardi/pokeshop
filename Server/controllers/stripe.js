@@ -1,6 +1,7 @@
 import products from '../models/products.js';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
+import { shipping } from '../lib/variables.js';
 
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -9,7 +10,6 @@ const calculateOrderAmount = (cartItems) => {
 	let items = new Array();
 	let total = new Array();
 	let cartTotal = 0;
-	let shipping = 1;
 	let finalTotal = 0;
 
 	cartItems.forEach((item) => {

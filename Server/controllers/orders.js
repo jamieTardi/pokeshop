@@ -2,6 +2,19 @@ import orders from '../models/orders.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import * as fs from 'fs';
+import { shipping } from '../lib/variables.js';
+
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		type: 'OAuth2',
+		user: process.env.MAIL_USERNAME,
+		pass: process.env.MAIL_PASSWORD,
+		clientId: process.env.OAUTH_CLIENTID,
+		clientSecret: process.env.OAUTH_CLIENT_SECRET,
+		refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+	},
+});
 
 export const addOrder = async (req, res) => {
 	const allItems = req.body;
@@ -47,23 +60,12 @@ export const addOrder = async (req, res) => {
 			total,
 			totalRaw: req.query.total,
 			orderDate: currentDate,
+			isShipped: false,
 		});
 
 		//Email System for orders
 
 		//Email specfic variables
-
-		let transporter = nodemailer.createTransport({
-			service: 'gmail',
-			auth: {
-				type: 'OAuth2',
-				user: process.env.MAIL_USERNAME,
-				pass: process.env.MAIL_PASSWORD,
-				clientId: process.env.OAUTH_CLIENTID,
-				clientSecret: process.env.OAUTH_CLIENT_SECRET,
-				refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-			},
-		});
 
 		//Email logic for order
 		fs.readFile(
@@ -80,12 +82,49 @@ export const addOrder = async (req, res) => {
 						total,
 						orderDate: currentDate,
 						items: orderedItems,
+						shippingPrice: shipping,
 					};
+					let mailList = [address.email];
 					let htmlToSend = template(data);
 					let mailOptions = {
 						from: process.env.MAIL_USERNAME,
-						to: address.email,
+						to: mailList,
 						subject: 'Your order from Poke Decks!',
+						html: htmlToSend,
+					};
+					transporter.sendMail(mailOptions, function (error, info) {
+						if (error) {
+							console.log(error);
+						} else {
+							console.log('Email sent: ' + info.response);
+						}
+					});
+				}
+			},
+		);
+
+		fs.readFile(
+			'emails/emailAlert.html',
+			{ encoding: 'utf-8' },
+			function (err, html) {
+				if (err) {
+					console.log(err);
+				} else {
+					let template = handlebars.compile(html);
+					let data = {
+						username: address.firstName,
+						orderNumber,
+						total,
+						orderDate: currentDate,
+						items: orderedItems,
+						shippingPrice: shipping,
+					};
+					let mailList = ['laura.walpole.173@gmail.com'];
+					let htmlToSend = template(data);
+					let mailOptions = {
+						from: process.env.MAIL_USERNAME,
+						to: mailList,
+						subject: 'New order alert!',
 						html: htmlToSend,
 					};
 					transporter.sendMail(mailOptions, function (error, info) {
@@ -184,5 +223,68 @@ export const getDailyTotals = async (req, res) => {
 		res.status(201).json({ totals });
 	} catch (err) {
 		res.status(500).json({ message: 'Calculation has gone wrong....' });
+	}
+};
+
+export const deleteOrder = async (req, res) => {
+	const { id } = req.params;
+
+	try {
+		await orders.findByIdAndDelete(id);
+		res.status(203).json({ message: 'Item deleted from database! 🔥' });
+	} catch (err) {
+		res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const updateShipping = async (req, res) => {
+	const { id } = req.params;
+	const currentOrder = req.body;
+
+	const shippingStr = '£' + shipping.toString() + '.00';
+
+	try {
+		const update = await orders.findByIdAndUpdate(id, {
+			...currentOrder,
+			isShipped: true,
+		});
+
+		fs.readFile(
+			'emails/shipped.html',
+			{ encoding: 'utf-8' },
+			function (err, html) {
+				if (err) {
+					console.log(err);
+				} else {
+					let template = handlebars.compile(html);
+					let data = {
+						username: currentOrder.customer.firstName,
+						orderNumber: currentOrder.orderNo,
+						shippingStr,
+						items: currentOrder.items,
+						total: currentOrder.total,
+					};
+					let mailList = [currentOrder.customer.email];
+					let htmlToSend = template(data);
+					let mailOptions = {
+						from: process.env.MAIL_USERNAME,
+						to: mailList,
+						subject: 'Your order from Poke Decks has shipped!',
+						html: htmlToSend,
+					};
+					transporter.sendMail(mailOptions, function (error, info) {
+						if (error) {
+							console.log(error);
+						} else {
+							console.log('Email sent: ' + info.response);
+						}
+					});
+				}
+			},
+		);
+
+		res.status(203).json(update);
+	} catch (err) {
+		res.status(500).json({ message: 'Somthing has gone wrong...' });
 	}
 };

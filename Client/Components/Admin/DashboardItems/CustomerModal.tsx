@@ -8,11 +8,13 @@ import Typography from '@mui/material/Typography';
 import { orders, item } from '../../../Interfaces/Orders';
 import MiniTable from './MiniTable';
 import CloseIcon from '@mui/icons-material/Close';
+import { updateShipping } from '../../../api';
 
 interface props {
 	open: boolean;
 	setOpen: Function;
 	currentCustomer: orders;
+	setCurrentCustomer: Function;
 }
 
 const style = {
@@ -31,9 +33,14 @@ export default function TransitionsModal({
 	open,
 	setOpen,
 	currentCustomer,
+	setCurrentCustomer,
 }: props) {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const handleShipping = () => {
+		updateShipping(currentCustomer._id, currentCustomer, setCurrentCustomer);
+	};
 
 	return (
 		<div>
@@ -84,21 +91,21 @@ export default function TransitionsModal({
 						</Typography>
 						<Typography id='transition-modal-description' sx={{ mt: 2 }}>
 							Order
-							{/* {currentCustomer.items.map((item: item) => (
-								<>
-									<p>{item.title}</p>
-									<p>{item.SKU}</p>
-									<p>{item.price}</p>
-								</>
-							))} */}
 						</Typography>
 						<MiniTable currentCustomer={currentCustomer.items} />
-						<Button
-							variant='contained'
-							color='primary'
-							sx={{ marginTop: '5%' }}>
-							Ship Items
-						</Button>
+						{currentCustomer.isShipped ? (
+							<Typography id='transition-modal-description' sx={{ mt: 2 }}>
+								This order has shipped!
+							</Typography>
+						) : (
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={handleShipping}
+								sx={{ marginTop: '5%' }}>
+								Ship Items
+							</Button>
+						)}
 					</Box>
 				</Fade>
 			</Modal>
