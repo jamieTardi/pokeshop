@@ -166,7 +166,7 @@ function DashboardContent() {
 								? theme.palette.grey[100]
 								: theme.palette.grey[900],
 						flexGrow: 1,
-						height: '100vh',
+						height: '100%',
 						overflow: 'auto',
 					}}>
 					<Toolbar />

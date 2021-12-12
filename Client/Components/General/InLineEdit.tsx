@@ -48,7 +48,7 @@ const InLineEdit = ({
 			event.key === 'Escape' ||
 			event.key === 'Tab'
 		) {
-			event.target.blur();
+			event.target.parentNode.blur();
 		}
 	};
 
