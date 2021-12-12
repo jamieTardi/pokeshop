@@ -13,7 +13,9 @@ export const GlassCardHero = (props: Props) => {
 	const isMobile = useAppSelector((state: RootState) => state.isMobile.value);
 	return (
 		<div className={styles.glassCard}>
-			<h1 className={styles.blackText}>Pokémon cards</h1>
+			<h1 className={!isMobile ? styles.blackText : styles.whiteText}>
+				Pokémon cards
+			</h1>
 			<p className={styles.largePara}>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, ipsa! Est
 				quam minima voluptatum rerum quidem, vero, amet quae hic atque ex nihil

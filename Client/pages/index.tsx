@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import Nav from '../Components/General/Nav';
+
 import styles from '../styles/Home.module.scss';
 import { GlassCardHero } from '../Components/UIComponents/GlassCardHero';
 import Image from 'next/image';
@@ -9,7 +9,7 @@ import HeroPic from '../Images/hero.png';
 import Eevee from '../Images/eevee.png';
 import { HomeSectionTwo } from '../Components/Sections/HomeSectionTwo';
 import About from '../Components/Sections/About';
-import { useDispatch } from 'react-redux';
+
 import { updateUser } from '../Redux/slices/userSlice';
 import { getUsers } from '../api';
 import { useRouter } from 'next/router';

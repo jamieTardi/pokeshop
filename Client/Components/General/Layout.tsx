@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { isMobileChange } from '../../Redux/slices/mobileSlice';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import { KeepSignedIn } from '../../Redux/slices/authSlice';
+import mobileStyles from '../../styles/Background.module.scss';
 
 interface Props {}
 
@@ -96,17 +97,51 @@ const Layout = ({ children }: any) => {
 
 	return (
 		<>
-			<div>
-				<div className={styles.whiteText}>
-					{mobileSize ? <MobileNav /> : <Nav />}
+			{mobileSize && (
+				<>
+					<div className={mobileStyles.context}></div>
+
+					<div className={mobileStyles.area}>
+						<ul className={mobileStyles.circles}>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+						<div className={styles.whiteText}>
+							{mobileSize ? <MobileNav /> : <Nav />}
+						</div>
+						<div className={`${styles.whiteText} ${styles.containerPadding}`}>
+							{children}
+						</div>
+						<footer className={`${styles.blackText} ${styles.footerContainer}`}>
+							<Footer />
+						</footer>
+					</div>
+				</>
+			)}
+			{!mobileSize && (
+				<div>
+					<>
+						{' '}
+						<div className={styles.whiteText}>
+							{mobileSize ? <MobileNav /> : <Nav />}
+						</div>
+						<div className={`${styles.whiteText} ${styles.containerPadding}`}>
+							{children}
+						</div>
+						<footer className={`${styles.blackText} ${styles.footerContainer}`}>
+							<Footer />
+						</footer>
+					</>
 				</div>
-				<div className={`${styles.whiteText} ${styles.containerPadding}`}>
-					{children}
-				</div>
-				<footer className={`${styles.blackText} ${styles.footerContainer}`}>
-					<Footer />
-				</footer>
-			</div>
+			)}
 		</>
 	);
 };

@@ -2,10 +2,14 @@ import Image from 'next/image';
 import Venusaur from '../../Images/pokeGroup.png';
 import styles from '../../styles/Home.module.scss';
 import Cards from '../../Images/pokemon-card-image.png';
+import { useAppSelector } from '../../Redux/hooks';
+import { RootState } from '../../Redux/store';
 
 interface Props {}
 
 const About = (props: Props) => {
+	const isMobile = useAppSelector((state: RootState) => state.isMobile.value);
+
 	return (
 		<>
 			<div className={styles.aboutGrid}>
@@ -13,7 +17,12 @@ const About = (props: Props) => {
 					<Image src={Venusaur} alt='pokemon' height={350} width={600} />
 				</div>
 
-				<div className={`${styles.blackText} ${styles.aboutItem2}`}>
+				<div
+					className={
+						isMobile
+							? `${styles.whiteText} ${styles.aboutItem2}`
+							: `${styles.blackText} ${styles.aboutItem2}`
+					}>
 					<p
 						style={{
 							textAlign: 'center',
@@ -32,7 +41,12 @@ const About = (props: Props) => {
 					</p>
 				</div>
 
-				<div className={`${styles.blackText} ${styles.aboutItem3}`}>
+				<div
+					className={
+						isMobile
+							? `${styles.whiteText} ${styles.aboutItem3}`
+							: `${styles.blackText} ${styles.aboutItem3}`
+					}>
 					<p
 						style={{
 							textAlign: 'center',

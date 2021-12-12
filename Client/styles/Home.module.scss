@@ -208,6 +208,12 @@
 	color: rgb(66, 84, 102);
 }
 
+@media (max-width: 1000px) {
+	.largePara {
+		color: #c8cfd5;
+	}
+}
+
 //background
 .backgroundcustom {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
