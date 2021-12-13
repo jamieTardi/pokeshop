@@ -5,7 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import { getUser, updateUser } from '../../api';
 import styles from '../../styles/Account.module.scss';
-import { Button } from '@mui/material';
+import {
+	Button,
+	Grid,
+	TextField,
+	Checkbox,
+	FormControlLabel,
+} from '@mui/material';
 
 interface currentUser {
 	currentUser: object;
@@ -15,6 +21,7 @@ interface currentUser {
 	lastName: string;
 	email: string;
 	phoneNo: string;
+	isPromtions: boolean;
 	address: {
 		addressLineOne: string;
 		city: string;
@@ -37,7 +44,8 @@ const MyDetails = () => {
 	const user = useAppSelector((state: RootState) => state.auth.value);
 
 	//General logic
-	const handleUpdate = () => {
+	const handleUpdate = (e: any) => {
+		e.preventDefault();
 		setIsLoading(true);
 		if (currentUser) {
 			updateUser(currentUser._id, currentUser, setIsLoading);
@@ -47,6 +55,8 @@ const MyDetails = () => {
 			setInfoTxt('');
 		}, 2500);
 	};
+
+	console.log(currentUser);
 
 	//UseEffects
 
@@ -70,9 +80,8 @@ const MyDetails = () => {
 			<>
 				<h3>My Personal and delivery details</h3>
 				<p>
-					To edit your details please click on the area you wish to edit and
-					once finished editing each box press enter or click off. Finally press
-					update details to confirm.
+					To edit your details please click on the area you wish to edit.
+					Finally press update details to confirm.
 				</p>
 				<p className={styles.cardBlurb}>
 					We do not store any of your credit card or debit card details, all
@@ -82,159 +91,199 @@ const MyDetails = () => {
 					</a>
 				</p>
 				{currentUser ? (
-					<div className={styles.gridContainer}>
-						<div
-							className={styles.itemOne}
-							onClick={() => {
-								setType('First');
-							}}>
-							<p className={styles.smallFont}>First Name:</p>{' '}
-							<InLineEdit
-								value={value}
-								setValue={setValue}
-								type={type}
-								currentUser={currentUser}
-								setCurrentUser={setCurrentUser}
-								currentValue={currentUser.firstName}
-							/>
-						</div>
-						<div
-							className={styles.itemTwo}
-							onClick={() => {
-								setType('Second');
-							}}>
-							<p className={styles.smallFont}>Last Name:</p>{' '}
-							<InLineEdit
-								value={value}
-								setValue={setValue}
-								type={type}
-								currentUser={currentUser}
-								setCurrentUser={setCurrentUser}
-								currentValue={currentUser.lastName}
-							/>
-						</div>
-						<div
-							onClick={() => {
-								setType('Third');
-							}}>
-							<p className={styles.smallFont}>Email:</p>{' '}
-							<InLineEdit
-								value={value}
-								setValue={setValue}
-								type={type}
-								currentUser={currentUser}
-								setCurrentUser={setCurrentUser}
-								currentValue={currentUser.email}
-							/>
-						</div>
+					<form onSubmit={(e) => handleUpdate(e)}>
+						<Grid container spacing={3}>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									required
+									id='firstName'
+									name='firstName'
+									label='First name'
+									fullWidth
+									autoComplete='given-name'
+									defaultValue={currentUser.firstName || ''}
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											firstName: e.target.value,
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									required
+									id='lastName'
+									name='lastName'
+									label='Last name'
+									fullWidth
+									defaultValue={currentUser.lastName || ''}
+									autoComplete='family-name'
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											lastName: e.target.value,
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									required
+									id='address1'
+									name='address1'
+									label='Address line 1'
+									defaultValue={currentUser.address.addressLineOne}
+									fullWidth
+									autoComplete='shipping address-line1'
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											address: {
+												...currentUser.address,
+												addressLineOne: e.target.value,
+											},
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									id='address2'
+									name='address2'
+									label='email'
+									defaultValue={currentUser.email}
+									required
+									fullWidth
+									autoComplete='shipping address-line2'
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({ ...currentUser, email: e.target.value });
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									required
+									id='city'
+									name='city'
+									label='City'
+									defaultValue={currentUser.address.city}
+									fullWidth
+									autoComplete='shipping address-level2'
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											address: {
+												...currentUser.address,
+												city: e.target.value,
+											},
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									id='state'
+									name='county'
+									label='County'
+									fullWidth
+									defaultValue={currentUser.address.county}
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											address: {
+												...currentUser.address,
+												county: e.target.value,
+											},
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									required
+									id='zip'
+									name='zip'
+									label='Postal code'
+									fullWidth
+									autoComplete='shipping postal-code'
+									defaultValue={currentUser.address.postCode}
+									variant='standard'
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											address: {
+												...currentUser.address,
+												postCode: e.target.value,
+											},
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									required
+									id='country'
+									name='country'
+									label='Country'
+									fullWidth
+									autoComplete='shipping country'
+									variant='standard'
+									defaultValue={currentUser.address.country}
+									onChange={(e) => {
+										setCurrentUser({
+											...currentUser,
+											address: {
+												...currentUser.address,
+												country: e.target.value,
+											},
+										});
+									}}
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<FormControlLabel
+									control={
+										<Checkbox
+											defaultChecked={currentUser.isPromtions ? true : false}
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+												setCurrentUser({
+													...currentUser,
+													isPromtions: e.target.checked,
+												});
+											}}
+										/>
+									}
+									label='Get promotions and discounts'
+								/>
+							</Grid>
+						</Grid>
 
-						<div
-							onClick={() => {
-								setType('Fourth');
-							}}>
-							<p className={styles.smallFont}>Phone No:</p>{' '}
-							<InLineEdit
-								value={value}
-								setValue={setValue}
-								type={type}
-								currentUser={currentUser}
-								setCurrentUser={setCurrentUser}
-								currentValue={currentUser.phoneNo}
-							/>
-						</div>
-						<div>
-							<p className={styles.smallFont}>Address:</p>{' '}
-							<div
-								onClick={() => {
-									setType('Address One');
-								}}>
-								<span className={styles.smallFont}>
-									House Number and road name:
-								</span>
-								<InLineEdit
-									value={value}
-									setValue={setValue}
-									type={type}
-									currentUser={currentUser}
-									setCurrentUser={setCurrentUser}
-									currentValue={currentUser.address.addressLineOne}
-								/>
-							</div>
-							<div
-								onClick={() => {
-									setType('Address Two');
-								}}>
-								<span className={styles.smallFont}>City:</span>
-								<InLineEdit
-									value={value}
-									setValue={setValue}
-									type={type}
-									currentUser={currentUser}
-									setCurrentUser={setCurrentUser}
-									currentValue={currentUser.address.city}
-								/>
-							</div>
-							<div
-								onClick={() => {
-									setType('Address Three');
-								}}>
-								<span className={styles.smallFont}>County:</span>
-								<InLineEdit
-									value={value}
-									setValue={setValue}
-									type={type}
-									currentUser={currentUser}
-									setCurrentUser={setCurrentUser}
-									currentValue={currentUser.address.county}
-								/>
-							</div>
-							<div
-								onClick={() => {
-									setType('Address Four');
-								}}>
-								<span className={styles.smallFont}>Postcode:</span>
-								<InLineEdit
-									value={value}
-									setValue={setValue}
-									type={type}
-									currentUser={currentUser}
-									setCurrentUser={setCurrentUser}
-									currentValue={currentUser.address.postCode}
-								/>
-							</div>
-							<div
-								onClick={() => {
-									setType('Address Five');
-								}}>
-								<span className={styles.smallFont}>Country:</span>
-								<InLineEdit
-									value={value}
-									setValue={setValue}
-									type={type}
-									currentUser={currentUser}
-									setCurrentUser={setCurrentUser}
-									currentValue={currentUser.address.country}
-								/>
-							</div>
-						</div>
 						<div>
 							<Button
 								variant='contained'
 								color='success'
+								sx={{ marginTop: '3%' }}
 								disabled={isLoading}
-								onClick={handleUpdate}>
+								type='submit'>
 								Update Details
 							</Button>
 							{infoTxt !== '' ? <p> {infoTxt} </p> : ''}
 						</div>
-					</div>
+					</form>
 				) : (
 					<p>loading</p>
 				)}
 			</>
 		);
 	} else {
-		<p>An Error has occured try logging in again!</p>;
+		return <p>An Error has occured try logging in again!</p>;
 	}
 };
 

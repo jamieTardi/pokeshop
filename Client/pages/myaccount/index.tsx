@@ -7,6 +7,7 @@ import { useAppSelector } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import MyDetails from '../../Components/MyAccount/MyDetails';
 import NoUser from '../../Components/General/NoUser';
+import MyOrders from '../../Components/MyAccount/MyOrders';
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -59,17 +60,13 @@ export default function BasicTabs() {
 							aria-label='basic tabs example'>
 							<Tab label='My Details' {...a11yProps(0)} />
 							<Tab label='My Orders' {...a11yProps(1)} />
-							<Tab label='Contact us' {...a11yProps(2)} />
 						</Tabs>
 					</Box>
 					<TabPanel value={value} index={0}>
 						<MyDetails />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
-						Item Two
-					</TabPanel>
-					<TabPanel value={value} index={2}>
-						Item Three
+						<MyOrders />
 					</TabPanel>
 				</Paper>
 			</Box>
