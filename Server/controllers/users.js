@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/users.js';
+import orders from '../models/orders.js';
 import express from 'express';
 import dotenv from 'dotenv';
 
@@ -196,5 +197,22 @@ export const updateUser = async (req, res) => {
 		res.status(204).json({ message: 'Details have been sucessfully updated!' });
 	} catch (err) {
 		res.status(500).json({ message: 'Something has gone wrong' });
+	}
+};
+
+export const getUserOrders = async (req, res) => {
+	const { token } = req.query;
+
+	const findUser = await User.findOne({ refreshToken: token });
+
+	try {
+		const userEmail = findUser.email;
+
+		if (userEmail) {
+			const userOrders = await orders.find({ 'customer.email': userEmail });
+			res.status(203).json(userOrders);
+		}
+	} catch (err) {
+		res.status(500).json({ message: 'Something went wrong find the user...' });
 	}
 };

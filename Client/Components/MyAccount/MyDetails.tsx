@@ -12,6 +12,7 @@ import {
 	Checkbox,
 	FormControlLabel,
 } from '@mui/material';
+import Loading from '../UIComponents/Loading';
 
 interface currentUser {
 	currentUser: object;
@@ -278,12 +279,12 @@ const MyDetails = () => {
 						</div>
 					</form>
 				) : (
-					<p>loading</p>
+					<Loading />
 				)}
 			</>
 		);
 	} else {
-		return <p>An Error has occured try logging in again!</p>;
+		return <Loading />;
 	}
 };
 

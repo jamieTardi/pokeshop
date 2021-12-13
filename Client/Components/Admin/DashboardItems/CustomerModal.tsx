@@ -9,6 +9,7 @@ import { orders, item } from '../../../Interfaces/Orders';
 import MiniTable from './MiniTable';
 import CloseIcon from '@mui/icons-material/Close';
 import { updateShipping } from '../../../api';
+import { useRouter } from 'next/router';
 
 interface props {
 	open: boolean;
@@ -35,12 +36,15 @@ export default function TransitionsModal({
 	currentCustomer,
 	setCurrentCustomer,
 }: props) {
+	const router = useRouter();
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
 	const handleShipping = () => {
 		updateShipping(currentCustomer._id, currentCustomer, setCurrentCustomer);
 	};
+
+	const pathName = router.pathname;
 
 	return (
 		<div>
@@ -93,18 +97,22 @@ export default function TransitionsModal({
 							Order
 						</Typography>
 						<MiniTable currentCustomer={currentCustomer.items} />
-						{currentCustomer.isShipped ? (
-							<Typography id='transition-modal-description' sx={{ mt: 2 }}>
-								This order has shipped!
-							</Typography>
-						) : (
-							<Button
-								variant='contained'
-								color='primary'
-								onClick={handleShipping}
-								sx={{ marginTop: '5%' }}>
-								Ship Items
-							</Button>
+						{pathName !== '/myaccount' && (
+							<>
+								{currentCustomer.isShipped ? (
+									<Typography id='transition-modal-description' sx={{ mt: 2 }}>
+										This order has shipped!
+									</Typography>
+								) : (
+									<Button
+										variant='contained'
+										color='primary'
+										onClick={handleShipping}
+										sx={{ marginTop: '5%' }}>
+										Ship Items
+									</Button>
+								)}
+							</>
 						)}
 					</Box>
 				</Fade>

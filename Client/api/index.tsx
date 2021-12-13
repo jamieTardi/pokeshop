@@ -42,6 +42,12 @@ export const getUser = (token: string, setCurrentUser: Function) => {
 		.catch((err) => console.log(err));
 };
 
+export const getUserOrders = (token: string, setUserOrders: Function) => {
+	API.get('/users/user-orders', { params: { token } })
+		.then((res) => setUserOrders(res.data))
+		.catch((err) => console.log(err));
+};
+
 export const updateUser = (
 	id: string,
 	details: object,

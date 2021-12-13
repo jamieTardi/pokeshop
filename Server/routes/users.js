@@ -8,6 +8,7 @@ import {
 	checkUsers,
 	getCurrentUser,
 	updateUser,
+	getUserOrders,
 } from '../controllers/users.js';
 
 const router = express.Router();
@@ -19,5 +20,6 @@ router.patch('/cart/:id', updateCart);
 router.patch('/user/:email');
 router.patch('/check-users/:token', checkUsers);
 router.get('/current-user', getCurrentUser);
+router.get('/user-orders', getUserOrders);
 router.patch('/update-user/:id', updateUser);
 export default router;

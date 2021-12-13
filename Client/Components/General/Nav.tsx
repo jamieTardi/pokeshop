@@ -6,10 +6,8 @@ import styles from '../../styles/Home.module.scss';
 import Image from 'next/image';
 import { Badge } from '@mui/material';
 import Logo from '../../Images/pokeLogo.png';
-import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../../Redux/slices/userSlice';
 import { RootState } from '../../Redux/store';
-import Dashboard from '../Admin/DashboardItems/Dashboard';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -21,9 +19,10 @@ const Nav = () => {
 		(state: RootState) => state.user.value,
 	);
 	const cart: any = useAppSelector((state: RootState) => state.cart.value);
+	const isUser = useAppSelector((state: RootState) => state.user.value);
 	const isAdmin = useAppSelector((state: RootState) => state.isAdmin.value);
 	const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-	let navItems: string[] = ['My Account', 'News', 'shop', 'Contact'];
+	let navItems: string[] = ['News', 'shop', 'Contact'];
 
 	const handleLogout = () => {
 		dispatch({ type: logoutUser });
@@ -66,6 +65,11 @@ const Nav = () => {
 				{isAdmin && (
 					<li className={styles.navitems}>
 						<Link href='/admin'>Dashboard</Link>
+					</li>
+				)}
+				{isUser && (
+					<li className={styles.navitems}>
+						<Link href='/myaccount'>My Account</Link>
 					</li>
 				)}
 				<Link href='/cart'>

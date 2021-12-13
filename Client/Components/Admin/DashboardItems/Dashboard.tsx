@@ -17,27 +17,10 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './ListItems';
+import { mainListItems, secondaryListItems, generalItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-
-function Copyright(props: any) {
-	return (
-		<Typography
-			variant='body2'
-			color='text.secondary'
-			align='center'
-			{...props}>
-			{'Copyright © '}
-			<Link color='inherit' href='https://mui.com/'>
-				Poke-decks
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
 
 const drawerWidth: number = 240;
 
@@ -67,7 +50,7 @@ const Drawer = styled(MuiDrawer, {
 	shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
 	'& .MuiDrawer-paper': {
-		position: '',
+		position: 'absolute',
 		whiteSpace: 'nowrap',
 		width: drawerWidth,
 		transition: theme.transitions.create('width', {
@@ -157,6 +140,8 @@ function DashboardContent() {
 					<List>{mainListItems}</List>
 					<Divider />
 					<List>{secondaryListItems}</List>
+					<Divider />
+					<List>{generalItems}</List>
 				</Drawer>
 				<Box
 					component='main'
@@ -203,7 +188,6 @@ function DashboardContent() {
 								</Paper>
 							</Grid>
 						</Grid>
-						<Copyright sx={{ pt: 4 }} />
 					</Container>
 				</Box>
 			</Box>

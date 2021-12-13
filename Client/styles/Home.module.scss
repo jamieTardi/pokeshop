@@ -269,6 +269,7 @@
 	margin: 0% 3%;
 	font-size: 0.8rem;
 	font-weight: 700;
+	text-transform: capitalize;
 	&:hover {
 		opacity: 0.5;
 		cursor: pointer;
@@ -428,6 +429,7 @@
 	width: 100vw;
 	padding: 0% 2%;
 	background-color: #0070f3;
+	height: 60px;
 }
 
 @media (max-width: 900px) {

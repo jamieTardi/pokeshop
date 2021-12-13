@@ -12,6 +12,7 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import Link from 'next/dist/client/link';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import HomeIcon from '@mui/icons-material/Home';
 
 export const mainListItems = (
 	<div>
@@ -71,4 +72,18 @@ export const secondaryListItems = (
 			</ListItem>
 		</Link>
 	</div>
+);
+
+export const generalItems = (
+	<>
+		<ListSubheader inset>General</ListSubheader>
+		<Link href='/'>
+			<ListItem button>
+				<ListItemIcon>
+					<HomeIcon />
+				</ListItemIcon>
+				<ListItemText primary='Home' />
+			</ListItem>
+		</Link>
+	</>
 );

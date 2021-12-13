@@ -14,12 +14,12 @@ export const GlassCardHero = (props: Props) => {
 	return (
 		<div className={styles.glassCard}>
 			<h1 className={!isMobile ? styles.blackText : styles.whiteText}>
-				Pokémon cards
+				Welcome to Poké-Decks!
 			</h1>
 			<p className={styles.largePara}>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, ipsa! Est
-				quam minima voluptatum rerum quidem, vero, amet quae hic atque ex nihil
-				animi! Saepe incidunt doloribus suscipit minus aliquam.
+				Make yourself comfortable and browse through our collection of Pokemon
+				TCG products – whether you want to add to your existing collection or
+				focus on the latest expansion we’ve got you covered!
 			</p>
 
 			<Button

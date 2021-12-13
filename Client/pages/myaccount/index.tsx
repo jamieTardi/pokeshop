@@ -43,15 +43,15 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
 	const [value, setValue] = React.useState(0);
-	const user = useAppSelector((state: RootState) => state.user.value);
+	const user = useAppSelector((state: RootState) => state.auth.value);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 
-	if (user) {
+	if (user.token !== '') {
 		return (
-			<Box sx={{ width: '100%' }}>
+			<Box sx={{ width: '100%', margin: '5% 0%' }}>
 				<Paper>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs
