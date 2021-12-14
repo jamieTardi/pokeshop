@@ -1,4 +1,5 @@
 import orders from '../models/orders.js';
+import user from '../models/users.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import * as fs from 'fs';

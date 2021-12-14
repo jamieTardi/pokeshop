@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema({
 
 	isPromtions: { type: Boolean, required: true },
 	refreshToken: { type: String },
+	totalSpend: { type: Number },
 });
 
 export default mongoose.model('User', userSchema);

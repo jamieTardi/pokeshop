@@ -1,4 +1,5 @@
 export interface user {
+	_id: string;
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -7,6 +8,7 @@ export interface user {
 	createdOn: string;
 	lastLogin: string;
 	role: string;
+	totalSpend: number;
 	dob: string;
 	address: {
 		firstName: string;

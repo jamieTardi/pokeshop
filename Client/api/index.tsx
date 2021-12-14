@@ -1,15 +1,23 @@
 import axios from 'axios';
-import { apiResolver } from 'next/dist/server/api-utils';
-
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5001',
-// });
 
 const API = axios.create({
-	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	baseURL: 'http://localhost:5001',
 });
 
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// });
+
 //users
+
+export const getUserTotalSpend = (
+	email: string,
+	setTotal: Function,
+	total: any,
+) =>
+	API.get('/users/total-spend', { params: { email } })
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err));
 
 export const signUp = (formData: object, setIsLoading: Function) =>
 	API.post('/users/signup', formData)

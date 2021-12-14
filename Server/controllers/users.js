@@ -55,6 +55,7 @@ export const signup = async (req, res) => {
 			fullName: `${firstName} ${lastName}`,
 			phoneNo,
 			refreshToken,
+			totalSpend: 0,
 		});
 		const token = jwt.sign({ email: result.email, id: result._id }, key);
 		res.status(200).json({ result: result, token });
@@ -214,5 +215,46 @@ export const getUserOrders = async (req, res) => {
 		}
 	} catch (err) {
 		res.status(500).json({ message: 'Something went wrong find the user...' });
+	}
+};
+
+export const getTotalSpend = async (req, res) => {
+	const { email } = req.query;
+
+	let findPurchases = await orders.find({ 'customer.email': email });
+
+	if (!findPurchases) {
+		res.status(200).json(0);
+	}
+
+	try {
+		let total = 0;
+
+		findPurchases.forEach((item) => (total += item.totalRaw));
+
+		const user = await User.findOne({ email });
+
+		const { _id } = user;
+
+		const updateUser = await User.findByIdAndUpdate(_id, {
+			firstName: user.firstName,
+			lastName: user.lastName,
+			fullName: user.fullName,
+			email: user.email,
+			address: user.address,
+			password: user.password,
+			phoneNo: user.phoneNo,
+			createdOn: user.createdOn,
+			lastLogin: '',
+			role: user.role,
+			dob: '',
+			isPromtions: user.isPromtions,
+			refreshToken: user.refreshToken,
+			totalSpend: total,
+		});
+
+		res.status(200).json({ updateUser });
+	} catch (err) {
+		res.status(500).json({ message: 'Something weont wrong...' });
 	}
 };

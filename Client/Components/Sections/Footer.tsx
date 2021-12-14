@@ -6,16 +6,21 @@ import {
 	Instagram,
 } from '@mui/icons-material';
 import styles from '../../styles/Home.module.scss';
+import Link from 'next/link';
 
 interface Props {}
 
 const date = new Date();
 
 const logos = [
-	<FacebookOutlined key={1} />,
+	<a href=''>
+		<FacebookOutlined key={1} />
+	</a>,
 	<YouTube key={2} />,
 	<Twitter key={3} />,
-	<Instagram key={4} />,
+	<a href='https://www.instagram.com/poke.decks.uk/'>
+		<Instagram key={4} />
+	</a>,
 ];
 
 const Footer = (props: Props) => {
@@ -36,7 +41,11 @@ const Footer = (props: Props) => {
 			<div className={styles.footerGridItem3}>
 				<h5>Further Information</h5>
 				<ul>
-					<li>Privacy Policy</li>
+					<li>
+						<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
+							Privacy Policy
+						</a>
+					</li>
 					<li>Terms and Conditions</li>
 				</ul>
 			</div>

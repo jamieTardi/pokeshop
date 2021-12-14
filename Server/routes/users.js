@@ -9,11 +9,13 @@ import {
 	getCurrentUser,
 	updateUser,
 	getUserOrders,
+	getTotalSpend,
 } from '../controllers/users.js';
 
 const router = express.Router();
 
 router.get('/', getAllUsers);
+router.get('/total-spend', getTotalSpend);
 router.post('/signup', signup);
 router.post('/signin', signin);
 router.patch('/cart/:id', updateCart);
