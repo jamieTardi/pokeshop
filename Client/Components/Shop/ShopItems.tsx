@@ -223,7 +223,7 @@ const ShopItems = () => {
 					{/* End hero unit */}
 					<Grid container spacing={4}>
 						{currentProducts ? (
-							currentProducts.map((card: item, i) => (
+							currentProducts.map((card: any, i) => (
 								<Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
 									<Card
 										sx={{
@@ -234,7 +234,7 @@ const ShopItems = () => {
 										}}>
 										<CardMedia
 											component='img'
-											sx={{ height: '250px' }}
+											sx={{ height: '250px', objectFit: 'contain' }}
 											image={
 												card.image === '' ||
 												!card.image ||

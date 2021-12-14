@@ -127,10 +127,11 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 														style={{
 															background: `url(${item})`,
 															height: '500px',
-															width: '90%',
+															width: '100%',
 															marginLeft: '5%',
 															backgroundPosition: 'center',
-															backgroundSize: 'cover',
+															backgroundSize: 'contain',
+															backgroundRepeat: 'no-repeat',
 														}}
 													/>
 												))}

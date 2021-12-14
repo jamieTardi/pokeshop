@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const API = axios.create({
-	baseURL: 'http://localhost:5001',
-});
-
 // const API = axios.create({
-// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// 	baseURL: 'http://localhost:5001',
 // });
+
+const API = axios.create({
+	baseURL: 'https://poke-decks-uk.herokuapp.com',
+});
 
 //users
 
@@ -271,4 +271,12 @@ export const updateShipping = (
 		.then((res) => console.log(res))
 		.then(() => setCurrentCustomer({ ...customer, isShipped: true }))
 		.catch((err) => console.log(err));
+};
+
+//General
+
+export const sendContact = (form: object, setMessage: Function) => {
+	API.post('/contact', form)
+		.then((res) => setMessage(res.data))
+		.catch((err) => setMessage(err));
 };
