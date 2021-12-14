@@ -231,8 +231,8 @@ export const deleteOrder = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		await orders.findByIdAndDelete(id);
-		res.status(203).json({ message: 'Item deleted from database! 🔥' });
+		const deleted = await orders.findByIdAndDelete(id);
+		res.status(203).json(deleted);
 	} catch (err) {
 		res.status(500).json({ message: 'Something went wrong!' });
 	}

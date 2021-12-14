@@ -13,12 +13,18 @@ interface Props {}
 const date = new Date();
 
 const logos = [
-	<a href=''>
+	<a href='' className={styles.footerSVG}>
 		<FacebookOutlined key={1} />
 	</a>,
-	<YouTube key={2} />,
-	<Twitter key={3} />,
-	<a href='https://www.instagram.com/poke.decks.uk/'>
+	<a href='' className={styles.footerSVG}>
+		<YouTube key={2} />
+	</a>,
+	<a href='' className={styles.footerSVG}>
+		<Twitter key={3} />
+	</a>,
+	<a
+		href='https://www.instagram.com/poke.decks.uk/'
+		className={styles.footerSVG}>
 		<Instagram key={4} />
 	</a>,
 ];

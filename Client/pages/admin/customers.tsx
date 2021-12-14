@@ -86,12 +86,16 @@ export default function Customers() {
 		indexOfLastPage,
 	);
 
-	console.log(csvData);
-
 	if (currentCustomers) {
 		return (
 			<>
-				<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+				<Paper
+					sx={{
+						p: 2,
+						display: 'flex',
+						flexDirection: 'column',
+						margin: '5% 0%',
+					}}>
 					<Title>All Customers</Title>
 					<Table size='small'>
 						<TableHead>

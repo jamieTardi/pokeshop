@@ -25,11 +25,16 @@ export default function Orders() {
 	const [currentCustomer, setCurrentCustomer] = useState<orders | null>(null);
 	const [deleteTxt, setDeleteTxt] = useState<string>('');
 	const [adminOpen, setAdminOpen] = useState<boolean>(false);
+	const [currentProducts, setCurrentProducts] = useState<any>(null);
 
 	//logic for pagination
-	const indexOfLastPage = currentPage * itemsPerPage;
-	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
-	const currentProducts = orders?.slice(indexOfFirstPage, indexOfLastPage);
+	useEffect(() => {
+		if (orders) {
+			const indexOfLastPage = currentPage * itemsPerPage;
+			const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+			setCurrentProducts(orders.slice(indexOfFirstPage, indexOfLastPage));
+		}
+	}, [orders]);
 
 	//General Logic
 
@@ -39,11 +44,14 @@ export default function Orders() {
 	};
 
 	const handleDelete = (customer: orders) => {
+		setCurrentProducts(
+			currentProducts.filter((item: orders) => customer._id !== item._id),
+		);
 		deleteOrder(customer._id, setDeleteTxt);
-		getAllOrders(setOrders, setIsLoading);
 		setAdminOpen(true);
 	};
 
+	console.log(currentProducts);
 	//UseEffects
 
 	useEffect(() => {

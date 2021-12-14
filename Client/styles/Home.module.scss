@@ -354,6 +354,12 @@
 	grid-row: 1;
 }
 
+.footerSVG {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .footerGridItem4 {
 	grid-column: 4 / 5;
 	grid-row: 1;
