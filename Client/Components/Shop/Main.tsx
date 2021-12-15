@@ -105,6 +105,7 @@ export default function Album() {
 					{categories ? (
 						categories.map((card, i) => (
 							<Grid item key={card.category} xs={12} sm={6} md={3}>
+								{console.log(card)}
 								<Card
 									sx={{
 										height: '100%',
@@ -115,10 +116,8 @@ export default function Album() {
 										component='img'
 										sx={{ height: '250px' }}
 										image={
-											card.image === [] || !card.image || card.image === ''
+											card.image === ''
 												? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
-												: card.image[0] !== '' || !card.image[0]
-												? card.image[0]
 												: card.image
 										}
 										alt='random'

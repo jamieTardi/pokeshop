@@ -89,13 +89,13 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 		id: '',
 		category: '',
 		slug: '',
-		image: returnedImage,
+		image: '',
 	});
 
 	const [modifiedExp, setModifiedExp] = useState<expansions>({
 		id: '',
 		expansion: '',
-		image: returnedImage,
+		image: '',
 		slug: '',
 	});
 	const handleOpen = () => setOpenEditExp(true);
@@ -107,6 +107,13 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 		}
 	};
 
+	useEffect(() => {
+		setModifiedExp({ ...modifiedExp, image: returnedImage });
+		setModifiedCat({ ...modifiedCat, image: returnedImage });
+	}, [returnedImage]);
+
+	console.log(modifiedExp);
+
 	const handleImageSend = () => {
 		setIsUpload(true);
 		setReturnedImage('');
@@ -114,8 +121,6 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 			.put(imageURL, file)
 			.then((res) => setReturnedImage(res.request.responseURL.split('?')[0]))
 			.then(() => setIsUpload(false))
-			.then(() => setModifiedCat({ ...modifiedCat, image: returnedImage }))
-			.then(() => setModifiedExp({ ...modifiedExp, image: returnedImage }))
 			.then(() => setImageText('Upload successful 🎉'))
 			.then(() =>
 				setTimeout(() => {
