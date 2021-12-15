@@ -52,11 +52,11 @@ export default function CookiePolicy({ open, setOpen, setCookie }: props) {
 						<Typography id='transition-modal-description' sx={{ mt: 2 }}>
 							On our site we use cookies to store certain pieces of information
 							to ensure you have a good shopping experience. To continue using
-							the site you need accept our cookie policy, if you do not agree to
-							our cookie policy, we cannot offer you the services on this site.
-							No personal information is stored in the client browser storage
-							settings whether that is a cookie or local storage. By clicking
-							accept you are accepting our policy.
+							the site you need to accept our cookie policy, if you do not agree
+							to our cookie policy, we cannot offer you the services on this
+							site. No personal information is stored in the client browser
+							storage settings whether that is a cookie or local storage. By
+							clicking accept you are accepting our policy.
 						</Typography>
 						<Typography id='transition-modal-description' sx={{ mt: 2 }}>
 							If you wish to read the full policy it is located{' '}

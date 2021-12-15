@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styles from '../../styles/Home.module.scss';
 import Image from 'next/image';
 import { Badge } from '@mui/material';
-import Logo from '../../Images/pokeLogo.png';
+import Logo from '../../Images/pokeDecksNew.png';
 import { logoutUser } from '../../Redux/slices/userSlice';
 import { RootState } from '../../Redux/store';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';

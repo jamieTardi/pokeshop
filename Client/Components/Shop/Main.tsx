@@ -21,6 +21,8 @@ import { getAllProducts, getCategories, getExpansions } from '../../api';
 import Loading from '../UIComponents/Loading';
 import CardLinkBtn from './CardLinkBtn';
 import { GlassCardHero } from '../UIComponents/GlassCardHero';
+import pokeShop from '../../Images/pokeShop.png';
+import Image from 'next/image';
 
 interface category {
 	category: string;
@@ -65,14 +67,9 @@ export default function Album() {
 						pb: 6,
 					}}>
 					<Container maxWidth='sm'>
-						<Typography
-							component='h1'
-							variant='h2'
-							align='center'
-							color='text.primary'
-							gutterBottom>
-							Our Selection
-						</Typography>
+						<div style={{ display: 'flex', justifyContent: 'center' }}>
+							<Image src={pokeShop} />
+						</div>
 						<Typography
 							variant='h5'
 							align='center'

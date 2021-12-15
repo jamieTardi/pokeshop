@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/Mobile.module.scss';
 import Image from 'next/image';
-import Logo from '../../Images/pokeLogo.png';
+import Logo from '../../Images/pokeDecksNew.png';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
@@ -132,8 +132,11 @@ const MobileNav = (props: Props) => {
 						my account
 					</a>
 				</Link>
-				<Link href='/'>
+				<Link href='/news'>
 					<a
+						onClick={() => {
+							setOpen(false);
+						}}
 						className={
 							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
 						}>

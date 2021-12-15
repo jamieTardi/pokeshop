@@ -94,7 +94,7 @@ export default function SignIn() {
 					sm={4}
 					md={7}
 					sx={{
-						backgroundImage: `url(https://wow-rosters.s3.us-west-2.amazonaws.com/20993.jpg)`,
+						backgroundImage: `url(https://pokedecks.s3.us-west-2.amazonaws.com/109332.jpg)`,
 						backgroundRepeat: 'no-repeat',
 						backgroundColor: (t) =>
 							t.palette.mode === 'light'
