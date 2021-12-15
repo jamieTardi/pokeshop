@@ -12,6 +12,7 @@ import * as EmailValidator from 'email-validator';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { sendContact } from '../api/index';
+import styles from '../styles/Home.module.scss';
 
 export default function SignUp() {
 	const [message, setMessage] = useState<string>('');
@@ -33,11 +34,12 @@ export default function SignUp() {
 
 	return (
 		<Container component='main' maxWidth='xs'>
+			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 			<CssBaseline />
 			<Paper sx={{ padding: '5%', margin: '5% 0%' }}>
 				<Box
 					sx={{
-						marginTop: 8,
+						marginTop: 0,
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',

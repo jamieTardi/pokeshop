@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { item } from '../../Interfaces/Item';
 import cartStyles from '../../styles/Cart.module.scss';
+import styles from '../../styles/Home.module.scss';
 import Loading from '../UIComponents/Loading';
 import CartItem from './CartItem';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
@@ -52,6 +53,7 @@ const CartItems = (props: Props) => {
 	if (items && items.length !== 0) {
 		return (
 			<div className={cartStyles.container}>
+				<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 				<div className={cartStyles.gridItem1}>
 					<div>
 						{items ? (

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../Redux/store';
 import Layout from '../Components/General/Layout';
+import { CookiesProvider } from 'react-cookie';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const theme = createTheme({
@@ -21,11 +22,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-			</ThemeProvider>
+			<CookiesProvider>
+				<ThemeProvider theme={theme}>
+					<Layout>
+						<Component {...pageProps} />
+					</Layout>
+				</ThemeProvider>
+			</CookiesProvider>
 		</Provider>
 	);
 }

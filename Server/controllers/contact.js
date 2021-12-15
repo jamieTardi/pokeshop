@@ -32,7 +32,7 @@ export const sendContact = async (req, res) => {
 						lastName,
 						message,
 					};
-					let mailList = ['laura.walpole.173@gmail.com'];
+					let mailList = ['laura.walpole.173@gmail.com', email];
 					let htmlToSend = template(data);
 					let mailOptions = {
 						from: process.env.MAIL_USERNAME,

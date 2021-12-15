@@ -6,7 +6,10 @@ import {
 	Instagram,
 } from '@mui/icons-material';
 import styles from '../../styles/Home.module.scss';
-import Link from 'next/link';
+import visa from '../../Images/Visa.png';
+import MasterCard from '../../Images/MasterCard.png';
+import AmericanExpress from '../../Images/AmericanExpress.png';
+import Image from 'next/image';
 
 interface Props {}
 
@@ -27,6 +30,12 @@ const logos = [
 		className={styles.footerSVG}>
 		<Instagram key={4} />
 	</a>,
+];
+
+const payments: Array<any> = [
+	<Image src={visa} alt='card' width={50} height={20} />,
+	<Image src={MasterCard} alt='card' width={50} height={30} />,
+	<Image src={AmericanExpress} alt='card' width={50} height={30} />,
 ];
 
 const Footer = (props: Props) => {
@@ -59,9 +68,17 @@ const Footer = (props: Props) => {
 				<h5>Follow Us</h5>
 				<div className={styles.footerGridItems}>
 					{logos.map((logo, i) => (
-						<Avatar key={i} sx={{ bgcolor: '#E84875' }}>
+						<Avatar key={i} sx={{ bgcolor: '#E84875', margin: '0% 2%' }}>
 							{logo}
 						</Avatar>
+					))}
+				</div>
+			</div>
+			<div className={styles.footerGridItem5}>
+				<h5>We accept</h5>
+				<div className={styles.footerGridItems}>
+					{payments.map((logo, i) => (
+						<div className={styles.payments}>{logo}</div>
 					))}
 				</div>
 			</div>

@@ -330,7 +330,7 @@
 .footerGrid {
 	width: 80%;
 	display: grid;
-	grid-template-columns: repeat(5, 2fr);
+	grid-template-columns: repeat(6, 2fr);
 	gap: 10px;
 	grid-auto-rows: minmax(100px, auto);
 	margin-top: 5%;
@@ -366,8 +366,29 @@
 	.footerGridItems {
 		display: flex;
 		justify-content: space-between;
-		width: 110%;
+		width: 80%;
 		cursor: pointer;
+	}
+}
+
+.footerGridItem5 {
+	grid-column: 5 / 6;
+	grid-row: 1;
+	.footerGridItems {
+		display: flex;
+		justify-content: space-between;
+		width: 80%;
+		cursor: pointer;
+	}
+	.payments {
+		background: #fff;
+		padding: 2%;
+		display: flex;
+		justify-content: center;
+		border-radius: 5px;
+		align-items: center;
+
+		margin: 0% 2%;
 	}
 }
 
@@ -411,6 +432,12 @@
 		gap: 0px;
 		display: flex;
 		flex-direction: column;
+		.footerGridItems {
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			cursor: pointer;
+		}
 	}
 }
 

@@ -12,12 +12,16 @@ import { isMobileChange } from '../../Redux/slices/mobileSlice';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import { KeepSignedIn } from '../../Redux/slices/authSlice';
 import mobileStyles from '../../styles/Background.module.scss';
+import CookiePolicy from '../General/CookiePolicy';
+import { useCookies } from 'react-cookie';
 
 interface Props {}
 
 const Layout = ({ children }: any) => {
 	const [width, setWidth] = useState<number>(0);
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
+	const [open, setOpen] = useState<boolean>(false);
+	const [cookies, setCookie] = useCookies<any>();
 
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -45,6 +49,9 @@ const Layout = ({ children }: any) => {
 			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 			dispatch({ type: updateCart, payload: cart });
 		}
+		setTimeout(() => {
+			setOpen(true);
+		}, 3000);
 	}, []);
 
 	//Event listener for mobile TS
@@ -95,8 +102,13 @@ const Layout = ({ children }: any) => {
 		}
 	}, [allUsers !== null]);
 
+	console.log(cookies.privacyPolicyPoke);
+
 	return (
 		<>
+			{cookies.privacyPolicyPoke !== 'Accepted' && (
+				<CookiePolicy open={open} setOpen={setOpen} setCookie={setCookie} />
+			)}
 			{mobileSize && (
 				<>
 					<div className={mobileStyles.context}></div>
