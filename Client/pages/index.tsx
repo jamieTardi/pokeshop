@@ -111,7 +111,6 @@ const Home: NextPage = () => {
 					<About />
 				</div>
 			</div>
-			<div className={`${styles.backgroundcustom2} ${styles.whiteText}`}></div>
 		</>
 	);
 };

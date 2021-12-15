@@ -29,43 +29,22 @@ const About = (props: Props) => {
 							fontSize: '3rem',
 							letterSpacing: '10px',
 						}}>
-						Just a bunch of Pokémon fans...
+						Why Choose Us
 					</p>
 					<p className={styles.aboutText}>
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo
-						esse illum, dolores, unde vel ad voluptatem nemo consequatur, nam
-						neque sint nobis adipisci laudantium officiis vero at in fuga quae.
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo
-						esse illum, dolores, unde vel ad voluptatem nemo consequatur, nam
-						neque sint nobis adipisci laudantium officiis vero at in fuga quae.
+						Poke-Decks is an online retail store specialising in the Pokemon
+						trading card game. We have over 15 years’ experience in collecting,
+						playing, and enjoying the Pokemon franchise and our website is a
+						true reflection of our dedication to Pokemon TCG! We work hard to
+						provide a wide range of sealed products alongside a fantastic range
+						of trading card accessories at fair prices. We aim to support your
+						hobby and keep the fun alive with our smooth order process, reliable
+						delivery, and professional services whilst we reward dedicated
+						customers with regular offers – be sure to create an account to
+						access the exclusive benefits available to our members! We value
+						your custom and hope you enjoy shopping with us as much as we enjoy
+						providing to the Pokemon TCG community!
 					</p>
-				</div>
-
-				<div
-					className={
-						isMobile
-							? `${styles.whiteText} ${styles.aboutItem3}`
-							: `${styles.blackText} ${styles.aboutItem3}`
-					}>
-					<p
-						style={{
-							textAlign: 'center',
-							fontSize: '3rem',
-							letterSpacing: '10px',
-						}}>
-						Why choose us?
-					</p>
-					<p className={styles.aboutText}>
-						Genuine cards sit amet consectetur, adipisicing elit. Explicabo esse
-						illum, dolores, unde vel ad voluptatem nemo consequatur, nam neque
-						sint nobis adipisci laudantium officiis vero at in fuga quae. Lorem
-						ipsum dolor sit amet consectetur, adipisicing elit. Explicabo esse
-						illum, dolores, unde vel ad voluptatem nemo consequatur, nam neque
-						sint nobis adipisci laudantium officiis vero at in fuga quae.
-					</p>
-				</div>
-				<div className={styles.aboutItem4}>
-					<Image src={Cards} alt='Pokemon Cards' width={350} height={450} />
 				</div>
 			</div>
 		</>

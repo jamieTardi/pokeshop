@@ -52,7 +52,7 @@ export default function PaymentForm({ address }: props) {
 	};
 
 	return (
-		<React.Fragment>
+		<div style={{ zIndex: 30 }}>
 			{clientSecret && (
 				<Grid container spacing={3}>
 					<Elements options={options} stripe={stripePromise}>
@@ -71,6 +71,6 @@ export default function PaymentForm({ address }: props) {
 					</Elements>
 				</Grid>
 			)}
-		</React.Fragment>
+		</div>
 	);
 }

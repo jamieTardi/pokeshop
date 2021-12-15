@@ -151,8 +151,11 @@ const MobileNav = (props: Props) => {
 						Shop
 					</a>
 				</Link>
-				<Link href='/'>
+				<Link href='/cart'>
 					<a
+						onClick={() => {
+							setOpen(false);
+						}}
 						className={
 							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
 						}>

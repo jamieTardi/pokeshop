@@ -10,6 +10,7 @@ import visa from '../../Images/Visa.png';
 import MasterCard from '../../Images/MasterCard.png';
 import AmericanExpress from '../../Images/AmericanExpress.png';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Props {}
 
@@ -49,8 +50,12 @@ const Footer = (props: Props) => {
 			<div className={styles.footerGridItem2}>
 				<h5>Poke-decks</h5>
 				<ul>
-					<li>About Us</li>
-					<li>Contact Us</li>
+					<li>
+						<Link href='/'>About Us</Link>
+					</li>
+					<li>
+						<Link href='/contact'>Contact Us</Link>
+					</li>
 				</ul>
 			</div>
 			<div className={styles.footerGridItem3}>
@@ -61,7 +66,22 @@ const Footer = (props: Props) => {
 							Privacy Policy
 						</a>
 					</li>
-					<li>Terms and Conditions</li>
+					<li>
+						<a
+							href='/Terms_and_Conditions.pdf'
+							rel='noopener noreferrer'
+							download>
+							Terms and Conditions
+						</a>
+					</li>
+					<li>
+						<a
+							href='/Cookie-Policy-Poke-Decks.pdf'
+							rel='noopener noreferrer'
+							download>
+							Cookie Policy
+						</a>
+					</li>
 				</ul>
 			</div>
 			<div className={styles.footerGridItem4}>

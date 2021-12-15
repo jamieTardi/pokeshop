@@ -11,7 +11,7 @@
 .containerPadding {
 	margin-right: auto; /* 1 */
 	margin-left: auto; /* 1 */
-	max-width: 1320px; /* 2 */
+	max-width: 1520px; /* 2 */
 	padding-right: 10px; /* 3 */
 	padding-left: 10px;
 }
@@ -177,6 +177,7 @@
 .card:active {
 	color: #0070f3;
 	border-color: #0070f3;
+	cursor: pointer;
 }
 
 .card h2 {
@@ -319,19 +320,19 @@
 
 .footerContainer {
 	width: 100vw;
-	height: 250px;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: #0070f3;
-	padding-bottom: 10%;
+	padding-bottom: 5%;
 }
 
 .footerGrid {
 	width: 80%;
 	display: grid;
 	grid-template-columns: repeat(6, 2fr);
-	gap: 10px;
+	gap: 4%;
 	grid-auto-rows: minmax(100px, auto);
 	margin-top: 5%;
 	color: #fff;
@@ -347,11 +348,23 @@
 .footerGridItem2 {
 	grid-column: 2 / 3;
 	grid-row: 1;
+	a {
+		&:hover {
+			cursor: pointer;
+			text-decoration: underline;
+		}
+	}
 }
 
 .footerGridItem3 {
 	grid-column: 3 / 4;
 	grid-row: 1;
+	a {
+		&:hover {
+			cursor: pointer;
+			text-decoration: underline;
+		}
+	}
 }
 
 .footerSVG {
@@ -460,7 +473,7 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 100vw;
-	padding: 0% 2%;
+	padding: 0% 8%;
 	background-color: #0070f3;
 	height: 60px;
 }

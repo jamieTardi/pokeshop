@@ -6,64 +6,65 @@ import Zapdos from '../../Images/zapdos.png';
 import Energy from '../../Images/energy.png';
 import Charizard from '../../Images/charizard.png';
 import Bulbasaur from '../../Images/bulbasaur.png';
+import Link from 'next/link';
 
 interface Props {}
 
 export const HomeSectionTwo = (props: Props) => {
 	return (
 		<div className={styles.blackText} style={{ marginTop: '5%' }}>
-			<figure className={`${cardStyle.card} ${cardStyle.cardfire}`}>
-				<div className={cardStyle.cardimagecontainer}>
-					<Image src={Charizard} alt='charizard' height={150} width={170} />
-				</div>
-
-				<figcaption className={cardStyle.cardcaption}>
-					<h1 className={cardStyle.cardname}>Welcome to Poke-Decks!</h1>
-
-					<h3 className={cardStyle.cardtype}>fire</h3>
-
-					<div className={styles.flexBetween}>
-						<div className={cardStyle.cardenergy}>
-							<div
-								className={styles.flexAround}
-								style={{ marginBottom: '20%' }}>
-								<Image src={Energy} alt='energy' height={20} width={20} />
-								<Image src={Energy} alt='energy' height={20} width={20} />
-							</div>
-							<div className={styles.flexAround}>
-								<Image src={Energy} alt='energy' height={20} width={20} />
-								<Image src={Energy} alt='energy' height={20} width={20} />
-							</div>
-						</div>
-						<div>
-							<p style={{ paddingLeft: '3%' }}>
-								Make yourself comfortable and browse through our collection of
-								Pokemon TCG products – whether you want to add to your existing
-								collection or focus on the latest expansion we’ve got you
-								covered!
-							</p>
-						</div>
+			<Link href='/shop'>
+				<figure className={`${cardStyle.card} ${cardStyle.cardfire}`}>
+					<div className={cardStyle.cardimagecontainer}>
+						<Image src={Charizard} alt='charizard' height={150} width={170} />
 					</div>
 
-					<div className={cardStyle.cardabilities}>
-						<h4 className={cardStyle.cardability}>
-							<span className={cardStyle.cardlabel}>Ability</span>
-							Flamethrower
-						</h4>
-						<h4 className={cardStyle.cardability}>
-							<span className={cardStyle.cardlabel}>Hidden Ability</span>
-							Fly
-						</h4>
-					</div>
-				</figcaption>
-			</figure>
+					<figcaption className={cardStyle.cardcaption}>
+						<h1 className={cardStyle.cardname}>Pokemon TCG products</h1>
+
+						<h3 className={cardStyle.cardtype}>fire</h3>
+
+						<div className={styles.flexBetween}>
+							<div className={cardStyle.cardenergy}>
+								<div
+									className={styles.flexAround}
+									style={{ marginBottom: '20%' }}>
+									<Image src={Energy} alt='energy' height={20} width={20} />
+									<Image src={Energy} alt='energy' height={20} width={20} />
+								</div>
+								<div className={styles.flexAround}>
+									<Image src={Energy} alt='energy' height={20} width={20} />
+									<Image src={Energy} alt='energy' height={20} width={20} />
+								</div>
+							</div>
+							<div>
+								<p style={{ paddingLeft: '3%' }}>
+									Take a look at our full range of Pokemon TCG products and
+									accessories
+								</p>
+							</div>
+						</div>
+
+						<div className={cardStyle.cardabilities}>
+							<h4 className={cardStyle.cardability}>
+								<span className={cardStyle.cardlabel}>Ability</span>
+								Flamethrower
+							</h4>
+							<h4 className={cardStyle.cardability}>
+								<span className={cardStyle.cardlabel}>Hidden Ability</span>
+								Fly
+							</h4>
+						</div>
+					</figcaption>
+				</figure>
+			</Link>
 			<figure className={`${cardStyle.card} ${cardStyle.cardnormal}`}>
 				<div className={cardStyle.cardimagecontainer}>
 					<Image src={eeveeThumb} height={150} width={170} alt='pokemon' />
 				</div>
 
 				<figcaption className={cardStyle.cardcaption}>
-					<h1 className={cardStyle.cardname}>Rare Cards</h1>
+					<h1 className={cardStyle.cardname}>Latest News</h1>
 
 					<h3 className={cardStyle.cardtype}>normal</h3>
 
@@ -82,9 +83,7 @@ export const HomeSectionTwo = (props: Props) => {
 						</div>
 						<div>
 							<p style={{ paddingLeft: '3%' }}>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-								debitis repellendus deleniti, architecto vero omnis numquam
-								fugit iste in,
+								Keep up to date with upcoming launches and restocks!
 							</p>
 						</div>
 					</div>
@@ -108,7 +107,7 @@ export const HomeSectionTwo = (props: Props) => {
 				</div>
 
 				<figcaption className={cardStyle.cardcaption}>
-					<h1 className={cardStyle.cardname}>Poké Merch</h1>
+					<h1 className={cardStyle.cardname}>Members Area</h1>
 
 					<h3 className={cardStyle.cardtype}>electric</h3>
 
@@ -127,9 +126,7 @@ export const HomeSectionTwo = (props: Props) => {
 						</div>
 						<div>
 							<p style={{ paddingLeft: '3%' }}>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-								debitis repellendus deleniti, architecto vero omnis numquam
-								fugit iste in,
+								Register to access exclusive discounts and member benefits!
 							</p>
 						</div>
 					</div>
@@ -153,7 +150,7 @@ export const HomeSectionTwo = (props: Props) => {
 				</div>
 
 				<figcaption className={cardStyle.cardcaption}>
-					<h1 className={cardStyle.cardname}>News</h1>
+					<h1 className={cardStyle.cardname}>Pre Orders</h1>
 
 					<h3 className={cardStyle.cardtype}>grass</h3>
 
@@ -171,11 +168,7 @@ export const HomeSectionTwo = (props: Props) => {
 							</div>
 						</div>
 						<div>
-							<p style={{ paddingLeft: '3%' }}>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-								debitis repellendus deleniti, architecto vero omnis numquam
-								fugit iste in,
-							</p>
+							<p style={{ paddingLeft: '3%' }}>Coming soon…</p>
 						</div>
 					</div>
 

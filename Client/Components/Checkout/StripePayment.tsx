@@ -104,10 +104,14 @@ export default function CheckoutForm({ clientData, address }: any) {
 		<form
 			id='payment-form'
 			onSubmit={handleSubmit}
-			className={stripeCSS.container}>
+			className={stripeCSS.container}
+			style={{ zIndex: 30, position: 'relative' }}>
 			<PaymentElement id='payment-element' />
-			<button disabled={isLoading || !stripe || !elements} id='submit'>
-				<span id='button-text'>
+			<button
+				disabled={isLoading || !stripe || !elements}
+				id='submit'
+				style={{ zIndex: 30 }}>
+				<span id='button-text' style={{ zIndex: 30 }}>
 					{isLoading ? (
 						<div className='spinner' id='spinner'></div>
 					) : (

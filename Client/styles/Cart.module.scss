@@ -31,3 +31,17 @@
 		}
 	}
 }
+@media (max-width: 1000px) {
+	.container {
+		.gridItem1 {
+			grid-column: 1 / 4;
+			grid-row: 1;
+		}
+
+		.gridItem2 {
+			grid-column: 1 / 4;
+			grid-row: 2;
+			margin-bottom: 5%;
+		}
+	}
+}
