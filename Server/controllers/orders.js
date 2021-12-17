@@ -24,6 +24,10 @@ export const addOrder = async (req, res) => {
 	const date = new Date();
 	const currentDate = date.toLocaleString('en-US');
 	const allOrders = await orders.find();
+	const lineOne = address.addressLineOne;
+	const county = address.county;
+	const country = address.country;
+	const postCode = address.postCode;
 
 	let orderedItems = [];
 
@@ -37,6 +41,8 @@ export const addOrder = async (req, res) => {
 	}
 	const orderNumber =
 		'poke-' + orderLetters.join('') + '-' + '000' + allOrders.length.toString();
+	const subTotal = '£' + (req.query.total - shipping).toString() + '.00';
+	const shippingStr = '£' + shipping.toString() + '.00';
 
 	//Extract Item details
 
@@ -58,6 +64,9 @@ export const addOrder = async (req, res) => {
 			orderNo: orderNumber,
 			customer: address,
 			items: orderedItems,
+
+			subTotal,
+			shippingStr,
 			total,
 			totalRaw: req.query.total,
 			orderDate: currentDate,
@@ -70,7 +79,7 @@ export const addOrder = async (req, res) => {
 
 		//Email logic for order
 		fs.readFile(
-			'emails/test.html',
+			'emails/purchaseEmail.html',
 			{ encoding: 'utf-8' },
 			function (err, html) {
 				if (err) {
@@ -81,6 +90,12 @@ export const addOrder = async (req, res) => {
 						username: address.firstName,
 						orderNumber,
 						total,
+						lineOne,
+						country,
+						county,
+						postCode,
+						subTotal,
+						shippingStr,
 						orderDate: currentDate,
 						items: orderedItems,
 						shippingPrice: shipping,
@@ -241,9 +256,9 @@ export const deleteOrder = async (req, res) => {
 export const updateShipping = async (req, res) => {
 	const { id } = req.params;
 	const currentOrder = req.body;
-
+	const orderDate = currentOrder.orderDate.toLocaleString('en-GB');
 	const shippingStr = '£' + shipping.toString() + '.00';
-
+	const subTotal = currentOrder.total - shipping;
 	try {
 		const update = await orders.findByIdAndUpdate(id, {
 			...currentOrder,
@@ -261,7 +276,9 @@ export const updateShipping = async (req, res) => {
 					let data = {
 						username: currentOrder.customer.firstName,
 						orderNumber: currentOrder.orderNo,
+						orderDate,
 						shippingStr,
+						subTotal,
 						items: currentOrder.items,
 						total: currentOrder.total,
 					};

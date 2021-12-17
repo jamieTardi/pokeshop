@@ -1,0 +1,811 @@
+<!-- <h2>Thank you {{username}} for your order!</h2>
+<p>Your order number is {{orderNumber}}</p>
+<p>The shipping price is £{{shippingPrice}}</p>
+<p>Your Total is {{total}}</p>
+<p>You placed your order on {{orderDate}}</p>
+<ul>
+	{{#items}}
+	<li>{{title}}</li>
+	{{/items}}
+</ul> -->
+
+<!doctype html>
+<html>
+    <head>
+          <!-- NAME: ANNOUNCE -->
+        <!--[if gte mso 15]>
+        <xml>
+            <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+        <![endif]-->
+        <meta charset="UTF-8">
+        <meta name="PokeDecks email confirmation" author="Laura Walpole">
+        <title>PokeDecks - Order Confirmation</title>
+        
+    <style type="text/css">
+        body{
+            font-family:'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            
+        }
+		p{
+            margin:10px 0;
+			padding:0;
+		}
+		table{
+			border-collapse:collapse;
+		}
+		h1,h2,h3,h4{
+			display:block;
+			margin:0;
+			padding:0;
+		}
+        body,#bodyTable,#bodyCell{
+			height:100%;
+			margin:0;
+			padding:0;
+			width:100%;
+		}
+        li{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 110%;
+        }
+        img{
+			border:0;
+			height:auto;
+			outline:none;
+            -ms-interpolation-mode:bicubic;
+		}
+        .previewText{
+			display:none !important;
+		}
+        #outlook a{
+			padding:0;
+		}
+        table{
+			mso-table-lspace:0pt;
+			mso-table-rspace:0pt;
+		}
+        .ReadMsgBody{
+			width:100%;
+		}
+		.ExternalClass{
+			width:100%;
+		}   
+        p,a,li,td,blockquote{
+			mso-line-height-rule:exactly;
+		}
+		a[href^=tel],a[href^=sms]{
+			color:inherit;
+			cursor:default;
+			text-decoration:none;
+		}
+		p,a,li,td,body,table,blockquote{
+			-ms-text-size-adjust:100%;
+			-webkit-text-size-adjust:100%;
+		}
+        .ExternalClass,.ExternalClass p,.ExternalClass td,.ExternalClass div,.ExternalClass span,.ExternalClass font{
+			line-height:100%;
+		}
+        a[x-apple-data-detectors]{
+			color:inherit !important;
+			text-decoration:none !important;
+			font-size:inherit !important;
+			font-family:inherit !important;
+			font-weight:inherit !important;
+			line-height:inherit !important;
+        }
+        .container{
+			max-width:600px !important;
+		}
+		a.button{
+			display:block;
+		}
+		.image{
+			vertical-align:bottom;
+		}
+		.textContent{
+			word-break:break-word;
+		}
+		.textContent img{
+			height:auto !important;
+		}
+		.dividerBlock{
+			table-layout:fixed !important;
+		}
+
+#header{
+    background-color:#fff;
+    background-image:none;
+    background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+	padding-top:54px;
+	padding-bottom:54px; 
+}
+.headerContainer{
+	background-color:transparent;
+	background-image:none;
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+	border-top:0;
+	border-bottom:0;
+	padding-top:0;
+	padding-bottom:0;
+}
+.headerContainer .textContent,.headerContainer .textContent p{
+	color:#757575;
+	font-family:Helvetica;
+	font-size:16px;
+	line-height:150%;
+	text-align:left;
+}
+#emailBody{
+	background-color:#f4f6fc;
+	background-image:none;
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+	border-top:0;
+	border-bottom:0;
+	padding-top:36px;
+	padding-bottom:54px;
+}
+.bodyContainer{
+	background-color:transparent;
+	background-image:none;
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:cover;
+	border-top:0;
+	border-bottom:0;
+	padding-top:0;
+	padding-bottom:0;
+}
+.bodyContainer .textContent,.bodyContainer .textContent p{
+	color:#757575;
+	font-family:Helvetica;
+    font-size:16px;
+	line-height:150%;
+	text-align:center;
+}
+#contrastTextBlock{
+    background-color: #FFFFFF;
+}
+
+#neutralTextBlock{
+    background-color: #f4f6fc;
+}
+
+.footerContainer{
+background-color:transparent;
+background-image:none;
+background-repeat:no-repeat;
+background-position:center;
+background-size:cover;
+border-top:0;
+border-bottom:0;
+padding-top:0;
+padding-bottom:0;
+}
+.footerContainer .textContent,.footerContainer .textContent p{
+	color:#FFFFFF;
+	font-family:Helvetica;
+	font-size:12px;
+	line-height:150%;
+	text-align:center;
+}
+.footerContainer .textContent a,.footerContainer .textContent p a{
+	color:#e73c7e;
+	font-weight:normal;
+	text-decoration:none;
+}
+
+    @media only screen and (min-width:768px){
+		.container{
+			width:600px !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+		body,table,td,p,a,li,blockquote{
+			-webkit-text-size-adjust:none !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+		body{
+			width:100% !important;
+			min-width:100% !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+		.image{
+			width:100% !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+		.textContentContainer{
+			max-width:100% !important;
+			width:100% !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+	    .textContent{
+			padding-top:9px !important;
+            padding-right:18px !important;
+			padding-left:18px !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+	/*
+	Level 1 headings made larger for better readability on smaller screens
+	*/
+		h1{
+			font-size:30px !important;
+			line-height:125% !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+	/*
+	Level 2 headings made larger for better readability on smaller screens
+	*/
+		h2{
+			font-size:26px !important;
+			line-height:125% !important;
+            font-weight: normal;
+		}
+
+}	@media only screen and (max-width: 480px){
+	/*
+    Level 3 headings made larger for better readability on smaller screens
+	*/
+		h3{
+			font-size:20px !important;
+			line-height:150% !important;
+            font-weight: normal;
+		}
+
+}	@media only screen and (max-width: 480px){
+	/*
+	Level 4 headings made larger for better readability on smaller screens
+	*/
+		h4{
+			font-size:18px !important;
+			line-height:150% !important;
+		}
+
+
+}	@media only screen and (max-width: 480px){
+	/*
+	Body text increased to 16px for readability on smaller devices
+	*/
+		.bodyContainer .textContent,.bodyContainer .textContent p{
+			font-size:16px !important;
+			line-height:150% !important;
+		}
+
+}	@media only screen and (max-width: 480px){
+	/*
+   Footer text size increased for readability on smaller devices
+	*/
+		.footerContainer .textContent,.footerContainer .textContent p{
+			font-size:14px !important;
+			line-height:150% !important;
+		}
+    }
+
+</style>
+</head>
+    <body style="font-family:'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;" align="center" >
+        <!--*|IF PREVIEW_TEXT|*-->
+        <!--[if !gte mso 9]><!----><span class="previewText" style="display:none; font-size:0px; line-height: 0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;">Thank you for your order!</span><!--<![endif]-->
+        <!--*|END:IF|*-->
+        <center>    
+         <table style="height:100%;margin:0;padding:0;width:100%;max-width:700px;" align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td style="height:100%;margin:0;padding:0;width:100%;max-width:700px;" align="center" valign="top" >
+                        <!--Main Container-->
+                        <table border="0" cellpadding="0" cellspacing="0" width="700px">
+                            <!--Row for header-->
+                            <tr>
+                                <!--Email header main container-->
+                               <td id="header" style="border-bottom:10px solid #673AB7;" align="center" valign="top" >
+                                 <!--[if (gte mso 9)|(IE)]>
+                                    <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+                                    <tr>
+                                    <td align="center" valign="top" width="600" style="width:600px;">
+                                    <![endif]--> 
+                                    <table  align="center" border="0" cellpadding="0" cellspacing="0" >
+                                        <tr>
+                                            <td id="headerContainer" valign="top">
+                                                <table style="min-width:100%;" cellspacing="0" cellpadding="0" border="0">
+                                                    <tr>
+                                                        <td>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="padding: 9px;" valign="top">
+                                                                        <!--Container for logo within header-->
+                                                                        <table style="width:50%;" cellspacing="0" cellpadding="0" border="0" align="center">
+                                                                            <!--[if (gte mso 9)|(IE)]>
+                                                                            </td>
+                                                                            </tr>
+                                                                            </table>
+                                                                            <![endif]-->
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <!--Logo-->
+                                                                                    <td style="width:50%;padding-right: 9px;padding-left: 9px;padding-top: 0px;padding-bottom: 0px;" valign="top">
+                                                                                        <img style="width: 100%; min-width: 100%; "  alt="Poke decks logo" src="https://pokedecks.s3.us-west-2.amazonaws.com/pokeDecksNew.png" >
+                                                                                         </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                         </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <tr>
+                                    <td id="emailBody" align="center" valign="top">
+                                    <!--Body container-->
+                                    <!--[if (gte mso 9)|(IE)]>
+                                    <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+                                    <tr>
+                                    <td align="center" valign="top" width="600" style="width:600px;">
+                                    <![endif]-->
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tbody class="bodyContainer" style="background-color:#f4f6fc; min-width: 100%; max-width: 100%;" width="100%">
+                                                            <tr>
+                                                                <td class="boxedTextBlockInner" valign="top">
+                                                                    <!--Email introduction-->
+              	                                                    <table class="boxedTextContentContainer" style="min-width: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                                        <tbody>
+                                                                            <tr>                        
+                                                                                <td style="padding-top:0;  padding-right:18px;  padding-bottom:9px;   padding-left:18px;" valign="top">
+    	                                                                            <h1 style="color:#e73c7e;font-size:40px;font-style:normal;font-weight:normal;line-height:150%;letter-spacing:normal;text-align:center">
+                                                                                        Thank you for your order!</h1>
+						                                                            <h2 style="color:#30343f;font-size:20px;font-style:normal;font-weight:lighter;line-height:125%;text-align:center;padding-top:5px;padding-left:0px; padding-right:0px;padding-bottom: 5px;">
+                                                                                        Hi {{username}},</h2>
+							                                                        <h3 style="color:#30343f;font-size:20px;font-style:none;font-weight:lighter;line-height:125%;letter-spacing:normal;text-align:center;padding-top: 5px;padding-left: 0px;padding-right: 0px;padding-bottom: 5px;">
+                                                                                        We have received your order and hope you enjoyed shopping with us!</h3>
+                                                                                    <h4 style="color:#222;font-size:20px;font-weight: normal;text-align: center;line-height:125%;letter-spacing:normal;padding-top: 10px;padding-left: 0px;padding-right:0px;padding-bottom: 0px;">
+                                                                                        Please find details of your order below</h4>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>			
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+ <!--[if gte mso 9]>
+	<table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
+	<![endif]-->                                                    
+
+   
+<!--Block one: Your order-->                                                    
+<table style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">                                                 
+    <tbody class="boxedTextBlockOuter" style="background-color:#f4f6fc">
+       <tr>
+          <td class="boxedTextBlockInner" valign="top">             
+               <table class="boxedTextContentContainer" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                   <tbody>
+                       <tr>                        
+                          <td class="textContent" style="padding-top:9px;padding-left:18px;padding-bottom:9px; padding-right:18px;">                        
+                                <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
+                                   <tbody><tr>
+                                       <td valign="top">
+										<ul style="list-style: none; font-style: none;text-align: left;color:#30343f ;font-size: 16px;   letter-spacing: normal;">
+                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Your Order</li>
+                                        </ul>
+                                            <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                <tbody  class="outerDividerBlock" >
+                                                    <tr>
+                                                        <td class="innerDividerBlock" style="min-width: 100%;  padding: 9px 18px;">
+                                                            <table class="dividerContent" style="min-width: 100%; border-top: 1px solid; color: #673AB7;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody><tr>
+                                                                    <td>
+                                                                        <span></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table>
+                                                            <!--            
+                                                            <td class="mcnDividerBlockInner" style="padding: 18px;">
+                                                            <hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;" />
+                                                            -->
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <ul style=" font-style: none;text-align: left;color: #30343f;font-size: 16px;list-style: none; letter-spacing: normal;">
+                                                <li><span style='font-weight: bold;'>Order Number:</span> {{orderNumber}}</li>                                           
+                                                <li><span style='font-weight: bold;'>Order date:</span> {{orderDate}}</li>
+											    
+                                                 
+										        
+                                                
+											    
+										    </ul>
+
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <td>
+                                        <table
+                                        style="font-family: arial, sans-serif; border-collapse: collapse; width: 100%"
+                                    >
+                                        <tr>
+                                            <th style="border: 1px solid #dddddd; text-align: left; padding: 8px; font-weight: bold;">
+                                                SKU
+                                            </th>
+                                            <th style="border: 1px solid #dddddd; text-align: left; padding: 8px; font-weight: bold;">
+                                                Item Name
+                                            </th>
+                                            <th style="border: 1px solid #dddddd; text-align: left; padding: 8px; font-weight: bold;">
+                                                Item price
+                                            </th>
+                                        </tr>
+                                        {{#items}}
+                                        <tr>
+                                            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px">
+                                                {{SKU}}
+                                            </td>
+                                            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px">
+                                                {{title}}
+                                            </td>
+                                            <td style="border: 1px solid #dddddd; text-align: left; padding: 8px">
+                                                {{price}}
+                                            </td>
+                                        </tr>
+                                        {{/items}}
+                                    </table>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                            
+                        </td>
+                    </tr>
+                </tbody></table>
+                <!--[if gte mso 9]>
+				</td>
+				<![endif]-->
+                
+				<!--[if gte mso 9]>
+                </tr>
+                </table>
+				<![endif]-->
+						
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--Block 2: Pricing Info-->
+<table style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">                                                 
+    <tbody class="boxedTextBlockOuter" style="background-color:#f4f6fc">
+       <tr>
+          <td class="boxedTextBlockInner" valign="top">             
+               <table class="boxedTextContentContainer" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                   <tbody>
+                       <tr>                        
+                          <td class="textContent" style="padding-top:9px;padding-left:18px;padding-bottom:9px; padding-right:18px;">                        
+                                <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
+                                   <tbody><tr>
+                                       <td valign="top">
+										<ul style="list-style: none; font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
+                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Pricing Information</li>
+                                        </ul>
+                                            <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                <tbody class="outerDividerBlock">
+                                                    <tr>
+                                                        <td class="innerDividerBlock" style="min-width: 100%;  padding: 9px 18px;">
+                                                            <table class="dividerContent" style="min-width: 100%; border-top: 1px solid; color: #673AB7;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody><tr>
+                                                                    <td>
+                                                                        <span></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <ul style="list-style: none;font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
+                                                <li><span style='font-weight: bold;'>Sub-Total:</span> {{subTotal}}</li>                                           
+                                                <li><span style='font-weight: bold;'>Delivery:</span> {{shippingStr}}</li> 
+											    <li><span style='font-weight: bold;'>Total Cost:</span> {{total}}</li>										    
+										    </ul>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        <!--[if gte mso 9]>
+				</td>
+				<![endif]-->
+                
+				<!--[if gte mso 9]>
+                </tr>
+                </table>
+				<![endif]-->
+ 
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--Block 3: Delivery Details-->
+<table style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">                                                 
+    <tbody class="boxedTextBlockOuter" style="background-color:#f4f6fc">
+       <tr>
+          <td class="boxedTextBlockInner" valign="top">             
+               <table class="boxedTextContentContainer" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                   <tbody>
+                       <tr>                        
+                          <td class="textContent" style="padding-top:9px;padding-left:18px;padding-bottom:9px; padding-right:18px;">                        
+                                <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
+                                   <tbody><tr>
+                                       <td valign="top">
+										<ul style="list-style: none; font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
+                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Delivery Details</li>
+                                        </ul>
+                                            <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                <tbody  class="outerDividerBlock" >
+                                                    <tr>
+                                                        <td class="innerDividerBlock" style="min-width: 100%;  padding: 9px 18px;">
+                                                            <table class="dividerContent" style="min-width: 100%; border-top: 1px solid; color: #673AB7;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                                <tbody><tr>
+                                                                    <td>
+                                                                        <span></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <ul style=" font-style: none;text-align: left;color: #30343f;font-size: 16px;list-style: none; letter-spacing: normal;">
+                                                    
+                                                <li style='font-weight: bold;'>Delivery Address:</li>
+                                                <li> {{lineOne}}</li>
+                                                <li> {{county}}</li>
+                                                <li> {{postCode}}</li>
+                                                <li> {{country}}</li>
+
+										    </ul>
+
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                </tbody></table>
+                <!--[if gte mso 9]>
+				</td>
+				<![endif]-->
+                
+				<!--[if gte mso 9]>
+                </tr>
+                </table>
+				<![endif]-->
+						
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!--Container for email outro-->
+<table>
+    <tbody>
+        <tr>
+            <td style="padding-top:9px;" valign="top">
+              	<table style="min-width: 100%;max-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="left">
+                    <!--Text box-->
+                    <tbody>
+                        <tr>                        
+                         <td style="color:#222;font-size:20px;font-weight: normal;text-align: center;line-height:125%;letter-spacing:normal;padding-top: 10px;padding-left: 0px; padding-right:0px;padding-bottom: 0px;" valign="top">
+    	                    <p style="font-weight: lighter;">We are preparing your order and will send you an email once it has been shipped!<br>
+                            In the meantime you can view your order by following the link below. This requires an account!</p>
+                         </td>
+                        </tr>
+                     </tbody>
+                 </table>			
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--Button container-->
+<table style="min-width: 100%;"  width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td style="padding-top:0;padding-right:18px;padding-bottom:18px;  padding-left:18px;" valign="top" align="center">
+                <!--Button navigating to webpage-->
+                <table style="border-radius: 3px;  background-color: #673AB7;" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 18px;   font-size: 18px;" valign="middle" align="center">
+                                <a style="font-weight: bold; text-decoration: none;text-align: center;  color: #FFFFFF;" title="View Order" href="https://pokeshop-seven.vercel.app/" >View Order</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</tr></table>
+    <!--[if (gte mso 9)|(IE)]>
+    </td>
+    </tr>
+    </table>
+    <![endif]-->
+</td></tr>
+<!--Email footer-->
+<tr>
+    <td id="footer" style="	background-color:#333333;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover;padding-top:45px;padding-bottom:63px; border-top:10px solid #673AB7;" align="center" valign="top">
+        <!--[if (gte mso 9)|(IE)]>
+        <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
+        <tr>
+        <td align="center" valign="top" width="600" style="width:600px;">
+        <![endif]-->
+        <table class="container" align="center" border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer">
+            <tr>
+                <td class="footerContainer" valign="top">
+                    <table style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td style="padding:9px" valign="top" align="center">
+                                <!--Inner Container-->
+                                <table  style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody><tr>
+                                         <td style="padding-left:9px;padding-right:9px;" align="center">
+            <!--Container for social media links-->                               
+            <table style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tbody><tr>
+                    <td style="padding-top:9px; padding-right:9px; padding-left:9px;" valign="top" align="center">
+                        <table cellspacing="0" cellpadding="0" border="0" align="center">
+                            <tbody><tr>
+                                <td valign="top" align="center">
+											<!--Facebook link-->
+                                            <table style="display:inline;" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                <tbody><tr>
+                                                    <td style="padding-right:10px; padding-bottom:9px;"  valign="top">
+                                                        <table  width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody><tr>
+                                                                <td style="padding-top:5px; padding-right:10px; padding-bottom:5px; padding-left:9px;" valign="middle" align="left">
+                                                                    <table width="" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                                        <tbody><tr>
+                                                                                <td class="FollowIconContent" width="24" valign="middle" align="center">
+                                                                                    <a href="http://www.facebook.com" target="_blank"><img src="https://pokedecks.s3.us-west-2.amazonaws.com/facebook-icon.png" alt="Facebook" style="display:block;" class="" width="24" height="24"></a>
+                                                                                </td>
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>                                        
+											<!--Instagram link-->
+                                            <table style="display:inline;" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                <tbody><tr>
+                                                    <td style="padding-right:10px; padding-bottom:9px;"  valign="top">
+                                                        <table class= width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody><tr>
+                                                                <td style="padding-top:5px; padding-right:10px; padding-bottom:5px; padding-left:9px;" valign="middle" align="left">
+                                                                    <table width="" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                                        <tbody><tr>
+                                                                            
+                                                                                <td width="24" valign="middle" align="center">
+                                                                                    <a href="https://www.instagram.com/poke.decks.uk/" target="_blank"><img src="https://pokedecks.s3.us-west-2.amazonaws.com/insta-icon.png" alt="Link" style="display:block;" class="" width="24" height="24"></a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody></table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody></table>
+                                        <!--Website link-->
+                                            <table style="display:inline;" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                <tbody><tr>
+                                                    <td style="padding-right:0; padding-bottom:9px;"  valign="top">
+                                                        <table  width="100%" cellspacing="0" cellpadding="0" border="0">
+                                                            <tbody><tr>
+                                                                <td style="padding-top:5px; padding-right:10px; padding-bottom:5px; padding-left:9px;" valign="middle" align="left">
+                                                                    <table width="" cellspacing="0" cellpadding="0" border="0" align="left">
+                                                                        <tbody><tr>
+                                                                            
+                                                                                <td  width="24" valign="middle" align="center">
+                                                                                    <a href="http://mailchimp.com" target="_blank"><img src="https://pokedecks.s3.us-west-2.amazonaws.com/website-icon.png" alt="Website" style="display:block;" class="" width="24" height="24"></a>
+                                                                                </td>
+                                                                            
+                                                                            
+                                                                        </tr>
+                                                                    </tbody></table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                 </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+            </tbody></table>
+        </td>
+    </tr>
+</tbody></table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--Container for divider-->
+<table style="min-width:100%;"  width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td style=min-width:100%;  padding: 9px 18px;">
+                <!--Divider-->
+                <table style="min-width: 100%; border-top: 1px solid; color: #e73c7e;" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody><tr>
+                        <td>
+                            <span></span>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!--Footer text box-->
+<table min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td style="padding-top:9px;" valign="top">
+                <table style="max-width:100%; min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+                    <tbody><tr>
+                        <td style="text-align:center; color: #fff;" valign="top">
+                            <em>Copyright © 2021 PokeDecks, All rights reserved.</em>
+                            <br>
+                            <br>
+                            <p style="color: #e73c7e; font-weight: bold;">For customer support please contact us at:</p>
+                            <p style="text-decoration: none; color:#e73c7e; font-style: italic; font-weight: lighter;">poke.decks.uk@gmail.com</p>
+                            <br>
+                        </td>
+                    </tr></tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                     <!--[if (gte mso 9)|(IE)]>
+                                    </td>
+                                    </tr>
+                                    </table>
+                                    <![endif]-->
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    <script type="text/javascript"  src="/7tfG/tfzg/ur/Wqra/9oKA/L59ONmhcih/aVNaAQ/NnxTIXJ/1GQgC"></script></body>
+</html>
+
+
+

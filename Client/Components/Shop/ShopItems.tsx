@@ -31,10 +31,8 @@ import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import ProductModal from './ProductModal';
 import { updateCart } from '../../Redux/slices/cartSlice';
-
-interface Props {
-	pageType: string;
-}
+import pokeShop from '../../Images/pokeShop.png';
+import Image from 'next/image';
 
 interface items {
 	_id: string;
@@ -191,130 +189,126 @@ const ShopItems = () => {
 		return (
 			<div>
 				<div className={`${styles.backgroundcustom} ${styles.whiteText}`}></div>
+				<div className={`${styles.container} ${styles.whiteText}`}>
+					<main>
+						{/* Hero unit */}
+						<Box
+							sx={{
+								bgcolor: 'inherit',
+								pt: 8,
+								pb: 6,
+							}}>
+							<Container maxWidth='sm'>
+								<div style={{ display: 'flex', justifyContent: 'center' }}>
+									<Image src={pokeShop} />
+								</div>
+								<Typography
+									component='h4'
+									variant='h4'
+									align='center'
+									color='text.secondary'
+									gutterBottom>
+									You are currently searching for {currentPageTitle}.
+								</Typography>
+							</Container>
+							<FilterOptions />
+						</Box>
+						{/* End hero unit */}
+						<Grid container spacing={4}>
+							{currentProducts ? (
+								currentProducts.map((card: any, i) => (
+									<Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
+										<Card
+											sx={{
+												height: '100%',
+												display: 'flex',
+												flexDirection: 'column',
+												background: '#fff',
+											}}>
+											<CardMedia
+												component='img'
+												sx={{ height: '250px', objectFit: 'contain' }}
+												image={
+													card.image === '' ||
+													!card.image ||
+													card.image[0] === '' ||
+													card.image.length === 0
+														? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
+														: card.image[0]
+												}
+												alt='random'
+											/>
+											<CardContent sx={{ flexGrow: 1 }}>
+												<Typography
+													variant='h5'
+													component='h2'
+													sx={{ maxHeight: '150px' }}>
+													{card.title ? card.title : card.expansion}
+												</Typography>
+											</CardContent>
+											<CardActions>
+												<Typography
+													gutterBottom
+													component='p'
+													sx={{
+														display: 'flex',
+														alignItems: 'center',
+														color: '#989898',
+													}}>
+													<LocalOfferIcon />
+													Price: £
+													{card.price - Math.floor(card.price) === 0
+														? card.price.toString() + '.00'
+														: card.price.toString()}
+												</Typography>
+											</CardActions>
+											<CardActions>
+												<Typography
+													gutterBottom
+													component='p'
+													sx={{ color: '#989898' }}>
+													{card.description.substring(0, 100)}...
+												</Typography>
+											</CardActions>
 
-				<main>
-					{/* Hero unit */}
-					<Box
-						sx={{
-							bgcolor: 'inherit',
-							pt: 8,
-							pb: 6,
-						}}>
-						<Container maxWidth='sm'>
-							<Typography
-								component='h1'
-								variant='h2'
-								align='center'
-								color='text.primary'
-								gutterBottom>
-								Our Poké shop
-							</Typography>
-							<Typography
-								component='h4'
-								variant='h4'
-								align='center'
-								color='text.secondary'
-								gutterBottom>
-								You are currently searching for {currentPageTitle}.
-							</Typography>
-						</Container>
-						<FilterOptions />
-					</Box>
-					{/* End hero unit */}
-					<Grid container spacing={4}>
-						{currentProducts ? (
-							currentProducts.map((card: any, i) => (
-								<Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
-									<Card
-										sx={{
-											height: '100%',
-											display: 'flex',
-											flexDirection: 'column',
-											background: '#fff',
-										}}>
-										<CardMedia
-											component='img'
-											sx={{ height: '250px', objectFit: 'contain' }}
-											image={
-												card.image === '' ||
-												!card.image ||
-												card.image[0] === '' ||
-												card.image.length === 0
-													? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
-													: card.image[0]
-											}
-											alt='random'
-										/>
-										<CardContent sx={{ flexGrow: 1 }}>
-											<Typography
-												variant='h5'
-												component='h2'
-												sx={{ maxHeight: '150px' }}>
-												{card.title ? card.title : card.expansion}
-											</Typography>
-										</CardContent>
-										<CardActions>
-											<Typography
-												gutterBottom
-												component='p'
-												sx={{
-													display: 'flex',
-													alignItems: 'center',
-													color: '#989898',
-												}}>
-												<LocalOfferIcon />
-												Price: £
-												{card.price - Math.floor(card.price) === 0
-													? card.price.toString() + '.00'
-													: card.price.toString()}
-											</Typography>
-										</CardActions>
-										<CardActions>
-											<Typography
-												gutterBottom
-												component='p'
-												sx={{ color: '#989898' }}>
-												{card.description.substring(0, 100)}...
-											</Typography>
-										</CardActions>
+											<CardActions>
+												<Button
+													size='small'
+													variant='contained'
+													onClick={() => {
+														setCardItem(card);
+													}}>
+													View Details
+												</Button>
 
-										<CardActions>
-											<Button
-												size='small'
-												variant='contained'
-												onClick={() => {
-													setCardItem(card);
-												}}>
-												View Details
-											</Button>
+												<Button
+													size='small'
+													color='success'
+													variant='contained'
+													onClick={() => handleAddToCart(card)}>
+													Add to basket
+												</Button>
+											</CardActions>
+										</Card>
+									</Grid>
+								))
+							) : (
+								<Loading />
+							)}
+							<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
+							<AdminModal
+								open={isShowModal}
+								setOpen={setIsShowModal}
+								infoText={infoTxt}
+							/>
+						</Grid>
 
-											<Button
-												size='small'
-												color='success'
-												variant='contained'
-												onClick={() => handleAddToCart(card)}>
-												Add to basket
-											</Button>
-										</CardActions>
-									</Card>
-								</Grid>
-							))
-						) : (
-							<Loading />
-						)}
-						<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
-						<AdminModal
-							open={isShowModal}
-							setOpen={setIsShowModal}
-							infoText={infoTxt}
+						<CustomPagination
+							setCurrentPage={setCurrentPage}
+							totalPages={totalPages}
 						/>
-					</Grid>
-
-					<CustomPagination
-						setCurrentPage={setCurrentPage}
-						totalPages={totalPages}
-					/>
-				</main>
+					</main>
+				</div>
 			</div>
 		);
 	} else if (cardItem === null) {

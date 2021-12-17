@@ -15,6 +15,7 @@ import Loading from '../UIComponents/Loading';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CustomerModal from '../Admin/DashboardItems/CustomerModal';
+import { relative } from 'path';
 
 function createData(
 	name: string,
@@ -47,8 +48,10 @@ export default function MyOrders() {
 
 	if (userOrders) {
 		return (
-			<>
-				<TableContainer component={Paper} sx={{ overflowX: 'scroll' }}>
+			<div style={{ position: 'relative' }}>
+				<TableContainer
+					component={Paper}
+					style={{ width: '100%', zIndex: 100 }}>
 					<Table aria-label='simple table' sx={{ minWidth: 650 }}>
 						<TableHead>
 							<TableRow>
@@ -101,7 +104,7 @@ export default function MyOrders() {
 						setCurrentCustomer={setCurrentOrder}
 					/>
 				)}
-			</>
+			</div>
 		);
 	} else {
 		return <Loading />;

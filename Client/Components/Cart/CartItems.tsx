@@ -52,26 +52,28 @@ const CartItems = (props: Props) => {
 
 	if (items && items.length !== 0) {
 		return (
-			<div className={cartStyles.container}>
-				<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
-				<div className={cartStyles.gridItem1}>
-					<div>
-						{items ? (
-							items.map((item) => (
-								<CartItem
-									key={uuidv4()}
-									item={item}
-									handleRemoveItem={handleRemoveItem}
-									handleAddItem={handleAddItem}
-								/>
-							))
-						) : (
-							<Loading />
-						)}
+			<div className={`${styles.container} ${styles.whiteText}`}>
+				<div className={cartStyles.container}>
+					<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
+					<div className={cartStyles.gridItem1}>
+						<div>
+							{items ? (
+								items.map((item) => (
+									<CartItem
+										key={uuidv4()}
+										item={item}
+										handleRemoveItem={handleRemoveItem}
+										handleAddItem={handleAddItem}
+									/>
+								))
+							) : (
+								<Loading />
+							)}
+						</div>
 					</div>
-				</div>
-				<div className={cartStyles.gridItem2}>
-					<CardTotal items={items} />
+					<div className={cartStyles.gridItem2}>
+						<CardTotal items={items} />
+					</div>
 				</div>
 			</div>
 		);

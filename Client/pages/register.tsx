@@ -18,6 +18,7 @@ import * as EmailValidator from 'email-validator';
 import Nav from '../Components/General/Nav';
 import { signUp } from '../api/index';
 import { useRouter } from 'next/router';
+import { Paper } from '@mui/material';
 
 function Copyright(props: any) {
 	return (
@@ -139,153 +140,158 @@ export default function Register() {
 	return (
 		<div>
 			<ThemeProvider theme={theme}>
-				<Container component='main' maxWidth='xs'>
+				<Container component='main' maxWidth='md'>
 					<CssBaseline />
-					<Box
-						sx={{
-							marginTop: 8,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-						}}>
-						<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-							<Image src={Pokeball} />
-						</Avatar>
-						<Typography component='h1' variant='h5'>
-							Sign up
-						</Typography>
+					<Paper sx={{ padding: '0% 5%' }}>
 						<Box
-							component='form'
-							noValidate
-							onSubmit={handleSubmit}
-							sx={{ mt: 3 }}>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={6}>
-									<TextField
-										autoComplete='given-name'
-										name='firstName'
-										required
-										fullWidth
-										id='firstName'
-										label='First Name'
-										autoFocus
-										onChange={(e) => {
-											setNewUser({ ...newUser, firstName: e.target.value });
-										}}
-									/>
-								</Grid>
-								<Grid item xs={12} sm={6}>
-									<TextField
-										required
-										fullWidth
-										id='lastName'
-										label='Last Name'
-										name='lastName'
-										autoComplete='family-name'
-										onChange={(e) => {
-											setNewUser({ ...newUser, lastName: e.target.value });
-										}}
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										required
-										fullWidth
-										id='email'
-										label='Email Address'
-										name='email'
-										autoComplete='email'
-										onChange={handleEmailCheck}
-									/>
-									{emailCheck.isCorrect === false &&
-										emailCheck.newEmail.length > 0 && (
-											<p>{emailCheck.errorMsg}</p>
+							sx={{
+								marginTop: 8,
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+							}}>
+							<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+								<Image src={Pokeball} />
+							</Avatar>
+							<Typography component='h1' variant='h5'>
+								Sign up
+							</Typography>
+							<Box
+								component='form'
+								noValidate
+								onSubmit={handleSubmit}
+								sx={{ mt: 3 }}>
+								<Grid container spacing={2}>
+									<Grid item xs={12} sm={6}>
+										<TextField
+											autoComplete='given-name'
+											name='firstName'
+											required
+											fullWidth
+											id='firstName'
+											label='First Name'
+											autoFocus
+											onChange={(e) => {
+												setNewUser({ ...newUser, firstName: e.target.value });
+											}}
+										/>
+									</Grid>
+									<Grid item xs={12} sm={6}>
+										<TextField
+											required
+											fullWidth
+											id='lastName'
+											label='Last Name'
+											name='lastName'
+											autoComplete='family-name'
+											onChange={(e) => {
+												setNewUser({ ...newUser, lastName: e.target.value });
+											}}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											required
+											fullWidth
+											id='email'
+											label='Email Address'
+											name='email'
+											autoComplete='email'
+											onChange={handleEmailCheck}
+										/>
+										{emailCheck.isCorrect === false &&
+											emailCheck.newEmail.length > 0 && (
+												<p>{emailCheck.errorMsg}</p>
+											)}
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											required
+											fullWidth
+											id='telephone'
+											label='Telephone no'
+											name='telephone'
+											autoComplete='telephone'
+											onChange={(e) =>
+												setNewUser({
+													...newUser,
+													phoneNo: e.currentTarget.value,
+												})
+											}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											required
+											fullWidth
+											name='password'
+											label='Password'
+											type='password'
+											id='password'
+											autoComplete='new-password'
+											onChange={(e) => {
+												setNewPasswords({
+													...newPasswords,
+													first: e.currentTarget.value,
+												});
+											}}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											required
+											fullWidth
+											name='confirm password'
+											label='Confirm Password'
+											type='password'
+											id='password'
+											autoComplete='new-password'
+											onChange={handlePasswords}
+										/>
+										{newPasswords.error !== '' && (
+											<p style={{ color: 'red' }}>{newPasswords.error}</p>
 										)}
+									</Grid>
+									<Grid item xs={12}>
+										<FormControlLabel
+											control={
+												<Checkbox
+													value='allowExtraEmails'
+													color='primary'
+													onChange={(event) => {
+														togglePromotions(event);
+													}}
+												/>
+											}
+											label='I want to receive inspiration, marketing promotions and updates via email.'
+										/>
+									</Grid>
 								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										required
-										fullWidth
-										id='telephone'
-										label='Telephone no'
-										name='telephone'
-										autoComplete='telephone'
-										onChange={(e) =>
-											setNewUser({ ...newUser, phoneNo: e.currentTarget.value })
-										}
-									/>
+								<Button
+									type='submit'
+									fullWidth
+									disabled={!newPasswords.isMatched}
+									variant='contained'
+									sx={{ mt: 3, mb: 2 }}>
+									Sign Up
+								</Button>
+								<Grid container justifyContent='flex-end'>
+									<Grid item>
+										<Link href='/SignIn' variant='body2'>
+											Already have an account? Sign in
+										</Link>
+									</Grid>
 								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										required
-										fullWidth
-										name='password'
-										label='Password'
-										type='password'
-										id='password'
-										autoComplete='new-password'
-										onChange={(e) => {
-											setNewPasswords({
-												...newPasswords,
-												first: e.currentTarget.value,
-											});
-										}}
-									/>
+								<Grid container justifyContent='flex-end'>
+									<Grid item>
+										<Link href='/' variant='body2'>
+											Go back to home page
+										</Link>
+									</Grid>
 								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										required
-										fullWidth
-										name='confirm password'
-										label='Confirm Password'
-										type='password'
-										id='password'
-										autoComplete='new-password'
-										onChange={handlePasswords}
-									/>
-									{newPasswords.error !== '' && (
-										<p style={{ color: 'red' }}>{newPasswords.error}</p>
-									)}
-								</Grid>
-								<Grid item xs={12}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												value='allowExtraEmails'
-												color='primary'
-												onChange={(event) => {
-													togglePromotions(event);
-												}}
-											/>
-										}
-										label='I want to receive inspiration, marketing promotions and updates via email.'
-									/>
-								</Grid>
-							</Grid>
-							<Button
-								type='submit'
-								fullWidth
-								disabled={!newPasswords.isMatched}
-								variant='contained'
-								sx={{ mt: 3, mb: 2 }}>
-								Sign Up
-							</Button>
-							<Grid container justifyContent='flex-end'>
-								<Grid item>
-									<Link href='/SignIn' variant='body2'>
-										Already have an account? Sign in
-									</Link>
-								</Grid>
-							</Grid>
-							<Grid container justifyContent='flex-end'>
-								<Grid item>
-									<Link href='/' variant='body2'>
-										Go back to home page
-									</Link>
-								</Grid>
-							</Grid>
+							</Box>
 						</Box>
-					</Box>
+					</Paper>
 					<Copyright sx={{ mt: 5 }} />
 				</Container>
 			</ThemeProvider>
