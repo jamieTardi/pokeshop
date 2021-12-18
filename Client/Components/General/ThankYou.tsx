@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../../styles/Home.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createOrder } from '../../api/index';
 
-interface Props {}
-
-const Thankyou = (props: Props) => {
+const Thankyou = () => {
 	const router = useRouter();
 
 	const page = router.pathname;
+
+	useEffect(() => {
+		if (page !== '/registration') {
+			localStorage.removeItem('poke-cart');
+		}
+	}, []);
 
 	return (
 		<div className={styles.thankYouContainer}>

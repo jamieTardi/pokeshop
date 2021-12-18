@@ -16,6 +16,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CustomerModal from '../Admin/DashboardItems/CustomerModal';
 import { relative } from 'path';
+import CustomPagination from '../UIComponents/CustomPagination';
 
 function createData(
 	name: string,
@@ -31,6 +32,10 @@ export default function MyOrders() {
 	const [userOrders, setUserOrders] = useState<Array<orders> | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [currentOrder, setCurrentOrder] = useState<null | orders>(null);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [totalPages, setTotalPages] = useState<number>(1);
+	const [currentProducts, setCurrentProducts] = useState<any>(null);
+	const itemsPerPage: number = 10;
 
 	//Redux state
 	const token = useAppSelector((state: RootState) => state.auth.value);
@@ -46,7 +51,18 @@ export default function MyOrders() {
 		getUserOrders(token.token, setUserOrders);
 	}, [token]);
 
-	if (userOrders) {
+	useEffect(() => {
+		if (userOrders) {
+			setTotalPages(Math.ceil(userOrders.length / 10));
+			const indexOfLastPage = currentPage * itemsPerPage;
+			const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+			setCurrentProducts(userOrders.slice(indexOfFirstPage, indexOfLastPage));
+		}
+	}, [userOrders, currentPage]);
+
+	console.log(userOrders);
+
+	if (currentProducts) {
 		return (
 			<div style={{ position: 'relative' }}>
 				<TableContainer
@@ -62,7 +78,7 @@ export default function MyOrders() {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{userOrders.map((row: orders) => (
+							{currentProducts.map((row: orders) => (
 								<TableRow
 									key={row.orderNo}
 									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -95,6 +111,10 @@ export default function MyOrders() {
 						</TableBody>
 					</Table>
 				</TableContainer>
+				<CustomPagination
+					setCurrentPage={setCurrentPage}
+					totalPages={totalPages}
+				/>
 
 				{currentOrder && (
 					<CustomerModal

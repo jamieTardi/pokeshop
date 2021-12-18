@@ -112,8 +112,6 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 		setModifiedCat({ ...modifiedCat, image: returnedImage });
 	}, [returnedImage]);
 
-	console.log(modifiedExp);
-
 	const handleImageSend = () => {
 		setIsUpload(true);
 		setReturnedImage('');
@@ -196,6 +194,8 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 		getImageURL(setImageURL);
 	}, []);
 
+	console.log(modifiedCat);
+
 	return (
 		<div>
 			<Modal
@@ -223,115 +223,121 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 							</Select>
 						</Grid>
 					</Grid>
-					{selectedCat === 'categories' ? (
+					{selectedCat !== '' && (
 						<>
-							<Grid item xs={12}>
-								<InputLabel>Select the category to edit</InputLabel>
-								<select name='cars' id='cars'>
-									{category?.map((item: any) => (
-										<option
-											value={item}
-											key={item.category}
-											onClick={(e) => {
-												handleClick(e, item);
-											}}>
-											{item.category}
-										</option>
-									))}
-								</select>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<p>Category</p>
-								<Grid item xs={12}>
-									<input
-										type='file'
-										accept='image/*'
-										onChange={(e: any) => {
-											const file = e.target.files[0];
-											setFile(file);
-										}}
-									/>
-									<Button
-										variant='contained'
-										onClick={handleImageSend}
-										disabled={isUpload}
-										startIcon={isUpload && <CircularProgress size={20} />}>
-										{isUpload ? 'Uploading...' : 'Upload Image'}
-									</Button>
-									<p>{imageText !== '' && imageText}</p>
-								</Grid>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									id='standard-basic'
-									required
-									fullWidth
-									sx={{ marginBottom: '5%' }}
-									label='Category'
-									value={modifiedCat.category}
-									onChange={(e) => {
-										handleModifyCat(e);
-									}}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<p>Current slug is: {modifiedCat.slug}</p>
-							</Grid>
-						</>
-					) : (
-						<>
-							<Grid item xs={12}>
-								<InputLabel>Select the expansion to edit</InputLabel>
-								<select name='cars' id='cars'>
-									{expansion?.map((item) => (
-										<option
-											value={item.expansion}
-											key={item.expansion}
-											onClick={(e) => {
-												handleClick(e, item);
-											}}>
-											{item.expansion}
-										</option>
-									))}
-								</select>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<p>Expansion</p>
-								<Grid item xs={12}>
-									<input
-										type='file'
-										accept='image/*'
-										onChange={(e: any) => {
-											const file = e.target.files[0];
-											setFile(file);
-										}}
-									/>
-									<Button
-										variant='contained'
-										onClick={handleImageSend}
-										disabled={isUpload}
-										startIcon={isUpload && <CircularProgress size={20} />}>
-										{isUpload ? 'Uploading...' : 'Upload Image'}
-									</Button>
-									<p>{imageText !== '' && imageText}</p>
-								</Grid>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									id='standard-basic'
-									required
-									fullWidth
-									sx={{ marginBottom: '5%' }}
-									label='Expansion'
-									value={modifiedExp.expansion}
-									onChange={(e) => {
-										handleModifyExp(e);
-									}}
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<p>Current slug is: {modifiedExp.slug}</p>
-							</Grid>
+							{selectedCat === 'categories' ? (
+								<>
+									<Grid item xs={12}>
+										<InputLabel>Select the category to edit</InputLabel>
+										<select>
+											<option value='' selected disabled hidden />
+											{category?.map((item: any) => (
+												<option
+													value={item}
+													key={item.category}
+													onClick={(e) => {
+														handleClick(e, item);
+													}}>
+													{item.category}
+												</option>
+											))}
+										</select>
+									</Grid>
+
+									<Grid item xs={12} sm={6}>
+										<p>Category</p>
+										<Grid item xs={12}>
+											<input
+												type='file'
+												accept='image/*'
+												onChange={(e: any) => {
+													const file = e.target.files[0];
+													setFile(file);
+												}}
+											/>
+											<Button
+												variant='contained'
+												onClick={handleImageSend}
+												disabled={isUpload}
+												startIcon={isUpload && <CircularProgress size={20} />}>
+												{isUpload ? 'Uploading...' : 'Upload Image'}
+											</Button>
+											<p>{imageText !== '' && imageText}</p>
+										</Grid>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											id='standard-basic'
+											required
+											fullWidth
+											sx={{ marginBottom: '5%' }}
+											label='Category'
+											value={modifiedCat.category}
+											onChange={(e) => {
+												handleModifyCat(e);
+											}}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<p>Current slug is: {modifiedCat.slug}</p>
+									</Grid>
+								</>
+							) : (
+								<>
+									<Grid item xs={12}>
+										<InputLabel>Select the expansion to edit</InputLabel>
+										<select>
+											{expansion?.map((item) => (
+												<option
+													value={item.expansion}
+													key={item.expansion}
+													onClick={(e) => {
+														handleClick(e, item);
+													}}>
+													{item.expansion}
+												</option>
+											))}
+										</select>
+									</Grid>
+									<Grid item xs={12} sm={6}>
+										<p>Expansion</p>
+										<Grid item xs={12}>
+											<input
+												type='file'
+												accept='image/*'
+												onChange={(e: any) => {
+													const file = e.target.files[0];
+													setFile(file);
+												}}
+											/>
+											<Button
+												variant='contained'
+												onClick={handleImageSend}
+												disabled={isUpload}
+												startIcon={isUpload && <CircularProgress size={20} />}>
+												{isUpload ? 'Uploading...' : 'Upload Image'}
+											</Button>
+											<p>{imageText !== '' && imageText}</p>
+										</Grid>
+									</Grid>
+									<Grid item xs={12}>
+										<TextField
+											id='standard-basic'
+											required
+											fullWidth
+											sx={{ marginBottom: '5%' }}
+											label='Expansion'
+											value={modifiedExp.expansion}
+											onChange={(e) => {
+												handleModifyExp(e);
+											}}
+										/>
+									</Grid>
+									<Grid item xs={12}>
+										<p>Current slug is: {modifiedExp.slug}</p>
+									</Grid>
+								</>
+							)}
 						</>
 					)}
 
@@ -340,7 +346,11 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 					</Grid>
 
 					<Grid item xs={6} sx={{ marginBottom: '5%' }}>
-						<Button variant='contained' color='primary' onClick={handleUpdate}>
+						<Button
+							variant='contained'
+							color='primary'
+							onClick={handleUpdate}
+							disabled={selectedCat === ''}>
 							Update
 						</Button>
 					</Grid>

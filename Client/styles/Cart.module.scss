@@ -1,4 +1,16 @@
 //Has items styles
+@mixin center-column {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.center {
+	margin: 5% 0;
+	@include center-column();
+	flex-direction: column;
+	color: black;
+}
 
 .container {
 	min-height: 90vh;

@@ -6,6 +6,7 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { useAppSelector } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import Link from 'next/link';
+import logo from '../../Images/welcome.png';
 
 interface Props {}
 
@@ -13,8 +14,14 @@ export const GlassCardHero = (props: Props) => {
 	const isMobile = useAppSelector((state: RootState) => state.isMobile.value);
 	return (
 		<div className={styles.glassCard}>
-			<h1 className={!isMobile ? styles.blackText : styles.whiteText}>
-				Welcome to Poké-Decks!
+			<h1
+				className={!isMobile ? styles.blackText : styles.whiteText}
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}>
+				<Image src={logo} alt='logo' width={350} height={50} />
 			</h1>
 			<p className={styles.largePara}>
 				Make yourself comfortable and browse through our collection of Pokemon

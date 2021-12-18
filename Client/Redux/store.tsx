@@ -7,6 +7,7 @@ import isMobileSlice from './slices/mobileSlice';
 import pagesSlice from './slices/pagesSlice';
 import cartSlice from './slices/cartSlice';
 import FormCompleteSlice from './slices/formComplete';
+import orderSlice from './slices/orderSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
 		currentPage: pagesSlice,
 		cart: cartSlice,
 		form: FormCompleteSlice,
+		order: orderSlice,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

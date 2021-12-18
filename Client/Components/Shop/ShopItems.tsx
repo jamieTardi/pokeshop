@@ -227,7 +227,7 @@ const ShopItems = () => {
 											}}>
 											<CardMedia
 												component='img'
-												sx={{ height: '250px', objectFit: 'contain' }}
+												sx={{ height: '300px', objectFit: 'contain' }}
 												image={
 													card.image === '' ||
 													!card.image ||
@@ -284,9 +284,12 @@ const ShopItems = () => {
 												<Button
 													size='small'
 													color='success'
+													disabled={card.stockAmount < 1}
 													variant='contained'
 													onClick={() => handleAddToCart(card)}>
-													Add to basket
+													{card.stockAmount < 1
+														? 'Out of Stock'
+														: 'Add to basket'}
 												</Button>
 											</CardActions>
 										</Card>

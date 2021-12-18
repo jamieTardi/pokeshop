@@ -108,7 +108,7 @@ const Nav = () => {
 									componentsProps={{
 										tooltip: {
 											sx: {
-												color: 'purple',
+												color: '#425466',
 												backgroundColor: 'white',
 												fontSize: '1.2em',
 											},

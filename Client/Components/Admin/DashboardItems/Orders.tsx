@@ -34,7 +34,7 @@ export default function Orders() {
 			const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 			setCurrentProducts(orders.slice(indexOfFirstPage, indexOfLastPage));
 		}
-	}, [orders]);
+	}, [orders, currentPage]);
 
 	//General Logic
 
@@ -51,7 +51,6 @@ export default function Orders() {
 		setAdminOpen(true);
 	};
 
-	console.log(currentProducts);
 	//UseEffects
 
 	useEffect(() => {

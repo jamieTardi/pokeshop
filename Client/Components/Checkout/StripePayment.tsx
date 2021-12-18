@@ -6,12 +6,13 @@ import {
 } from '@stripe/react-stripe-js';
 import stripeCSS from '../../styles/Stripe.module.scss';
 import { createOrder } from '../../api';
-
-interface payment {
-	paymentIntent: { status: string };
-}
+import { useAppDispatch } from '../../Redux/hooks';
+import { addNewOrder } from '../../Redux/slices/orderSlice';
+import { useRouter } from 'next/router';
 
 export default function CheckoutForm({ clientData, address }: any) {
+	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const stripe = useStripe();
 	const elements = useElements();
 	const [error, setError] = useState<boolean>(false);
@@ -20,6 +21,9 @@ export default function CheckoutForm({ clientData, address }: any) {
 	const [total, setTotal] = useState<string>('');
 	const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 	const fullTotal: number = clientData.total / 100;
+	const clientSecret = new URLSearchParams(window.location.search).get(
+		'payment_intent_client_secret',
+	);
 
 	useEffect(() => {
 		if (clientData) {
@@ -32,13 +36,16 @@ export default function CheckoutForm({ clientData, address }: any) {
 	}, [clientData]);
 
 	useEffect(() => {
+		dispatch({
+			type: addNewOrder,
+			payload: { order, address, total: `£${total}` },
+		});
+	}, [total]);
+
+	useEffect(() => {
 		if (!stripe) {
 			return;
 		}
-
-		const clientSecret = new URLSearchParams(window.location.search).get(
-			'payment_intent_client_secret',
-		);
 
 		if (!clientSecret) {
 			return;
@@ -76,35 +83,37 @@ export default function CheckoutForm({ clientData, address }: any) {
 		setIsLoading(true);
 
 		try {
-			if (stripe.confirmPayment) {
-				if (stripe) {
-					createOrder(order, address, total);
-					localStorage.removeItem('poke-cart');
-				}
-				await stripe
-					.confirmPayment({
-						elements,
-						confirmParams: {
-							// Make sure to change this to your payment completion page
-							receipt_email: address.email,
-							return_url: 'http://localhost:3000/checkout',
-							payment_method_data: {
-								billing_details: {
-									name: `${address.firstName} ${address.lastName}`,
-									email: address.email,
-									address: {
-										line1: address.addressLineOne,
-										city: address.city,
-										state: address.county,
-										country: address.country,
-										postal_code: address.postCode,
-									},
+			if (clientData) {
+				createOrder(order, address, total);
+				// Handle successful payment here
+				// http://localhost:3000/thankyou
+				const result = await stripe.confirmPayment({
+					elements,
+					confirmParams: {
+						// Make sure to change this to your payment completion page
+						receipt_email: address.email,
+						return_url: 'http://localhost:3000/thankyou',
+						payment_method_data: {
+							billing_details: {
+								name: `${address.firstName} ${address.lastName}`,
+								email: address.email,
+								address: {
+									line1: address.addressLineOne,
+									city: address.city,
+									state: address.county,
+									country: address.country,
+									postal_code: address.postCode,
 								},
 							},
 						},
-					})
-					.then(() => console.log(setError(true)))
-					.catch(() => setMessage('There was an error'));
+					},
+				});
+				if (result.error) {
+					// Show error to your customer (e.g., payment details incomplete)
+					console.log(result.error.message);
+				} else {
+					console.log('created');
+				}
 			}
 		} catch (err) {
 			setMessage('There was an error');

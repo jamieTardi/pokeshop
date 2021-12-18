@@ -49,6 +49,7 @@ export default function Album() {
 
 	const handleSearchExpansions = () => {
 		getExpansions(setCategories);
+		console.log(categories);
 	};
 
 	useEffect(() => {
@@ -110,17 +111,14 @@ export default function Album() {
 											display: 'flex',
 											flexDirection: 'column',
 										}}>
-										<Image
-											src={
-												loaded
-													? card.image === ''
-														? 'https://pokedecks.s3.us-west-2.amazonaws.com/eevee.png'
-														: card.image
-													: loadingGif
+										<CardMedia
+											component='img'
+											sx={{ height: '300px', objectFit: 'contain' }}
+											image={
+												card.image === ''
+													? 'https://pokedecks.s3.us-west-2.amazonaws.com/eevee.png'
+													: card.image
 											}
-											width={200}
-											height={250}
-											onLoad={() => setLoaded(true)}
 											alt='Poke Image'
 										/>
 										<CardContent sx={{ flexGrow: 1 }}>
