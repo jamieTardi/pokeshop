@@ -217,6 +217,23 @@ export const paymentIntent = (
 
 //Orders
 
+export const createOrderToken = (
+	token: object,
+	address: object,
+	order: Array<object>,
+	total: string,
+) => {
+	API.post('/orders/orderToken', token, { params: { address, order, total } })
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const getTempOrder = (token: string, setOrderedItems: Function) => {
+	API.get('/orders/orderToken', { params: { token } })
+		.then((res) => res.data)
+		.catch((err) => console.log(err));
+};
+
 export const createOrder = (
 	order: Array<object>,
 	address: object,

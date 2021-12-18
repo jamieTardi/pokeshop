@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Home.module.scss';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
+import { getTempOrder } from '../../api';
 
 const Thankyou = () => {
 	const router = useRouter();
+	const [cookies, setCookie, removeCookie] = useCookies<any>(['orderToken']);
+	const [orderedItems, setOrderedItems] = useState<object | null>(null);
 
 	const page = router.pathname;
 
 	useEffect(() => {
 		if (page !== '/registration') {
-			localStorage.removeItem('poke-cart');
+			if (cookies.orderToken) {
+				getTempOrder(cookies.orderToken, setOrderedItems);
+				removeCookie('orderToken');
+				localStorage.removeItem('poke-cart');
+			}
 		}
 	}, []);
+	console.log(orderedItems);
 
 	return (
 		<div className={styles.thankYouContainer}>

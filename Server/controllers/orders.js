@@ -1,4 +1,5 @@
 import orders from '../models/orders.js';
+import orderToken from '../models/orderToken.js';
 import user from '../models/users.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
@@ -17,10 +18,46 @@ const transporter = nodemailer.createTransport({
 	},
 });
 
-export const addOrder = async (req, res) => {
-	const allItems = req.body;
+export const getTempOrder = async (req, res) => {
+	const { token } = req.query;
+
+	const findOrder = await orderToken.findOne({ token });
+
+	addOrder(findOrder);
+};
+
+export const createToken = async (req, res) => {
+	const { token } = req.body;
+	const orderedItems = JSON.parse(req.query.order[0]);
 	const total = '£' + req.query.total;
 	const address = JSON.parse(req.query.address);
+
+	const subTotal = '£' + (req.query.total - shipping).toString() + '.00';
+	const shippingStr = '£' + shipping.toString() + '.00';
+	try {
+		await orderToken.create({
+			token,
+			customer: address,
+			items: orderedItems,
+			subTotal,
+			shippingStr,
+			total,
+			totalRaw: req.query.total,
+			creationDate: new Date(),
+		});
+		res
+			.status(201)
+			.json('Temporary order created, this will be removed in 30 mins.');
+	} catch (err) {
+		res.status(500).json('Something gone wrong...');
+	}
+};
+
+export const addOrder = async (order) => {
+	console.log(order);
+	const allItems = order.items;
+	const total = order.total;
+	const address = order.customer;
 	const date = new Date();
 	const currentDate = date.toLocaleString('en-US');
 	const allOrders = await orders.find();
@@ -41,10 +78,10 @@ export const addOrder = async (req, res) => {
 	}
 	const orderNumber =
 		'poke-' + orderLetters.join('') + '-' + '000' + allOrders.length.toString();
-	const subTotal = '£' + (req.query.total - shipping).toString() + '.00';
+	const subTotal = '£' + (order.totalRaw - shipping).toString() + '.00';
 	const shippingStr = '£' + shipping.toString() + '.00';
 
-	//Extract Item details
+	// //Extract Item details
 
 	allItems.forEach((item) => {
 		let newItem = {
@@ -60,15 +97,14 @@ export const addOrder = async (req, res) => {
 
 	try {
 		//Creation of new order
-		const newOrder = await orders.create({
+		await orders.create({
 			orderNo: orderNumber,
 			customer: address,
 			items: orderedItems,
-
 			subTotal,
 			shippingStr,
 			total,
-			totalRaw: req.query.total,
+			totalRaw: order.totalRaw,
 			orderDate: currentDate,
 			isShipped: false,
 		});
@@ -154,12 +190,10 @@ export const addOrder = async (req, res) => {
 			},
 		);
 
-		//Once complete send to server
-		res.status(201).json({ newOrder });
+		//Once complete delete temp order
+		await orderToken.findOneAndDelete({ token: order.token });
 	} catch (err) {
-		res
-			.status(500)
-			.json({ message: 'Order not created, please try again or contact us.' });
+		console.log(err);
 	}
 };
 

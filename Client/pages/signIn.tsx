@@ -53,7 +53,7 @@ export default function SignIn() {
 	const [response, setResponse] = useState<any>(null);
 	const dispatch = useDispatch();
 	const history = useRouter();
-	const [cookieRes, setCookieRes] = useState<any>(null);
+
 	const [signInDetails, setSignInDetails] = useState<object>({
 		email: '',
 		password: '',

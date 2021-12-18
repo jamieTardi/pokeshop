@@ -7,10 +7,14 @@ import {
 	getDailyTotals,
 	deleteOrder,
 	updateShipping,
+	createToken,
+	getTempOrder,
 } from '../controllers/orders.js';
 
 const router = express.Router();
 
+router.post('/orderToken', createToken);
+router.get('/orderToken', getTempOrder);
 router.post('/', addOrder);
 router.get('/', getAllOrders);
 router.get('/totals', getTotals);

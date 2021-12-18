@@ -5,10 +5,12 @@ import {
 	useElements,
 } from '@stripe/react-stripe-js';
 import stripeCSS from '../../styles/Stripe.module.scss';
-import { createOrder } from '../../api';
+import { createOrder, createOrderToken } from '../../api';
 import { useAppDispatch } from '../../Redux/hooks';
 import { addNewOrder } from '../../Redux/slices/orderSlice';
 import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
+import { useCookies } from 'react-cookie';
 
 export default function CheckoutForm({ clientData, address }: any) {
 	const router = useRouter();
@@ -21,9 +23,12 @@ export default function CheckoutForm({ clientData, address }: any) {
 	const [total, setTotal] = useState<string>('');
 	const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 	const fullTotal: number = clientData.total / 100;
+	const [cookies, setCookie] = useCookies<any>();
 	const clientSecret = new URLSearchParams(window.location.search).get(
 		'payment_intent_client_secret',
 	);
+
+	const orderToken = uuidv4();
 
 	useEffect(() => {
 		if (clientData) {
@@ -36,10 +41,10 @@ export default function CheckoutForm({ clientData, address }: any) {
 	}, [clientData]);
 
 	useEffect(() => {
-		dispatch({
-			type: addNewOrder,
-			payload: { order, address, total: `£${total}` },
-		});
+		if (total !== '') {
+			createOrderToken({ token: orderToken }, address, order, total);
+			setCookie('orderToken', orderToken, { maxAge: 1800 });
+		}
 	}, [total]);
 
 	useEffect(() => {
@@ -84,7 +89,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 
 		try {
 			if (clientData) {
-				createOrder(order, address, total);
+				// createOrder(order, address, total);
 				// Handle successful payment here
 				// http://localhost:3000/thankyou
 				const result = await stripe.confirmPayment({
