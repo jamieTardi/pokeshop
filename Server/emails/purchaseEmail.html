@@ -50,7 +50,7 @@
 		}
         li{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 110%;
+            line-height: 110%; list-style-type: none; list-style: none;
         }
         img{
 			border:0;
@@ -401,10 +401,15 @@ padding-bottom:0;
                           <td class="textContent" style="padding-top:9px;padding-left:18px;padding-bottom:9px; padding-right:18px;">                        
                                 <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
                                    <tbody><tr>
-                                       <td valign="top">
-										<ul style="list-style: none; font-style: none;text-align: left;color:#30343f ;font-size: 16px;   letter-spacing: normal;">
-                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Your Order</li>
-                                        </ul>
+                                       <td valign="top" >
+										<table>
+                                            <tr>
+                                                <td style=" padding-left: 3%;">
+                                            <p style="font-size: 18px; padding-left: 5%; color: #000;  font-weight: bold;   letter-spacing: normal;">Your Order</p>
+                                            </td>
+                                        </tr>
+
+                                        </table>
                                             <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
                                                 <tbody  class="outerDividerBlock" >
                                                     <tr>
@@ -424,9 +429,14 @@ padding-bottom:0;
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <ul style=" font-style: none;text-align: left;color: #30343f;font-size: 16px;list-style: none; letter-spacing: normal;">
-                                                <li><span style='font-weight: bold;'>Order Number:</span> {{orderNumber}}</li>                                           
-                                                <li><span style='font-weight: bold;'>Order date:</span> {{orderDate}}</li>
+                                            <table>
+                                                <tr>
+                                                    <td style=" padding-left: 3%;">
+                                                <p style=' list-style-type: none !important; list-style: none !important;'><span style='font-weight: bold;'>Order Number:</span> {{orderNumber}}</p>                                           
+                                                <p style=' list-style-type: none !important; list-style: none !important;'><span style='font-weight: bold; list-style-type: none !important; list-style: none;'>Order date:</span> {{orderDate}}</p>
+                                                </td>
+                                                </tr>
+                                            </table>
 											    
                                                  
 										        
@@ -498,8 +508,13 @@ padding-bottom:0;
                                 <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
                                    <tbody><tr>
                                        <td valign="top">
-										<ul style="list-style: none; font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
-                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Pricing Information</li>
+										<table>
+                                            <tr>
+                                                <td style=" padding-left: 3%;">
+                                            <p style="font-size: 18px;  color: #000;  font-weight: bold;">Pricing Information</p>
+                                                </td>
+                                            </tr>
+                                        </table>
                                         </ul>
                                             <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
                                                 <tbody class="outerDividerBlock">
@@ -516,11 +531,17 @@ padding-bottom:0;
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <ul style="list-style: none;font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
-                                                <li><span style='font-weight: bold;'>Sub-Total:</span> {{subTotal}}</li>                                           
-                                                <li><span style='font-weight: bold;'>Delivery:</span> {{shippingStr}}</li> 
-											    <li><span style='font-weight: bold;'>Total Cost:</span> {{total}}</li>										    
-										    </ul>
+                                            <table  style=" padding-left: 3%;">
+                                                <tr>
+                                                    <td style=" padding-left: 3%;">
+                                                <p><span style='font-weight: bold;'>Sub-Total:</span> {{subTotal}}</p>                                           
+                                                <p><span style='font-weight: bold;'>Delivery:</span> {{shippingStr}}</p> 
+											    <p><span style='font-weight: bold;'>Total Cost:</span> {{total}}</p>
+                                                <p>This email is not a conformation of payment, this will be sent shortly.</p>										    
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            
                                     </td>
                                 </tr>
                             </tbody></table>
@@ -552,9 +573,14 @@ padding-bottom:0;
                                 <table style="min-width: 100%;background-color: #FFFFFF;" width="100%" cellspacing="0" border="0">
                                    <tbody><tr>
                                        <td valign="top">
-										<ul style="list-style: none; font-style: none;text-align: left;color: #30343f;font-size: 16px;   letter-spacing: normal;">
-                                            <li style="font-size: 18px;  color: #000;  font-weight: bold;">Delivery Details</li>
-                                        </ul>
+										<table>
+                                            <tr>
+                                                <td style=" padding-left: 3%;">
+                                            <p style="font-size: 18px;  color: #000;  font-weight: bold;">Delivery Details</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                       
                                             <table class="dividerBlock" style="min-width:100%;" width="100%" cellspacing="0" cellpadding="0" border="0">
                                                 <tbody  class="outerDividerBlock" >
                                                     <tr>
@@ -570,15 +596,19 @@ padding-bottom:0;
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <ul style=" font-style: none;text-align: left;color: #30343f;font-size: 16px;list-style: none; letter-spacing: normal;">
+                                            <table  style=" padding-left: 3%;">
+                                                <tr>
+                                                    <td style=" padding-left: 3%;">
                                                     
-                                                <li style='font-weight: bold;'>Delivery Address:</li>
-                                                <li> {{lineOne}}</li>
-                                                <li> {{county}}</li>
-                                                <li> {{postCode}}</li>
-                                                <li> {{country}}</li>
-
-										    </ul>
+                                                <p style='font-weight: bold;'>Delivery Address:</p>
+                                                <p> {{lineOne}}</p>
+                                                <p> {{county}}</p>
+                                                <p> {{postCode}}</p>
+                                                <p> {{country}}</p>
+                                                    </td>
+                                                </tr>
+                                            </table>
+										    
 
                                     </td>
                                 </tr>

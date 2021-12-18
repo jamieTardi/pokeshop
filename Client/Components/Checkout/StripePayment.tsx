@@ -14,11 +14,11 @@ interface payment {
 export default function CheckoutForm({ clientData, address }: any) {
 	const stripe = useStripe();
 	const elements = useElements();
-
+	const [error, setError] = useState<boolean>(false);
 	const [message, setMessage] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [total, setTotal] = useState<string>('');
-
+	const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
 	const fullTotal: number = clientData.total / 100;
 
 	useEffect(() => {
@@ -49,7 +49,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 			.then(({ paymentIntent }: any) => {
 				switch (paymentIntent.status) {
 					case 'succeeded':
-						setMessage('Payment succeeded!');
+						createOrder(order, address, total);
 						break;
 					case 'processing':
 						setMessage('Your payment is processing.');
@@ -67,37 +67,57 @@ export default function CheckoutForm({ clientData, address }: any) {
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
-		// if (!stripe || !elements) {
-		// 	// Stripe.js has not yet loaded.
-		// 	// Make sure to disable form submission until Stripe.js has loaded.
-		// 	return;
-		// }
+		if (!stripe || !elements) {
+			// Stripe.js has not yet loaded.
+			// Make sure to disable form submission until Stripe.js has loaded.
+			return;
+		}
 
-		// setIsLoading(true);
+		setIsLoading(true);
 
-		// const { error } = await stripe.confirmPayment({
-		// 	elements,
-		// 	confirmParams: {
-		// 		// Make sure to change this to your payment completion page
-		// 		return_url: 'http://localhost:3000',
-		// 	},
-		// });
-		const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+		try {
+			if (stripe.confirmPayment) {
+				if (stripe) {
+					createOrder(order, address, total);
+					localStorage.removeItem('poke-cart');
+				}
+				await stripe
+					.confirmPayment({
+						elements,
+						confirmParams: {
+							// Make sure to change this to your payment completion page
+							receipt_email: address.email,
+							return_url: 'http://localhost:3000/checkout',
+							payment_method_data: {
+								billing_details: {
+									name: `${address.firstName} ${address.lastName}`,
+									email: address.email,
+									address: {
+										line1: address.addressLineOne,
+										city: address.city,
+										state: address.county,
+										country: address.country,
+										postal_code: address.postCode,
+									},
+								},
+							},
+						},
+					})
+					.then(() => console.log(setError(true)))
+					.catch(() => setMessage('There was an error'));
+			}
+		} catch (err) {
+			setMessage('There was an error');
+		}
+		// createOrder(order, address, total);
 
-		createOrder(order, address, total);
+		// This point will only be reached if there is an immediate error when
+		// confirming the payment. Otherwise, your customer will be redirected to
+		// your `return_url`. For some payment methods like iDEAL, your customer will
+		// be redirected to an intermediate site first to authorize the payment, then
+		// redirected to the `return_url`.
 
-		// // This point will only be reached if there is an immediate error when
-		// // confirming the payment. Otherwise, your customer will be redirected to
-		// // your `return_url`. For some payment methods like iDEAL, your customer will
-		// // be redirected to an intermediate site first to authorize the payment, then
-		// // redirected to the `return_url`.
-		// if (error.type === 'card_error' || error.type === 'validation_error') {
-		// 	setMessage(error.message);
-		// } else {
-		// 	setMessage('An unexpected error occured.');
-		// }
-
-		// setIsLoading(false);
+		setIsLoading(false);
 	};
 
 	return (

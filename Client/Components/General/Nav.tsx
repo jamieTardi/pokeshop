@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
+import { Button, Tooltip, ClickAwayListener, makeStyles } from '@mui/material';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.scss';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const Nav = () => {
+	const [isOpen, setIsOpen] = useState<boolean>(true);
+
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const currentUser: any = useAppSelector(
@@ -28,6 +30,10 @@ const Nav = () => {
 		dispatch({ type: logoutUser });
 		dispatch({ type: isNewAdmin, payload: false });
 		router.push('/');
+	};
+
+	const handleTooltipClose = () => {
+		setIsOpen(false);
 	};
 
 	useEffect(() => {
@@ -88,10 +94,37 @@ const Nav = () => {
 								Login
 							</Button>
 						</Link>
+
 						<Link href='/register'>
-							<Button variant='text' sx={{ color: 'white' }}>
-								Register
-							</Button>
+							<ClickAwayListener onClickAway={handleTooltipClose}>
+								<Tooltip
+									title={
+										<span style={{ fontSize: '1.1rem' }}>
+											Register with us for faster checkout and exclusive
+											discounts. It is free, fast and secure! 📣
+										</span>
+									}
+									open={isOpen}
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: 'purple',
+												backgroundColor: 'white',
+												fontSize: '1.2em',
+											},
+										},
+										arrow: {
+											sx: {
+												color: 'white',
+											},
+										},
+									}}
+									arrow>
+									<Button variant='text' sx={{ color: 'white' }}>
+										Register
+									</Button>
+								</Tooltip>
+							</ClickAwayListener>
 						</Link>
 					</>
 				) : (

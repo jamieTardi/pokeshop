@@ -102,8 +102,6 @@ const Layout = ({ children }: any) => {
 		}
 	}, [allUsers !== null]);
 
-	console.log(cookies.privacyPolicyPoke);
-
 	return (
 		<>
 			{cookies.privacyPolicyPoke !== 'Accepted' && (
