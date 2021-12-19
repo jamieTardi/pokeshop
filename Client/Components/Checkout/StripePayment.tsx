@@ -32,11 +32,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 
 	useEffect(() => {
 		if (clientData) {
-			setTotal(
-				fullTotal - Math.floor(fullTotal) === 0
-					? fullTotal.toString() + '.00'
-					: fullTotal.toString(),
-			);
+			setTotal(fullTotal.toFixed(2).toString());
 		}
 	}, [clientData]);
 
@@ -95,7 +91,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 					confirmParams: {
 						// Make sure to change this to your payment completion page
 						receipt_email: address.email,
-						return_url: 'http://localhost:3000/thankyou',
+						return_url: 'https://poke-decks.io/thankyou',
 						payment_method_data: {
 							billing_details: {
 								name: `${address.firstName} ${address.lastName}`,

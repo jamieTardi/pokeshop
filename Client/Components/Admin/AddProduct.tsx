@@ -97,17 +97,15 @@ const AddProduct = ({ setOpenEdit, currentProduct, setProducts }: Props) => {
 	}, [isEdit]);
 
 	const handleSubmit = () => {
-		setProductDetails({
-			...productDetails,
-			price: Number(productDetails.price),
-		});
 		setInfoText('');
 
-		// setIsLoading(true);
-		// createProduct(productDetails, setIsLoading, setInfoText);
+		setIsLoading(true);
+		createProduct(
+			{ ...productDetails, price: Number(productDetails.price) },
+			setIsLoading,
+			setInfoText,
+		);
 	};
-
-	console.log(productDetails);
 
 	const handleEdit = () => {
 		setInfoText('');

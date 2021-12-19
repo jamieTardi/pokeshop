@@ -12,8 +12,8 @@ import { RootState } from '../../Redux/store';
 import Loading from '../UIComponents/Loading';
 
 const stripePromise = loadStripe(
-	// 'pk_live_51K1SFhJzDUpYRbdF7dL2wZCWNtFNbB1YflwwRkIN4SzG4kbabjCjmv1WZ5DCoFDBLc7JfhJ20E08l1nnpXAzZdHf00TgUzSlsn',
-	'pk_test_51K1SFhJzDUpYRbdFeTG7fUPqFOyateqcC5npGrzkcDJv8THvb9bnqrjw35DrkOPgEYYLXbFUhsPQZrfnnQ6Zyrhu00NlnBkVDy',
+	'pk_live_51K1SFhJzDUpYRbdF7dL2wZCWNtFNbB1YflwwRkIN4SzG4kbabjCjmv1WZ5DCoFDBLc7JfhJ20E08l1nnpXAzZdHf00TgUzSlsn',
+	// 'pk_test_51K1SFhJzDUpYRbdFeTG7fUPqFOyateqcC5npGrzkcDJv8THvb9bnqrjw35DrkOPgEYYLXbFUhsPQZrfnnQ6Zyrhu00NlnBkVDy',
 );
 interface props {
 	address: { email: string };

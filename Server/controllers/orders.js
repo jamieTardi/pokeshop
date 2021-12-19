@@ -10,12 +10,8 @@ import { shipping } from '../lib/variables.js';
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
-		// type: 'OAuth2',
 		user: process.env.MAIL_USERNAME,
 		pass: process.env.MAIL_PASSWORD,
-		// clientId: process.env.OAUTH_CLIENTID,
-		// clientSecret: process.env.OAUTH_CLIENT_SECRET,
-		// refreshToken: process.env.OAUTH_REFRESH_TOKEN,
 	},
 });
 
@@ -28,12 +24,13 @@ export const getTempOrder = async (req, res) => {
 };
 
 export const createToken = async (req, res) => {
-	const { token } = req.body;
+	const { token, totalRaw } = req.body;
 	const orderedItems = JSON.parse(req.query.order[0]);
 	const total = '£' + req.query.total;
 	const address = JSON.parse(req.query.address);
+	const intTotal = Number(req.query.total);
+	const subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
 
-	const subTotal = '£' + (req.query.total - shipping).toString() + '.00';
 	const shippingStr = '£' + shipping.toString() + '.00';
 	try {
 		await orderToken.create({
@@ -71,6 +68,7 @@ export const addOrder = async (order) => {
 	//Create order number
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 	let orderLetters = [];
+	const subTotal = '£' + (order.totalRaw - shipping).toFixed(2).toString();
 
 	for (let i = 0; i < 4; i++) {
 		let num = Math.floor(Math.random() * 10);
@@ -78,8 +76,8 @@ export const addOrder = async (order) => {
 	}
 	const orderNumber =
 		'poke-' + orderLetters.join('') + '-' + '000' + allOrders.length.toString();
-	const subTotal = '£' + (order.totalRaw - shipping).toString() + '.00';
-	const shippingStr = '£' + shipping.toString() + '.00';
+
+	const shippingStr = '£' + shipping.toFixed(2).toString();
 
 	// //Extract Item details
 

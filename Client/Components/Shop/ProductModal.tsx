@@ -191,10 +191,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 												<LocalOfferIcon />
 												Price:
 												<span style={{ color: '#989898', marginLeft: '2%' }}>
-													£
-													{cardItem.price - Math.floor(cardItem.price) === 0
-														? cardItem.price.toString() + '.00'
-														: cardItem.price.toString()}
+													£{cardItem.price.toFixed(2).toString()}
 												</span>
 											</Typography>
 										</Grid>

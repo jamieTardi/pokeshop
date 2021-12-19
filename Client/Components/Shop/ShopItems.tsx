@@ -256,10 +256,7 @@ const ShopItems = () => {
 														color: '#989898',
 													}}>
 													<LocalOfferIcon />
-													Price: £
-													{card.price - Math.floor(card.price) === 0
-														? card.price.toString() + '.00'
-														: card.price.toString()}
+													Price: £{card.price.toFixed(2).toString()}
 												</Typography>
 											</CardActions>
 											<CardActions>

@@ -42,26 +42,17 @@ export default function CardTotal({ items }: any) {
 					Total items in cart: {items.length}
 				</Typography>
 				<Typography sx={{ mb: 1.5 }} color='text.secondary'>
-					Cart Total: £
-					{price.cartTotal - Math.floor(price.cartTotal) === 0
-						? price.cartTotal.toString() + '.00'
-						: price.cartTotal.toString()}
+					Cart Total: £{price.cartTotal.toFixed(2).toString()}
 				</Typography>
 				<Typography sx={{ mb: 1.5 }} color='text.secondary'>
-					Shipping: £
-					{price.shipping - Math.floor(price.shipping) === 0
-						? price.shipping.toString() + '.00'
-						: price.shipping.toString()}
+					Shipping: £{price.shipping.toFixed(2).toString()}
 				</Typography>
 				<Typography
 					sx={{ fontSize: 16 }}
 					color='text.primary'
 					gutterBottom
 					component='div'>
-					Cart grand total: £
-					{price.finalTotal - Math.floor(price.finalTotal) === 0
-						? price.finalTotal.toString() + '.00'
-						: price.finalTotal.toString()}
+					Cart grand total: £{price.finalTotal.toFixed(2).toString()}
 				</Typography>
 
 				<Typography variant='body2'>

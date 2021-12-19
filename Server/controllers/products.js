@@ -1,9 +1,8 @@
 import products from '../models/products.js';
 
 export const addProduct = async (req, res) => {
-	const { price, SKU } = req.body;
 	const body = req.body;
-	let newPrice = parseInt(price);
+
 	try {
 		const existingProduct = await products.findOne({ SKU: req.body.SKU });
 		if (existingProduct) {
@@ -14,7 +13,6 @@ export const addProduct = async (req, res) => {
 		}
 		const result = await products.create({
 			...body,
-			price: newPrice,
 		});
 		return res.status(201).json({ createdProduct: result });
 	} catch (err) {

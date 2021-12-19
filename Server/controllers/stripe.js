@@ -35,12 +35,10 @@ const calculateOrderAmount = (cartItems) => {
 //fix amount
 export const createPayment = async (req, res) => {
 	let total = calculateOrderAmount(req.body);
+	console.log(total.toFixed(0));
 	const paymentIntent = await stripe.paymentIntents.create({
-		amount: total,
+		amount: total.toFixed(0),
 		currency: 'gbp',
-		// automatic_payment_methods: {
-		// 	enabled: true,
-		// },
 	});
 	res.send({
 		clientSecret: paymentIntent.client_secret,
