@@ -7,14 +7,14 @@ import {
 import stripeCSS from '../../styles/Stripe.module.scss';
 import { createOrder, createOrderToken } from '../../api';
 import { useAppDispatch } from '../../Redux/hooks';
-import { addNewOrder } from '../../Redux/slices/orderSlice';
+import ProcessingPayment from './ProcessingPayment';
 import { useRouter } from 'next/router';
 import { v4 as uuidv4 } from 'uuid';
+
 import { useCookies } from 'react-cookie';
 
 export default function CheckoutForm({ clientData, address }: any) {
-	const router = useRouter();
-	const dispatch = useAppDispatch();
+	const [open, setOpen] = useState<boolean>(false);
 	const stripe = useStripe();
 	const elements = useElements();
 	const [error, setError] = useState<boolean>(false);
@@ -78,20 +78,18 @@ export default function CheckoutForm({ clientData, address }: any) {
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-
+		setOpen(true);
+		setIsLoading(true);
 		if (!stripe || !elements) {
 			// Stripe.js has not yet loaded.
 			// Make sure to disable form submission until Stripe.js has loaded.
+			setOpen(false);
+			setIsLoading(false);
 			return;
 		}
 
-		setIsLoading(true);
-
 		try {
 			if (clientData) {
-				// createOrder(order, address, total);
-				// Handle successful payment here
-				// http://localhost:3000/thankyou
 				const result = await stripe.confirmPayment({
 					elements,
 					confirmParams: {
@@ -115,46 +113,47 @@ export default function CheckoutForm({ clientData, address }: any) {
 				});
 				if (result.error) {
 					// Show error to your customer (e.g., payment details incomplete)
+					setOpen(false);
 					console.log(result.error.message);
 				} else {
+					setOpen(false);
 					console.log('created');
 				}
+				setOpen(false);
+				setIsLoading(false);
 			}
 		} catch (err) {
+			setIsLoading(false);
 			setMessage('There was an error');
 		}
-		// createOrder(order, address, total);
-
-		// This point will only be reached if there is an immediate error when
-		// confirming the payment. Otherwise, your customer will be redirected to
-		// your `return_url`. For some payment methods like iDEAL, your customer will
-		// be redirected to an intermediate site first to authorize the payment, then
-		// redirected to the `return_url`.
 
 		setIsLoading(false);
 	};
 
 	return (
-		<form
-			id='payment-form'
-			onSubmit={handleSubmit}
-			className={stripeCSS.container}
-			style={{ zIndex: 30, position: 'relative' }}>
-			<PaymentElement id='payment-element' />
-			<button
-				disabled={isLoading || !stripe || !elements}
-				id='submit'
-				style={{ zIndex: 30 }}>
-				<span id='button-text' style={{ zIndex: 30 }}>
-					{isLoading ? (
-						<div className='spinner' id='spinner'></div>
-					) : (
-						`Pay now £${total}`
-					)}
-				</span>
-			</button>
-			{/* Show any error or success messages */}
-			{message && <div id='payment-message'>{message}</div>}
-		</form>
+		<>
+			<form
+				id='payment-form'
+				onSubmit={handleSubmit}
+				className={stripeCSS.container}
+				style={{ zIndex: 30, position: 'relative' }}>
+				<PaymentElement id='payment-element' />
+				<button
+					disabled={isLoading || !stripe || !elements}
+					id='submit'
+					style={{ zIndex: 30 }}>
+					<span id='button-text' style={{ zIndex: 30 }}>
+						{isLoading ? (
+							<div className='spinner' id='spinner'></div>
+						) : (
+							`Pay now £${total}`
+						)}
+					</span>
+				</button>
+				{/* Show any error or success messages */}
+				{message && <div id='payment-message'>{message}</div>}
+			</form>
+			<ProcessingPayment open={open} setOpen={setOpen} />
+		</>
 	);
 }

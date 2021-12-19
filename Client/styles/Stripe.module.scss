@@ -107,6 +107,12 @@
 		animation: loading 2s infinite ease;
 	}
 
+	//Processing payment
+
+	.loadSpinner span {
+		transform: rotate(90deg);
+	}
+
 	@keyframes loading {
 		0% {
 			-webkit-transform: rotate(0deg);

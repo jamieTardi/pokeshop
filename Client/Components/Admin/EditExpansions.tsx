@@ -287,6 +287,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 									<Grid item xs={12}>
 										<InputLabel>Select the expansion to edit</InputLabel>
 										<select>
+											<option value='' selected disabled hidden />
 											{expansion?.map((item) => (
 												<option
 													value={item.expansion}

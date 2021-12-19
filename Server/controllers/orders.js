@@ -1,5 +1,6 @@
 import orders from '../models/orders.js';
 import orderToken from '../models/orderToken.js';
+import products from '../models/products.js';
 import user from '../models/users.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
@@ -54,7 +55,6 @@ export const createToken = async (req, res) => {
 };
 
 export const addOrder = async (order) => {
-	console.log(order);
 	const allItems = order.items;
 	const total = order.total;
 	const address = order.customer;
@@ -83,16 +83,34 @@ export const addOrder = async (order) => {
 
 	// //Extract Item details
 
-	allItems.forEach((item) => {
-		let newItem = {
-			title: item.title,
-			SKU: item.SKU,
-			price:
-				item.price - Math.floor(item.price) === 0
-					? '£' + item.price.toString() + '.00'
-					: '£' + item.price.toString(),
-		};
-		orderedItems.push(newItem);
+	allItems.forEach(async (item) => {
+		const productToUpdate = await products.findOne({ SKU: item.SKU });
+		try {
+			let newItem = {
+				title: item.title,
+				SKU: item.SKU,
+				price:
+					item.price - Math.floor(item.price) === 0
+						? '£' + item.price.toString() + '.00'
+						: '£' + item.price.toString(),
+			};
+			orderedItems.push(newItem);
+
+			await products.findByIdAndUpdate(productToUpdate._id, {
+				title: productToUpdate.title,
+				price: productToUpdate.price,
+				image: productToUpdate.image,
+				description: productToUpdate.description,
+				expansion: productToUpdate.expansion,
+				category: productToUpdate.category,
+				SKU: productToUpdate.SKU,
+				releaseDate: productToUpdate.releaseDate,
+				stockAmount: productToUpdate.stockAmount - 1,
+				preOrder: productToUpdate.preOrder,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 	});
 
 	try {
