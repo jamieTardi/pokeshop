@@ -19,6 +19,8 @@ import {
 	getImageURL,
 	updateCategories,
 	updateExpansion,
+	deleteExpansion,
+	deleteCategory,
 } from '../../api';
 import slugify from 'react-slugify';
 
@@ -129,6 +131,13 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 			.catch((err) => console.log(err));
 	};
 
+	const handleDeleteExpansion = () => {
+		deleteExpansion(modifiedExp.id, setInfoText);
+	};
+	const handleDeleteCategory = () => {
+		deleteCategory(modifiedCat.id, setInfoText);
+	};
+
 	const handleClick = (e: any, item: any) => {
 		if (item.category) {
 			setModifiedCat({
@@ -147,8 +156,6 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 				image: returnedImage,
 			});
 		}
-
-		// setModifiedExp({ ...modifiedExp, id: e.currentTarget.dataset.id });
 	};
 
 	const handleUpdate = () => {
@@ -194,7 +201,7 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 		getImageURL(setImageURL);
 	}, []);
 
-	console.log(modifiedCat);
+	console.log(modifiedExp);
 
 	return (
 		<div>
@@ -345,26 +352,48 @@ export default function EditExpansions({ setOpenEditExp, openEditExp }: props) {
 					<Grid item xs={12}>
 						{infoText !== '' && <p style={{ color: 'black' }}>{infoText}</p>}
 					</Grid>
+					<Grid container>
+						<Grid item xs={6} sx={{ marginBottom: '5%' }}>
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={handleUpdate}
+								disabled={selectedCat === ''}>
+								Update
+							</Button>
+						</Grid>
 
-					<Grid item xs={6} sx={{ marginBottom: '5%' }}>
-						<Button
-							variant='contained'
-							color='primary'
-							onClick={handleUpdate}
-							disabled={selectedCat === ''}>
-							Update
-						</Button>
+						<Grid item xs={6}>
+							<Button
+								variant='contained'
+								color='warning'
+								onClick={() => {
+									setOpenEditExp(false);
+								}}>
+								Close
+							</Button>
+						</Grid>
 					</Grid>
-
-					<Grid item xs={6}>
-						<Button
-							variant='contained'
-							color='error'
-							onClick={() => {
-								setOpenEditExp(false);
-							}}>
-							Close
-						</Button>
+					<Grid item xs={6} sx={{ marginTop: '10%' }}>
+						{selectedCat !== '' && (
+							<>
+								{selectedCat === 'categories' ? (
+									<Button
+										variant='contained'
+										color='error'
+										onClick={handleDeleteCategory}>
+										Delete Category
+									</Button>
+								) : (
+									<Button
+										variant='contained'
+										color='error'
+										onClick={handleDeleteExpansion}>
+										Delete Expansion
+									</Button>
+								)}
+							</>
+						)}
 					</Grid>
 				</Box>
 			</Modal>

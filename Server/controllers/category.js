@@ -52,3 +52,17 @@ export const updateCategory = async (req, res) => {
 		res.status(500).json({ message: 'Server went boom :(' });
 	}
 };
+
+export const deleteCategory = async (req, res) => {
+	const { id } = req.params;
+
+	if (!categories.findById(id)) {
+		res.status(404).json('Category not found');
+	}
+	try {
+		await categories.findByIdAndDelete(id);
+		res.status(203).json('Category deleted!');
+	} catch (err) {
+		res.status(500).json('Something went wrong..');
+	}
+};

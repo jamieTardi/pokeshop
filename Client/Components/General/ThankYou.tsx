@@ -21,7 +21,6 @@ const Thankyou = () => {
 			}
 		}
 	}, []);
-	console.log(orderedItems);
 
 	return (
 		<div className={styles.thankYouContainer}>

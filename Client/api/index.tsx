@@ -144,6 +144,18 @@ export const getExpansions = (setExpansions: any) => {
 		.catch((err) => console.log(err.response.data.message));
 };
 
+export const deleteExpansion = (id: string, setInfoText: Function) => {
+	API.delete(`/expansion/${id}`)
+		.then((res) => setInfoText(res.data))
+		.catch(() => setInfoText('Something went wrong'));
+};
+
+export const deleteCategory = (id: string, setInfoText: Function) => {
+	API.delete(`/category/${id}`)
+		.then((res) => setInfoText(res.data))
+		.catch(() => setInfoText('Something went wrong'));
+};
+
 export const getAllProducts = (setProducts: any) => {
 	API.get('/products')
 		.then((res) => setProducts(res.data))

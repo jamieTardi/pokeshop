@@ -53,3 +53,17 @@ export const updateExpansion = async (req, res) => {
 		res.status(500).json({ message: 'Server went boom :(' });
 	}
 };
+
+export const deleteExpansion = async (req, res) => {
+	const { id } = req.params;
+
+	if (!expansions.findById(id)) {
+		res.status(404).json('Expansion not found');
+	}
+	try {
+		await expansions.findByIdAndDelete(id);
+		res.status(203).json('Expansion deleted!');
+	} catch (err) {
+		res.status(500).json('Something went wrong..');
+	}
+};
