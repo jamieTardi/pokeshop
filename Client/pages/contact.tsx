@@ -34,7 +34,6 @@ export default function SignUp() {
 
 	return (
 		<Container component='main' maxWidth='xs'>
-			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 			<CssBaseline />
 			<Paper sx={{ padding: '5%', margin: '5% 0%' }}>
 				<Box

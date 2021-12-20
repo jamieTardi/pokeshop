@@ -188,7 +188,6 @@ const ShopItems = () => {
 	if (products) {
 		return (
 			<div>
-				<div className={`${styles.backgroundcustom} ${styles.whiteText}`}></div>
 				<div className={`${styles.container} ${styles.whiteText}`}>
 					<main>
 						{/* Hero unit */}

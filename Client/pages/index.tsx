@@ -89,7 +89,7 @@ const Home: NextPage = () => {
 					href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
 				/>
 			</Head>
-			<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
+
 			<div className={`${styles.container} ${styles.whiteText}`}>
 				<div className={styles.canvas} />
 

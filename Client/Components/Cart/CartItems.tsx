@@ -54,7 +54,6 @@ const CartItems = (props: Props) => {
 		return (
 			<div className={`${styles.container} ${styles.whiteText}`}>
 				<div className={cartStyles.container}>
-					<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 					<div className={cartStyles.gridItem1}>
 						<div>
 							{items ? (

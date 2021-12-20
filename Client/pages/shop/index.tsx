@@ -49,7 +49,6 @@ const ShopHome = (props: Props) => {
 	return (
 		<>
 			<Box>
-				<div className={`${styles.backgroundcustom} ${styles.whiteText}`} />
 				<Main />
 			</Box>
 		</>
