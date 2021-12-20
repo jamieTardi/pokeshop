@@ -38,7 +38,6 @@ const AppBar = styled(MuiAppBar, {
 	}),
 	...(open && {
 		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
 		transition: theme.transitions.create(['width', 'margin'], {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -50,8 +49,8 @@ const Drawer = styled(MuiDrawer, {
 	shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
 	'& .MuiDrawer-paper': {
-		position: 'absolute',
-		whiteSpace: 'nowrap',
+		position: 'relative',
+		whiteSpace: 'wrap',
 		width: drawerWidth,
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
@@ -97,6 +96,7 @@ function DashboardContent() {
 					<Toolbar
 						sx={{
 							pr: '24px',
+							width: '100%',
 						}}>
 						<IconButton
 							edge='start'

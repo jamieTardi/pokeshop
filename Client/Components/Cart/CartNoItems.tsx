@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import emptyPic from '../../Images/emptyCart.png';
+import emptyPic from '../../Images/emptyCart.svg';
 import cart from '../../Images/cart.png';
 import styles from '../../styles/Cart.module.scss';
 import { Button } from '@mui/material';
@@ -14,7 +14,7 @@ const CartNoItems = (props: Props) => {
 			<div className={styles.center}>
 				<Image src={cart} alt='cart' />
 				<Image src={emptyPic} alt='empty cart' width={500} height={400} />
-				<h3>
+				<h3 style={{ color: '#fff' }}>
 					It appears your cart is empty! Click the button to go to our shop.
 				</h3>
 				<Link href='/shop'>

@@ -46,10 +46,16 @@ const theme = createTheme({
 export default function Album() {
 	const [categories, setCategories] = useState<null | Array<category>>(null);
 	const [loaded, setLoaded] = useState<boolean>(false);
+	const [isExp, setIsExp] = useState<boolean>(false);
 
 	const handleSearchExpansions = () => {
-		getExpansions(setCategories);
-		console.log(categories);
+		if (!isExp) {
+			getExpansions(setCategories);
+			setIsExp((prev) => !prev);
+		} else {
+			getCategories(setCategories);
+			setIsExp((prev) => !prev);
+		}
 	};
 
 	useEffect(() => {
@@ -73,11 +79,7 @@ export default function Album() {
 							<div style={{ display: 'flex', justifyContent: 'center' }}>
 								<Image src={pokeShop} />
 							</div>
-							<Typography
-								variant='h5'
-								align='center'
-								color='text.secondary'
-								paragraph>
+							<Typography variant='h5' align='center' paragraph>
 								Welcome to our poké shop! Thanks for taking the time to visit
 								us, check out the categories and expansions and see what we have
 								to offer!
@@ -93,8 +95,11 @@ export default function Album() {
 									</Button>
 								</Link>
 
-								<Button variant='outlined' onClick={handleSearchExpansions}>
-									View Expansions
+								<Button
+									variant='outlined'
+									color='inherit'
+									onClick={handleSearchExpansions}>
+									{isExp ? 'View Categories' : 'View Expansions'}
 								</Button>
 							</Stack>
 						</Container>

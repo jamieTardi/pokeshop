@@ -15,7 +15,7 @@ export const GlassCardHero = (props: Props) => {
 	return (
 		<div className={styles.glassCard}>
 			<h1
-				className={!isMobile ? styles.blackText : styles.whiteText}
+				className={styles.whiteText}
 				style={{
 					display: 'flex',
 					justifyContent: 'center',

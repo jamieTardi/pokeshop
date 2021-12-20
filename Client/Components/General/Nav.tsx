@@ -52,101 +52,103 @@ const Nav = () => {
 	}, [currentUser]);
 
 	return (
-		<nav className={styles.nav}>
-			<div style={{ cursor: 'pointer' }}>
-				<Link href='/'>
-					<Image src={Logo} alt='logo' height={40} width={140} />
-				</Link>
-			</div>
-			<ul className={styles.listContainer}>
-				{navItems.map((item) => (
-					<Link
-						key={`/${item}`}
-						href={`/${item.toLowerCase().replace(/\s+/g, '')}`}>
-						<li className={styles.navitems} key={item}>
-							{item}
+		<div style={{ position: 'relative' }}>
+			<nav className={styles.nav}>
+				<div style={{ cursor: 'pointer' }}>
+					<Link href='/'>
+						<Image src={Logo} alt='logo' height={40} width={140} />
+					</Link>
+				</div>
+				<ul className={styles.listContainer}>
+					{navItems.map((item) => (
+						<Link
+							key={`/${item}`}
+							href={`/${item.toLowerCase().replace(/\s+/g, '')}`}>
+							<li className={styles.navitems} key={item}>
+								{item}
+							</li>
+						</Link>
+					))}
+					{isAdmin && (
+						<li className={styles.navitems}>
+							<Link href='/admin'>Dashboard</Link>
+						</li>
+					)}
+					{isUser && (
+						<li className={styles.navitems}>
+							<Link href='/myaccount'>My Account</Link>
+						</li>
+					)}
+					<Link href='/cart'>
+						<li className={styles.navitems}>
+							<Badge badgeContent={cart && cart.length} color='primary'>
+								<ShoppingCartIcon />
+							</Badge>
 						</li>
 					</Link>
-				))}
-				{isAdmin && (
-					<li className={styles.navitems}>
-						<Link href='/admin'>Dashboard</Link>
-					</li>
-				)}
-				{isUser && (
-					<li className={styles.navitems}>
-						<Link href='/myaccount'>My Account</Link>
-					</li>
-				)}
-				<Link href='/cart'>
-					<li className={styles.navitems}>
-						<Badge badgeContent={cart && cart.length} color='primary'>
-							<ShoppingCartIcon />
-						</Badge>
-					</li>
-				</Link>
-			</ul>
-			<div>
-				{!isSignedIn ? (
-					<>
-						<Link href='/signIn'>
-							<Button variant='text' sx={{ color: 'white' }}>
-								Login
+				</ul>
+				<div>
+					{!isSignedIn ? (
+						<>
+							<Link href='/signIn'>
+								<Button variant='text' sx={{ color: 'white' }}>
+									Login
+								</Button>
+							</Link>
+
+							<Link href='/register'>
+								<ClickAwayListener onClickAway={handleTooltipClose}>
+									<Tooltip
+										title={
+											<span style={{ fontSize: '1.1rem' }}>
+												Register with us for faster checkout and exclusive
+												discounts. It is free, fast and secure! 📣
+											</span>
+										}
+										open={isOpen}
+										componentsProps={{
+											tooltip: {
+												sx: {
+													color: '#425466',
+													backgroundColor: 'white',
+													fontSize: '1.2em',
+												},
+											},
+											arrow: {
+												sx: {
+													color: 'white',
+												},
+											},
+										}}
+										arrow>
+										<Button variant='text' sx={{ color: 'white' }}>
+											Register
+										</Button>
+									</Tooltip>
+								</ClickAwayListener>
+							</Link>
+						</>
+					) : (
+						<div className={styles.flexBetween} style={{ width: '100%' }}>
+							<p className={styles.welcome}>
+								Hi{' '}
+								{currentUser &&
+									currentUser.firstName.charAt(0).toUpperCase() +
+										currentUser.firstName.slice(1)}
+								!
+							</p>
+
+							<Button
+								variant='text'
+								sx={{ color: 'white' }}
+								onClick={handleLogout}>
+								Logout
 							</Button>
-						</Link>
-
-						<Link href='/register'>
-							<ClickAwayListener onClickAway={handleTooltipClose}>
-								<Tooltip
-									title={
-										<span style={{ fontSize: '1.1rem' }}>
-											Register with us for faster checkout and exclusive
-											discounts. It is free, fast and secure! 📣
-										</span>
-									}
-									open={isOpen}
-									componentsProps={{
-										tooltip: {
-											sx: {
-												color: '#425466',
-												backgroundColor: 'white',
-												fontSize: '1.2em',
-											},
-										},
-										arrow: {
-											sx: {
-												color: 'white',
-											},
-										},
-									}}
-									arrow>
-									<Button variant='text' sx={{ color: 'white' }}>
-										Register
-									</Button>
-								</Tooltip>
-							</ClickAwayListener>
-						</Link>
-					</>
-				) : (
-					<div className={styles.flexBetween} style={{ width: '100%' }}>
-						<p className={styles.welcome}>
-							Hi{' '}
-							{currentUser &&
-								currentUser.firstName.charAt(0).toUpperCase() +
-									currentUser.firstName.slice(1)}
-							!
-						</p>
-
-						<Button
-							variant='text'
-							sx={{ color: 'white' }}
-							onClick={handleLogout}>
-							Logout
-						</Button>
-					</div>
-				)}
-			</div>
-		</nav>
+						</div>
+					)}
+				</div>
+			</nav>
+		</div>
 	);
 };
 

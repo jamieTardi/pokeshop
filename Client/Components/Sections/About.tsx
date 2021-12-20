@@ -17,12 +17,7 @@ const About = (props: Props) => {
 					<Image src={Venusaur} alt='pokemon' height={350} width={600} />
 				</div>
 
-				<div
-					className={
-						isMobile
-							? `${styles.whiteText} ${styles.aboutItem2}`
-							: `${styles.blackText} ${styles.aboutItem2}`
-					}>
+				<div className={`${styles.whiteText} ${styles.aboutItem2}`}>
 					<p
 						style={{
 							textAlign: 'center',

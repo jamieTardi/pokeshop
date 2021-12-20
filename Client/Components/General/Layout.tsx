@@ -107,36 +107,34 @@ const Layout = ({ children }: any) => {
 			{cookies.privacyPolicyPoke !== 'Accepted' && (
 				<CookiePolicy open={open} setOpen={setOpen} setCookie={setCookie} />
 			)}
-			{mobileSize && (
-				<>
-					<div className={mobileStyles.context}></div>
 
-					<div className={mobileStyles.area}>
-						<ul className={mobileStyles.circles}>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-						</ul>
-						<div className={styles.whiteText}>
-							{mobileSize ? <MobileNav /> : <Nav />}
-						</div>
-						<div className={`${styles.whiteText} ${styles.containerPadding}`}>
-							{children}
-						</div>
-						<footer className={`${styles.blackText} ${styles.footerContainer}`}>
-							<Footer />
-						</footer>
+			<>
+				<div className={mobileStyles.area}>
+					<ul className={mobileStyles.circles}>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+					<div className={styles.whiteText}>
+						{mobileSize ? <MobileNav /> : <Nav />}
 					</div>
-				</>
-			)}
-			{!mobileSize && (
+					<div className={`${styles.whiteText} ${styles.containerPadding}`}>
+						{children}
+					</div>
+					<footer className={`${styles.blackText} ${styles.footerContainer}`}>
+						<Footer />
+					</footer>
+				</div>
+			</>
+
+			{/* {!mobileSize && (
 				<div>
 					<>
 						{' '}
@@ -151,7 +149,7 @@ const Layout = ({ children }: any) => {
 						</footer>
 					</>
 				</div>
-			)}
+			)} */}
 		</>
 	);
 };

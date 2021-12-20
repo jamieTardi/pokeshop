@@ -95,6 +95,7 @@ export default function Customers() {
 						display: 'flex',
 						flexDirection: 'column',
 						margin: '5% 0%',
+						minHeight: '50vh',
 					}}>
 					<Title>All Customers</Title>
 					<Table size='small'>

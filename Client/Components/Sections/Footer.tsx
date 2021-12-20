@@ -41,65 +41,67 @@ const payments: Array<any> = [
 
 const Footer = (props: Props) => {
 	return (
-		<div className={styles.footerGrid}>
-			<div className={styles.footerGridItem1}>
-				<h4>Poke-decks</h4>
-				<p>&#169;{date.getFullYear()}</p>
-			</div>
-
-			<div className={styles.footerGridItem2}>
-				<h5>Poke-decks</h5>
-				<ul>
-					<li>
-						<Link href='/'>About Us</Link>
-					</li>
-					<li>
-						<Link href='/contact'>Contact Us</Link>
-					</li>
-				</ul>
-			</div>
-			<div className={styles.footerGridItem3}>
-				<h5>Further Information</h5>
-				<ul>
-					<li>
-						<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
-							Privacy Policy
-						</a>
-					</li>
-					<li>
-						<a
-							href='/Terms_and_Conditions.pdf'
-							rel='noopener noreferrer'
-							download>
-							Terms and Conditions
-						</a>
-					</li>
-					<li>
-						<a
-							href='/Cookie-Policy-Poke-Decks.pdf'
-							rel='noopener noreferrer'
-							download>
-							Cookie Policy
-						</a>
-					</li>
-				</ul>
-			</div>
-			<div className={styles.footerGridItem4}>
-				<h5>Follow Us</h5>
-				<div className={styles.footerGridItems}>
-					{logos.map((logo, i) => (
-						<Avatar key={i} sx={{ bgcolor: '#E84875', margin: '0% 2%' }}>
-							{logo}
-						</Avatar>
-					))}
+		<div style={{ position: 'relative' }}>
+			<div className={styles.footerGrid}>
+				<div className={styles.footerGridItem1}>
+					<h4>Poke-decks</h4>
+					<p>&#169;{date.getFullYear()}</p>
 				</div>
-			</div>
-			<div className={styles.footerGridItem5}>
-				<h5>We accept</h5>
-				<div className={styles.footerGridItems}>
-					{payments.map((logo, i) => (
-						<div className={styles.payments}>{logo}</div>
-					))}
+
+				<div className={styles.footerGridItem2}>
+					<h5>Poke-decks</h5>
+					<ul>
+						<li>
+							<Link href='/'>About Us</Link>
+						</li>
+						<li>
+							<Link href='/contact'>Contact Us</Link>
+						</li>
+					</ul>
+				</div>
+				<div className={styles.footerGridItem3}>
+					<h5>Further Information</h5>
+					<ul>
+						<li>
+							<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
+								Privacy Policy
+							</a>
+						</li>
+						<li>
+							<a
+								href='/Terms_and_Conditions.pdf'
+								rel='noopener noreferrer'
+								download>
+								Terms and Conditions
+							</a>
+						</li>
+						<li>
+							<a
+								href='/Cookie-Policy-Poke-Decks.pdf'
+								rel='noopener noreferrer'
+								download>
+								Cookie Policy
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div className={styles.footerGridItem4}>
+					<h5>Follow Us</h5>
+					<div className={styles.footerGridItems}>
+						{logos.map((logo, i) => (
+							<Avatar key={i} sx={{ bgcolor: '#E84875', margin: '0% 2%' }}>
+								{logo}
+							</Avatar>
+						))}
+					</div>
+				</div>
+				<div className={styles.footerGridItem5}>
+					<h5>We accept</h5>
+					<div className={styles.footerGridItems}>
+						{payments.map((logo, i) => (
+							<div className={styles.payments}>{logo}</div>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

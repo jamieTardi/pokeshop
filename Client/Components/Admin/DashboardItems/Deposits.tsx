@@ -27,10 +27,7 @@ export default function Deposits() {
 			<>
 				<Title>Total This Month</Title>
 				<Typography component='p' variant='h4'>
-					£
-					{monthTotal.total - Math.floor(monthTotal.total) === 0
-						? monthTotal.total.toString() + '.00'
-						: monthTotal.total.toString()}
+					£{monthTotal.total.toFixed(2).toString()}
 				</Typography>
 				<Typography color='text.secondary' sx={{ flex: 1 }}>
 					{new Intl.DateTimeFormat('en-GB', { month: 'long' }).format(current)}
