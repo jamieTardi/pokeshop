@@ -24,10 +24,17 @@ export const signUp = (formData: object, setIsLoading: Function) =>
 		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 
-export const signInUser = (formData: object, setResponse: Function) =>
+export const signInUser = (
+	formData: object,
+	setResponse: Function,
+	setIsLoading: Function,
+	setMessage: Function,
+) =>
 	API.post('/users/signin', formData)
 		.then((res) => setResponse(res))
-		.catch((err) => console.log(err));
+		.then(() => setIsLoading(false))
+		.catch((err) => setMessage('Sign in failed, please refresh and try again'))
+		.catch(() => setIsLoading(false));
 
 export const getUsers = (setAllUsers: Function) =>
 	API.get('/users')

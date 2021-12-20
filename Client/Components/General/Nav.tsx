@@ -12,9 +12,7 @@ import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { isNewAdmin } from '../../Redux/slices/isAdminSlice';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const Nav = () => {
-	const [isOpen, setIsOpen] = useState<boolean>(true);
-
+const Nav = ({ isOpen, setIsOpen }: any) => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 	const currentUser: any = useAppSelector(
@@ -30,10 +28,6 @@ const Nav = () => {
 		dispatch({ type: logoutUser });
 		dispatch({ type: isNewAdmin, payload: false });
 		router.push('/');
-	};
-
-	const handleTooltipClose = () => {
-		setIsOpen(false);
 	};
 
 	useEffect(() => {
@@ -97,35 +91,33 @@ const Nav = () => {
 							</Link>
 
 							<Link href='/register'>
-								<ClickAwayListener onClickAway={handleTooltipClose}>
-									<Tooltip
-										title={
-											<span style={{ fontSize: '1.1rem' }}>
-												Register with us for faster checkout and exclusive
-												discounts. It is free, fast and secure! 📣
-											</span>
-										}
-										open={isOpen}
-										componentsProps={{
-											tooltip: {
-												sx: {
-													color: '#425466',
-													backgroundColor: 'white',
-													fontSize: '1.2em',
-												},
+								<Tooltip
+									title={
+										<span style={{ fontSize: '1.1rem' }}>
+											Register with us for faster checkout and exclusive
+											discounts. It is free, fast and secure! 📣
+										</span>
+									}
+									open={isOpen}
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: '#425466',
+												backgroundColor: 'white',
+												fontSize: '1.2em',
 											},
-											arrow: {
-												sx: {
-													color: 'white',
-												},
+										},
+										arrow: {
+											sx: {
+												color: 'white',
 											},
-										}}
-										arrow>
-										<Button variant='text' sx={{ color: 'white' }}>
-											Register
-										</Button>
-									</Tooltip>
-								</ClickAwayListener>
+										},
+									}}
+									arrow>
+									<Button variant='text' sx={{ color: 'white' }}>
+										Register
+									</Button>
+								</Tooltip>
 							</Link>
 						</>
 					) : (

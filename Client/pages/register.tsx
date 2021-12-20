@@ -18,7 +18,7 @@ import * as EmailValidator from 'email-validator';
 import Nav from '../Components/General/Nav';
 import { signUp } from '../api/index';
 import { useRouter } from 'next/router';
-import { Paper } from '@mui/material';
+import { CircularProgress, Paper } from '@mui/material';
 
 function Copyright(props: any) {
 	return (
@@ -133,7 +133,7 @@ export default function Register() {
 		event.preventDefault();
 		signUp(newUser, setIsLoading);
 		if (!isLoading) {
-			router.push('/');
+			router.push('/registration');
 		}
 	};
 
@@ -270,7 +270,8 @@ export default function Register() {
 								<Button
 									type='submit'
 									fullWidth
-									disabled={!newPasswords.isMatched}
+									disabled={!newPasswords.isMatched || isLoading}
+									startIcon={isLoading && <CircularProgress size={20} />}
 									variant='contained'
 									sx={{ mt: 3, mb: 2 }}>
 									Sign Up

@@ -10,7 +10,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Typography, CircularProgress } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Pokeball from '../Images/pokeball.png';
 import Image from 'next/image';
@@ -18,7 +18,6 @@ import * as EmailValidator from 'email-validator';
 import { signInUser } from '../api/index';
 import { useDispatch } from 'react-redux';
 import { SignInAuth } from '../Redux/slices/authSlice';
-import cookieClient from 'react-cookie';
 
 function Copyright(props: any) {
 	return (
@@ -51,6 +50,8 @@ const theme = createTheme({
 export default function SignIn() {
 	const [isValid, setIsValid] = useState<boolean>(false);
 	const [response, setResponse] = useState<any>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [message, setMessage] = useState<string>('');
 	const dispatch = useDispatch();
 	const history = useRouter();
 
@@ -61,6 +62,7 @@ export default function SignIn() {
 	});
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		setIsLoading(true);
 		const data = new FormData(event.currentTarget);
 		signInUser(
 			{
@@ -69,6 +71,8 @@ export default function SignIn() {
 				password: data.get('password'),
 			},
 			setResponse,
+			setIsLoading,
+			setMessage,
 		);
 	};
 
@@ -165,10 +169,12 @@ export default function SignIn() {
 								color='primary'
 								fullWidth
 								variant='contained'
-								disabled={!isValid}
+								disabled={!isValid || isLoading}
+								startIcon={isLoading && <CircularProgress size={20} />}
 								sx={{ mt: 3, mb: 2 }}>
 								Sign In
 							</Button>
+							{message !== '' && message}
 							<Grid container>
 								<Grid item xs>
 									<Link href='#' variant='body2'>

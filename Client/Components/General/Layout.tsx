@@ -22,6 +22,7 @@ const Layout = ({ children }: any) => {
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [cookies, setCookie] = useCookies<any>();
+	const [isOpen, setIsOpen] = useState<boolean>(true);
 
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -109,7 +110,7 @@ const Layout = ({ children }: any) => {
 			)}
 
 			<>
-				<div className={mobileStyles.area}>
+				<div className={mobileStyles.area} onClick={() => setIsOpen(false)}>
 					<ul className={mobileStyles.circles}>
 						<li></li>
 						<li></li>
@@ -123,7 +124,11 @@ const Layout = ({ children }: any) => {
 						<li></li>
 					</ul>
 					<div className={styles.whiteText}>
-						{mobileSize ? <MobileNav /> : <Nav />}
+						{mobileSize ? (
+							<MobileNav />
+						) : (
+							<Nav isOpen={isOpen} setIsOpen={setIsOpen} />
+						)}
 					</div>
 					<div className={`${styles.whiteText} ${styles.containerPadding}`}>
 						{children}
