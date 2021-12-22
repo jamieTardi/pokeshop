@@ -83,7 +83,7 @@ export default function EditProduct() {
 								mt: 4,
 								mb: 4,
 								background: '#F5F5F5',
-								overflow: 'scroll',
+								overflow: 'hide',
 							}}>
 							<Grid item xs={12}>
 								<Paper
@@ -91,7 +91,7 @@ export default function EditProduct() {
 										p: 2,
 										display: 'flex',
 										flexDirection: 'column',
-										overflow: 'scroll',
+										overflow: 'hide',
 									}}>
 									<Title>Products avalible in the database</Title>
 

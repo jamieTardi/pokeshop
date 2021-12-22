@@ -45,3 +45,20 @@ export const createPayment = async (req, res) => {
 		total,
 	});
 };
+
+export const createPaymentUpdate = async (req, res) => {
+	const { total } = req.body;
+
+	const { paymentIntent } = req.query;
+
+	const strippedStr = paymentIntent.substring(0, 27);
+
+	const newPaymentIntent = await stripe.paymentIntents.update(strippedStr, {
+		amount: total,
+	});
+
+	res.send({
+		clientSecret: newPaymentIntent.client_secret,
+		total,
+	});
+};

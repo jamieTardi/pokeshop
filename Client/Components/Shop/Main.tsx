@@ -126,9 +126,9 @@ export default function Album() {
 											}
 											alt='Poke Image'
 										/>
-										<CardContent sx={{ flexGrow: 1 }}>
+										<CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
 											<Typography gutterBottom variant='h5' component='h2'>
-												{card.category ? card.category : card.expansion}
+												{card.category ? card.category : ''}
 											</Typography>
 										</CardContent>
 										<CardActions>

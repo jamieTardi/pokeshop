@@ -60,8 +60,6 @@ export default function MyOrders() {
 		}
 	}, [userOrders, currentPage]);
 
-	console.log(userOrders);
-
 	if (currentProducts) {
 		return (
 			<div style={{ position: 'relative' }}>

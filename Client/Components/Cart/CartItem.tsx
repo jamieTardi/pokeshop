@@ -6,9 +6,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import cartStyles from '../../styles/Cart.module.scss';
+import pokeCard from '../../Images/trading-card-placeholder.png';
 
 interface cartItem {
-	item: { title: string; price: number; image: Array<string>; SKU: string };
+	item: {
+		title: string;
+		price: number;
+		image: Array<string> | any;
+		SKU: string;
+	};
 	handleRemoveItem: any;
 	handleAddItem: any;
 }
@@ -23,9 +29,8 @@ export default function CardItem({
 			<div>
 				<CardMedia
 					component='img'
-					height='140'
-					width='140'
-					image={item.image[0]}
+					sx={{ objectFit: 'contain', height: '200px' }}
+					image={item.image[0] !== '' ? item.image[0] : pokeCard}
 					alt='Cart Picture'
 				/>
 			</div>
@@ -36,10 +41,7 @@ export default function CardItem({
 					</Typography>
 					<div className={cartStyles.cartCardTypography}>
 						<Typography variant='body2' color='text.secondary'>
-							Price: £
-							{item.price - Math.floor(item.price) === 0
-								? item.price.toString() + '.00'
-								: item.price.toString()}
+							Price: £{item.price.toFixed(2).toString()}
 						</Typography>
 						<Typography variant='body2' color='text.secondary'>
 							SKU number: {item.SKU}

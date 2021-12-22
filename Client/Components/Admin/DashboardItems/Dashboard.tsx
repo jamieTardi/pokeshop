@@ -17,7 +17,12 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems, generalItems } from './ListItems';
+import {
+	mainListItems,
+	secondaryListItems,
+	generalItems,
+	promotionalItems,
+} from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
@@ -140,6 +145,8 @@ function DashboardContent() {
 					<List>{mainListItems}</List>
 					<Divider />
 					<List>{secondaryListItems}</List>
+					<Divider />
+					<List>{promotionalItems}</List>
 					<Divider />
 					<List>{generalItems}</List>
 				</Drawer>

@@ -10,6 +10,7 @@ import Link from 'next/dist/client/link';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import HomeIcon from '@mui/icons-material/Home';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 
 export const mainListItems = (
 	<div>
@@ -76,6 +77,21 @@ export const generalItems = (
 					<HomeIcon />
 				</ListItemIcon>
 				<ListItemText primary='Home' />
+			</ListItem>
+		</Link>
+	</>
+);
+
+export const promotionalItems = (
+	<>
+		<ListSubheader inset>Promotional</ListSubheader>
+
+		<Link href='/admin/promotional'>
+			<ListItem button>
+				<ListItemIcon>
+					<LocalActivityIcon />
+				</ListItemIcon>
+				<ListItemText primary='Assign Promotions' />
 			</ListItem>
 		</Link>
 	</>

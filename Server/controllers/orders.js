@@ -24,9 +24,11 @@ export const getTempOrder = async (req, res) => {
 };
 
 export const createToken = async (req, res) => {
-	const { token, totalRaw } = req.body;
-	const orderedItems = JSON.parse(req.query.order[0]);
-	const total = '£' + req.query.total;
+	const { token } = req.body;
+	await orderToken.findOneAndDelete({ token });
+	const totalStr = (req.query.total / 100).toFixed(2).toString();
+	const orderedItems = JSON.parse(req.query.order);
+	const total = '£' + totalStr;
 	const address = JSON.parse(req.query.address);
 	const intTotal = Number(req.query.total);
 	const subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
@@ -53,7 +55,7 @@ export const createToken = async (req, res) => {
 
 export const addOrder = async (order) => {
 	const allItems = order.items;
-	const total = order.total;
+	const total = `£${order.totalRaw.toFixed(2).toString()}`;
 	const address = order.customer;
 	const date = new Date();
 	const currentDate = date.toLocaleString('en-US');
@@ -68,7 +70,7 @@ export const addOrder = async (order) => {
 	//Create order number
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 	let orderLetters = [];
-	const subTotal = '£' + (order.totalRaw - shipping).toFixed(2).toString();
+	let rawSubTotal = 0;
 
 	for (let i = 0; i < 4; i++) {
 		let num = Math.floor(Math.random() * 10);
@@ -87,12 +89,10 @@ export const addOrder = async (order) => {
 			let newItem = {
 				title: item.title,
 				SKU: item.SKU,
-				price:
-					item.price - Math.floor(item.price) === 0
-						? '£' + item.price.toString() + '.00'
-						: '£' + item.price.toString(),
+				price: '£' + item.price.toFixed(2).toString(),
 			};
 			orderedItems.push(newItem);
+			rawSubTotal += item.price;
 
 			await products.findByIdAndUpdate(productToUpdate._id, {
 				title: productToUpdate.title,
@@ -110,14 +110,14 @@ export const addOrder = async (order) => {
 			console.log(err);
 		}
 	});
-
+	console.log(order.items);
 	try {
 		//Creation of new order
 		await orders.create({
 			orderNo: orderNumber,
 			customer: address,
-			items: orderedItems,
-			subTotal,
+			items: order.items,
+			subTotal: `£${(rawSubTotal * 100).toFixed(2).toString()}`,
 			shippingStr,
 			total,
 			totalRaw: order.totalRaw,
@@ -146,7 +146,7 @@ export const addOrder = async (order) => {
 						country,
 						county,
 						postCode,
-						subTotal,
+						subTotal: `£${rawSubTotal.toFixed(2).toString()}`,
 						shippingStr,
 						orderDate: currentDate,
 						items: orderedItems,

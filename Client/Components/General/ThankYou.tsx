@@ -16,7 +16,7 @@ const Thankyou = () => {
 		if (page !== '/registration') {
 			if (cookies.orderToken) {
 				getTempOrder(cookies.orderToken, setOrderedItems);
-				removeCookie('orderToken');
+				removeCookie('orderToken', { path: '/' });
 				localStorage.removeItem('poke-cart');
 			}
 		}

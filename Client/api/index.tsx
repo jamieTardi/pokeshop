@@ -234,12 +234,24 @@ export const paymentIntent = (
 		.catch((err) => console.log(err));
 };
 
+export const updatePaymentIntent = (
+	total: object,
+	setClientData: Function,
+	paymentIntent: string,
+) => {
+	API.post('/create-payment-intent/update', total, {
+		params: { paymentIntent },
+	})
+		.then((res) => setClientData(res.data))
+		.catch((err) => console.log(err));
+};
+
 //Orders
 
 export const createOrderToken = (
 	token: object,
 	address: object,
-	order: Array<object>,
+	order: string,
 	total: string,
 ) => {
 	API.post('/orders/orderToken', token, { params: { address, order, total } })
@@ -252,6 +264,8 @@ export const getTempOrder = (token: string, setOrderedItems: Function) => {
 		.then((res) => res.data)
 		.catch((err) => console.log(err));
 };
+
+// export const UpdateTempOrder = ()
 
 export const createOrder = (
 	order: Array<object>,
@@ -307,6 +321,42 @@ export const updateShipping = (
 		.then((res) => console.log(res))
 		.then(() => setCurrentCustomer({ ...customer, isShipped: true }))
 		.catch((err) => console.log(err));
+};
+
+//Promtional offers
+
+export const createPromotion = (promotion: object) => {
+	API.post('/promotions', promotion)
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err.response));
+};
+
+export const getPromotions = (setPromotions: Function) => {
+	API.get('/promotions')
+		.then((res) => setPromotions(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const updatePromotion = (
+	id: string,
+	promotion: object,
+	setIsLoading: Function,
+) => {
+	API.patch(`/promotions/${id}`, promotion)
+		.then((res) => console.log(res.data))
+		.then(() => setIsLoading(false))
+		.catch((err) => console.log(err.message));
+};
+
+export const applyPromoCode = (
+	code: string,
+	total: number,
+	setUpdateTotal: Function,
+	setErrorMsg: Function,
+) => {
+	API.get('/promotions/check', { params: { code, total } })
+		.then((res) => setUpdateTotal(res.data))
+		.catch((err) => setErrorMsg(err.response.data));
 };
 
 //General
