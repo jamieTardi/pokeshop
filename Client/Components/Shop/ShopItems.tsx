@@ -235,7 +235,7 @@ const ShopItems = () => {
 														? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
 														: card.image[0]
 												}
-												alt='random'
+												alt=''
 											/>
 											<CardContent sx={{ flexGrow: 1 }}>
 												<Typography

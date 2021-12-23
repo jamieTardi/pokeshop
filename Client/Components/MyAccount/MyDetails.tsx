@@ -57,8 +57,6 @@ const MyDetails = () => {
 		}, 2500);
 	};
 
-	console.log(currentUser);
-
 	//UseEffects
 
 	useEffect(() => {
@@ -159,7 +157,7 @@ const MyDetails = () => {
 									defaultValue={currentUser.email}
 									required
 									fullWidth
-									autoComplete='shipping address-line2'
+									autoComplete='email'
 									variant='standard'
 									onChange={(e) => {
 										setCurrentUser({ ...currentUser, email: e.target.value });
@@ -174,7 +172,6 @@ const MyDetails = () => {
 									label='City'
 									defaultValue={currentUser.address.city}
 									fullWidth
-									autoComplete='shipping address-level2'
 									variant='standard'
 									onChange={(e) => {
 										setCurrentUser({

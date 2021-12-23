@@ -6,7 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import { TableRow, Button, Paper } from '@mui/material';
 import Title from '../../Components/Admin/DashboardItems/Title';
-import { getPromotions, updatePromotion } from '../../api';
+import { getPromotions, updatePromotion, removePromo } from '../../api';
 import { CircularProgress } from '@mui/material';
 import CustomPagination from '../../Components/UIComponents/CustomPagination';
 import PromotionModal from '../../Components/Admin/DashboardItems/PromotionModal';
@@ -44,25 +44,34 @@ export default function Customers() {
 			...promotion,
 			isActive: promotion.isActive ? false : true,
 		};
-		console.log(newPromotion);
+
 		setIsLoading(true);
 		updatePromotion(newPromotion._id, newPromotion, setIsLoading);
+	};
+
+	const handleRemovePromo = (id: string) => {
+		removePromo(id);
+		setPromotions(promotions.filter((promo) => promo._id !== id));
 	};
 
 	//UseEffects
 
 	useEffect(() => {
+		setTotalPages(Math.ceil(promotions.length / 10));
+	}, [promotions]);
+
+	useEffect(() => {
 		getPromotions(setPromotions);
 	}, [newPromotion, isLoading]);
 
-	// const indexOfLastPage = currentPage * itemsPerPage;
-	// const indexOfFirstPage = indexOfLastPage - itemsPerPage;
-	// const currentCustomers = customers?.data.slice(
-	// 	indexOfFirstPage,
-	// 	indexOfLastPage,
-	// );
+	const indexOfLastPage = currentPage * itemsPerPage;
+	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
+	const currentPromotions = promotions?.slice(
+		indexOfFirstPage,
+		indexOfLastPage,
+	);
 
-	if (promotions) {
+	if (currentPromotions) {
 		return (
 			<>
 				<Paper
@@ -81,10 +90,11 @@ export default function Customers() {
 								<TableCell>Percentage</TableCell>
 								<TableCell>Currently Active</TableCell>
 								<TableCell>Toggle Promotion</TableCell>
+								<TableCell>Remove Promotion</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{promotions.map((row: promotion) => (
+							{currentPromotions.map((row: promotion) => (
 								<TableRow key={row.title}>
 									<TableCell>{row.title}</TableCell>
 									<TableCell>
@@ -101,7 +111,7 @@ export default function Customers() {
 									<TableCell>
 										{row.isActive ? (
 											<Button
-												color='error'
+												color='warning'
 												variant='contained'
 												onClick={() => handleUpdate(row)}>
 												Disable
@@ -114,6 +124,14 @@ export default function Customers() {
 												Make Active
 											</Button>
 										)}
+									</TableCell>
+									<TableCell>
+										<Button
+											variant='contained'
+											color='error'
+											onClick={() => handleRemovePromo(row._id)}>
+											Remove
+										</Button>
 									</TableCell>
 								</TableRow>
 							))}

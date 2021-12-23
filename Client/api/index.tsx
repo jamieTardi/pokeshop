@@ -325,6 +325,12 @@ export const updateShipping = (
 
 //Promtional offers
 
+export const removePromo = (id: string) => {
+	API.delete(`/promotions/${id}`)
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err.response));
+};
+
 export const createPromotion = (promotion: object) => {
 	API.post('/promotions', promotion)
 		.then((res) => console.log(res.data))

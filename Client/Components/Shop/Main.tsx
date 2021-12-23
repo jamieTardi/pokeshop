@@ -124,7 +124,7 @@ export default function Album() {
 													? 'https://pokedecks.s3.us-west-2.amazonaws.com/eevee.png'
 													: card.image
 											}
-											alt='Poke Image'
+											alt=''
 										/>
 										<CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
 											<Typography gutterBottom variant='h5' component='h2'>
