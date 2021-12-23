@@ -132,6 +132,17 @@ const MobileNav = (props: Props) => {
 						my account
 					</a>
 				</Link>
+				<Link href='/contact'>
+					<a
+						onClick={() => {
+							setOpen(false);
+						}}
+						className={
+							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
+						}>
+						contact us
+					</a>
+				</Link>
 				<Link href='/news'>
 					<a
 						onClick={() => {

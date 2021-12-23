@@ -42,7 +42,7 @@ $hamburgerSize: 60px;
 		opacity: 0;
 		transform: translateY(50%);
 
-		@for $i from 1 through 7 {
+		@for $i from 1 through 8 {
 			&:nth-child(#{$i}) {
 				transition-delay: $i * 0.05s;
 			}
