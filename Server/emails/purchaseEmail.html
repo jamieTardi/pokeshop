@@ -524,10 +524,12 @@ padding-bottom:0;
                                             <table  style='margin-left: 3%'>
                                                 <tr>
                                                     <td style=" padding-left: 3%;">
-                                                <p><span style='font-weight: bold;'>Sub-Total:</span> {{subTotal}}</p>                                           
+                                                        <p><span style='font-weight: bold;'>VAT at 20%:</span> {{VAT}}</p> 
+                                                <p><span style='font-weight: bold;'>Sub-Total(incl Vat):</span> {{subTotal}}</p>  
+                                                                                       
                                                 <p><span style='font-weight: bold;'>Delivery:</span> {{shippingStr}}</p> 
-											    <p><span style='font-weight: bold;'>Total Cost:</span> {{total}}</p>
-                                                <p>This email is not a conformation of payment, this will be sent shortly.</p>										    
+											    <p><span style='font-weight: bold;'>Total Cost(incl Vat and discounts):</span> {{total}}</p>
+                                                <p>The final amount is the amount paid including any promotional codes</p>										    
                                                     </td>
                                                 </tr>
                                             </table>
@@ -631,6 +633,7 @@ padding-bottom:0;
                     <tbody>
                         <tr>                        
                          <td style="color:#222;font-size:20px;font-weight: normal;text-align: center;line-height:125%;letter-spacing:normal;padding-top: 10px;padding-left: 0px; padding-right:0px;padding-bottom: 0px;" valign="top">
+                            <p style="font-weight: lighter;">This email is not a payment recipt, this will be sent shortly!</p>
     	                    <p style="font-weight: lighter;">We are preparing your order and will send you an email once it has been shipped!<br>
                             In the meantime you can view your order by following the link below. This requires an account!</p>
                          </td>

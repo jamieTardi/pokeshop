@@ -110,7 +110,15 @@ export const addOrder = async (order) => {
 			console.log(err);
 		}
 	});
-	console.log(order.items);
+
+	//vat calc
+	const withoutVat = (20 / 100) * (order.totalRaw - shipping);
+
+	//Rounding calc
+	function roundToTwo(num) {
+		return +(Math.round(num + 'e+2') + 'e-2');
+	}
+
 	try {
 		//Creation of new order
 		await orders.create({
@@ -120,6 +128,7 @@ export const addOrder = async (order) => {
 			subTotal: `£${(rawSubTotal * 100).toFixed(2).toString()}`,
 			shippingStr,
 			total,
+			totalNoVat: roundToTwo(withoutVat).toFixed(2),
 			totalRaw: order.totalRaw,
 			orderDate: currentDate,
 			isShipped: false,
@@ -149,6 +158,7 @@ export const addOrder = async (order) => {
 						subTotal: `£${rawSubTotal.toFixed(2).toString()}`,
 						shippingStr,
 						orderDate: currentDate,
+						VAT: '£' + roundToTwo(withoutVat).toFixed(2).toString(),
 						items: orderedItems,
 						shippingPrice: shipping,
 					};

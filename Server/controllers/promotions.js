@@ -75,3 +75,19 @@ export const checkPromo = async (req, res) => {
 		res.status(500).json('Code is not active.');
 	}
 };
+
+export const deletePromotion = async (req, res) => {
+	const { id } = req.params;
+
+	const existingPromo = await promotions.findById(id);
+
+	if (!existingPromo) {
+		res.status(404).json('The promotion was not found.');
+	}
+	try {
+		const deletedPromo = await promotions.findByIdAndDelete(id);
+		res.status(203).json(deletedPromo);
+	} catch (err) {
+		res.status(500).json(err.message);
+	}
+};
