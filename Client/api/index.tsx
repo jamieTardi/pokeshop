@@ -372,3 +372,9 @@ export const sendContact = (form: object, setMessage: Function) => {
 		.then((res) => setMessage(res.data))
 		.catch((err) => setMessage(err));
 };
+
+export const checkIp = (ip: object, setResponse: Function) => {
+	API.post('/ipcheck', ip)
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err.response));
+};
