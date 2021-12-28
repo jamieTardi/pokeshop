@@ -14,8 +14,8 @@ import { orders } from '../../Interfaces/Orders';
 import Loading from '../UIComponents/Loading';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import CustomerModal from '../Admin/DashboardItems/CustomerModal';
-import { relative } from 'path';
+import CustomerModal from '../General/CustomerModal';
+
 import CustomPagination from '../UIComponents/CustomPagination';
 
 function createData(

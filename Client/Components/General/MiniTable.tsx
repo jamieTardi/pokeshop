@@ -6,7 +6,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { item } from '../../../Interfaces/Orders';
+
+function createData(
+	name: string,
+	calories: number,
+	fat: number,
+	carbs: number,
+	protein: number,
+) {
+	return { name, calories, fat, carbs, protein };
+}
 
 export default function BasicTable({ currentCustomer }: any) {
 	return (
@@ -31,7 +40,7 @@ export default function BasicTable({ currentCustomer }: any) {
 								{row.SKU}
 							</TableCell>
 							<TableCell component='th' scope='row'>
-								£{row.price.toFixed(2)}
+								{row.price}
 							</TableCell>
 						</TableRow>
 					))}

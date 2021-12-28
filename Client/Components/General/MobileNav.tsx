@@ -178,19 +178,6 @@ const MobileNav = (props: Props) => {
 						my Cart
 					</a>
 				</Link>
-				{isAdmin && (
-					<Link href='/admin'>
-						<a
-							onClick={() => {
-								setOpen(false);
-							}}
-							className={
-								open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
-							}>
-							Dashboard
-						</a>
-					</Link>
-				)}
 			</nav>
 			<div
 				className={
