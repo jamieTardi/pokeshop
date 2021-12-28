@@ -13,7 +13,6 @@ import stripeRoutes from './routes/stripe.js';
 import orderRoutes from './routes/orders.js';
 import contactRoutes from './routes/contact.js';
 import promotionRoutes from './routes/promotion.js';
-import checkIpRoutes from './routes/checkIp.js';
 
 import { generateUploadURL } from './middleware/imageHandler.js';
 
@@ -33,7 +32,6 @@ app.use('/create-payment-intent', stripeRoutes);
 app.use('/contact', contactRoutes);
 app.use('/orders', orderRoutes);
 app.use('/promotions', promotionRoutes);
-app.use('/ipcheck', checkIpRoutes);
 app.get('/s3URL', async (req, res) => {
 	const url = await generateUploadURL();
 	res.send({ url });
