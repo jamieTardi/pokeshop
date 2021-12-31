@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {}
 
 const PasswordReset = (props: Props) => {
-	return <div></div>;
+	return <div>Password reset</div>;
 };
 
 export default PasswordReset;
