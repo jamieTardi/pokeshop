@@ -24,7 +24,7 @@ const CartItems = (props: Props) => {
 	const handleRemoveItem = (item: item) => {
 		if (items) {
 			let filitered: Array<item> = items.filter(
-				(el) => el.title !== item.title,
+				(el) => el.localID !== item.localID,
 			);
 
 			setItems(filitered);
@@ -33,7 +33,8 @@ const CartItems = (props: Props) => {
 
 	const handleAddItem = (item: item) => {
 		if (items) {
-			setItems([...items, item]);
+			let newItem = { ...item, localID: uuidv4() };
+			setItems([...items, newItem]);
 		}
 	};
 

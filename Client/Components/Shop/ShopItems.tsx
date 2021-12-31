@@ -33,9 +33,11 @@ import ProductModal from './ProductModal';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import pokeShop from '../../Images/pokeShop.png';
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 
 interface items {
 	_id: string;
+	localID: string;
 	image: string | Array<string>;
 	description: string;
 	title: string;
@@ -63,13 +65,6 @@ interface card {
 		title: string;
 		expansion: string;
 	};
-}
-
-interface item {
-	_id: string;
-	title: string;
-	expansion: string;
-	price: number;
 }
 
 const ShopItems = () => {
@@ -105,12 +100,13 @@ const ShopItems = () => {
 	//General functions
 
 	const handleAddToCart = (item: card) => {
-		// if(item.s)
+		let newItem = { ...item, localID: uuidv4() };
+
 		if (localStorage.getItem('poke-cart')) {
 			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
-			setCurrentCart([...cart, item]);
+			setCurrentCart([...cart, newItem]);
 		} else {
-			setCurrentCart([...currentCart, item]);
+			setCurrentCart([...currentCart, newItem]);
 		}
 		setIsShowModal(true);
 		setTimeout(() => {
