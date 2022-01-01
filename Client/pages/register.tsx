@@ -57,6 +57,7 @@ export default function Register() {
 		newEmail: '',
 	});
 	const [isError, setIsError] = useState<boolean>(false);
+	const [isPhoneNo, setIsPhoneNo] = useState<boolean>(false);
 
 	const [newPasswords, setNewPasswords] = useState<passwords>({
 		first: '',
@@ -254,14 +255,25 @@ export default function Register() {
 											label='Telephone no'
 											name='telephone'
 											autoComplete='telephone'
-											onChange={(e) =>
-												setNewUser({
-													...newUser,
-													phoneNo: e.currentTarget.value,
-												})
-											}
+											onChange={(e) => {
+												if (/[^0-9]/.test(e.target.value)) {
+													setIsPhoneNo(true);
+													setNewUser({ ...newUser, phoneNo: e.target.value });
+												} else {
+													setIsPhoneNo(false);
+													setNewUser({ ...newUser, phoneNo: e.target.value });
+												}
+											}}
 										/>
 									</Grid>
+									{isPhoneNo && (
+										<Grid item xs={12}>
+											<p style={{ color: 'red' }}>
+												Only numbers are acceptable in this input.
+											</p>
+										</Grid>
+									)}
+
 									<Grid item xs={12}>
 										<TextField
 											required
@@ -318,7 +330,9 @@ export default function Register() {
 								<Button
 									type='submit'
 									fullWidth
-									disabled={!newPasswords.isMatched || isLoading || isError}
+									disabled={
+										!newPasswords.isMatched || isLoading || isError || isPhoneNo
+									}
 									startIcon={isLoading && <CircularProgress size={20} />}
 									variant='contained'
 									sx={{ mt: 3, mb: 2 }}>
