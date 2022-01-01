@@ -86,7 +86,7 @@ export default function Register() {
 		let isEmail = EmailValidator.validate(newEmail);
 		if (isEmail) {
 			setEmailCheck({ ...emailCheck, isCorrect: true, newEmail });
-			setNewUser({ ...newUser, email: newEmail });
+			setNewUser({ ...newUser, email: newEmail.toLowerCase() });
 		} else {
 			setEmailCheck({
 				...emailCheck,

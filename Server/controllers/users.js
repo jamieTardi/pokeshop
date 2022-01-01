@@ -39,7 +39,7 @@ export const signup = async (req, res) => {
 			const result = await User.create({
 				firstName,
 				lastName,
-				email,
+				email: email,
 				createdOn,
 				isPromtions,
 				address: {
@@ -258,7 +258,9 @@ export const getTotalSpend = async (req, res) => {
 	if (req.headers.apikey === process.env.API_KEY) {
 		const { email } = req.query;
 
-		let findPurchases = await orders.find({ 'customer.email': email });
+		let findPurchases = await orders.find({
+			'customer.email': email,
+		});
 
 		if (!findPurchases) {
 			res.status(200).json(0);

@@ -156,6 +156,22 @@ export default function AddressForm({ address, setAddress }: address) {
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
+							id='address2'
+							name='address2'
+							label='email'
+							value={address.email}
+							required
+							fullWidth
+							autoComplete='shipping address-line2'
+							variant='standard'
+							onChange={(e) => {
+								setAddress({ ...address, email: e.target.value.toLowerCase() });
+							}}
+						/>
+						{isEmail ? <p>Email is valid!</p> : <p>Invalid Email</p>}
+					</Grid>
+					<Grid item xs={12}>
+						<TextField
 							required
 							id='address1'
 							name='address1'
@@ -169,22 +185,7 @@ export default function AddressForm({ address, setAddress }: address) {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							id='address2'
-							name='address2'
-							label='email'
-							value={address.email}
-							required
-							fullWidth
-							autoComplete='shipping address-line2'
-							variant='standard'
-							onChange={(e) => {
-								setAddress({ ...address, email: e.target.value });
-							}}
-						/>
-						{isEmail ? <p>Email is valid!</p> : <p>Invalid Email</p>}
-					</Grid>
+
 					<Grid item xs={12} sm={6}>
 						<TextField
 							required
