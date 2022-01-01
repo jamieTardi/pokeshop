@@ -3,11 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import Divider from '@mui/material/Divider';
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { items } from './ShopItems';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -53,13 +49,43 @@ const StyledMenu = styled((props: MenuProps) => (
 	},
 }));
 
-export default function CustomizedMenus() {
+interface props {
+	currentProducts: Array<items>;
+	setCurrentProducts: Function;
+}
+
+export default function CustomizedMenus({
+	currentProducts,
+	setCurrentProducts,
+}: props) {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const handleChange = (filter: string) => {
+		switch (filter) {
+			case 'low':
+				setCurrentProducts(
+					[...currentProducts].sort((a: items, b: items) => a.price - b.price),
+				);
+				break;
+			case 'high':
+				setCurrentProducts(
+					[...currentProducts].sort((a: items, b: items) => b.price - a.price),
+				);
+				break;
+			default:
+				setCurrentProducts(
+					[...currentProducts].sort((a: items, b: items) => a.price - b.price),
+				);
+				break;
+		}
+
 		setAnchorEl(null);
 	};
 
@@ -84,10 +110,10 @@ export default function CustomizedMenus() {
 				anchorEl={anchorEl}
 				open={open}
 				onClose={handleClose}>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => handleChange('low')} disableRipple>
 					Price (Lowest - Highest)
 				</MenuItem>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => handleChange('high')} disableRipple>
 					Price (Highest - Lowest)
 				</MenuItem>
 			</StyledMenu>
