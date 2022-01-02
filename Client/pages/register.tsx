@@ -139,15 +139,6 @@ export default function Register() {
 		}
 	};
 
-	// const handleCheckNames = (str) => {
-	// 	if(/[^a-zA-Z]/.test(str)){
-	// 		setIsError(true)
-	// 	}else{
-	// 		setIsError(false)
-	// 	}
-
-	// }
-
 	return (
 		<div>
 			<ThemeProvider theme={theme}>

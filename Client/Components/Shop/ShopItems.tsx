@@ -103,7 +103,7 @@ const ShopItems = () => {
 		if (products) {
 			setCurrentProducts(products.slice(indexOfFirstPage, indexOfLastPage));
 		}
-	}, [products]);
+	}, [products, currentPage]);
 
 	//General functions
 
