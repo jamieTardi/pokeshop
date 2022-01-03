@@ -41,46 +41,51 @@ const payments: Array<any> = [
 
 const Footer = (props: Props) => {
 	return (
-		<div style={{ position: 'relative' }}>
+		<div style={{ position: 'relative', width: '90%' }}>
 			<div className={styles.footerGrid}>
 				<div className={styles.footerGridItem1}>
-					<h4>Poke-decks</h4>
+					<h4>Our Store</h4>
+					<p>GirlCode trading as Poke-Decks</p>
+					<p>
+						5 fountain road,
+						<br /> Harborne, <br /> Birmingham, <br /> B178NP
+					</p>
 					<p>&#169;{date.getFullYear()}</p>
 				</div>
 
 				<div className={styles.footerGridItem2}>
-					<h5>Poke-decks</h5>
+					<h5>Help and Information</h5>
 					<ul>
-						<li>
-							<Link href='/'>About Us</Link>
-						</li>
-						<li>
-							<Link href='/contact'>Contact Us</Link>
-						</li>
-					</ul>
-				</div>
-				<div className={styles.footerGridItem3}>
-					<h5>Further Information</h5>
-					<ul>
-						<li>
-							<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
-								Privacy Policy
-							</a>
-						</li>
-						<li>
-							<a
-								href='/Terms_and_Conditions.pdf'
-								rel='noopener noreferrer'
-								download>
-								Terms and Conditions
-							</a>
-						</li>
 						<li>
 							<a
 								href='/Cookie-Policy-Poke-Decks.pdf'
 								rel='noopener noreferrer'
 								download>
-								Cookie Policy
+								Cookie Policy(Link to PDF)
+							</a>
+						</li>
+						<li>
+							<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
+								Privacy Policy(Link to PDF)
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div className={styles.footerGridItem3}>
+					<h5>Your Order</h5>
+					<ul>
+						<li>
+							<a
+								href='/Terms_and_Conditions.pdf'
+								rel='noopener noreferrer'
+								download>
+								Terms and Conditions(Link to PDF)
+							</a>
+						</li>
+
+						<li>
+							<a href='/Returns_policy.pdf' rel='noopener noreferrer' download>
+								Returns Policy(Link to PDF)
 							</a>
 						</li>
 					</ul>
