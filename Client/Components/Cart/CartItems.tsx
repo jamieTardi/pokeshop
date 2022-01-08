@@ -41,10 +41,11 @@ const CartItems = (props: Props) => {
 	//useEffects
 
 	useEffect(() => {
-		if (items) {
-			localStorage.setItem('poke-cart', JSON.stringify(items));
-			dispatch({ type: updateCart, payload: items });
+		if (!items) {
+			return;
 		}
+		localStorage.setItem('poke-cart', JSON.stringify(items));
+		dispatch({ type: updateCart, payload: items });
 	}, [items]);
 
 	useEffect(() => {

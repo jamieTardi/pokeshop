@@ -47,7 +47,7 @@ const Footer = (props: Props) => {
 					<h4>Our Store</h4>
 					<p>GirlCode trading as Poke-Decks</p>
 					<p>
-						5 fountain road,
+						55 fountain road,
 						<br /> Harborne, <br /> Birmingham, <br /> B178NP
 					</p>
 					<p>&#169;{date.getFullYear()}</p>
@@ -61,12 +61,12 @@ const Footer = (props: Props) => {
 								href='/Cookie-Policy-Poke-Decks.pdf'
 								rel='noopener noreferrer'
 								download>
-								Cookie Policy(Link to PDF)
+								Cookie Policy
 							</a>
 						</li>
 						<li>
 							<a href='/Privacy_policy.pdf' rel='noopener noreferrer' download>
-								Privacy Policy(Link to PDF)
+								Privacy Policy
 							</a>
 						</li>
 					</ul>
@@ -79,13 +79,13 @@ const Footer = (props: Props) => {
 								href='/Terms_and_Conditions.pdf'
 								rel='noopener noreferrer'
 								download>
-								Terms and Conditions(Link to PDF)
+								Terms and Conditions
 							</a>
 						</li>
 
 						<li>
 							<a href='/Returns_policy.pdf' rel='noopener noreferrer' download>
-								Returns Policy(Link to PDF)
+								Returns Policy
 							</a>
 						</li>
 					</ul>
