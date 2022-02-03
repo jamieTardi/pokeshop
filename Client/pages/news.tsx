@@ -1,53 +1,79 @@
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Venusaur from '../Images/pokeGroup.png';
 import styles from '../styles/Home.module.scss';
 import { useAppSelector } from '../Redux/hooks';
+import useContentful from '../CustomHooks/useContentful';
 import { RootState } from '../Redux/store';
 import news from '../Images/pokeNews.png';
 
-interface Props {}
+type fields = {
+	fields: {
+		newsEntry: object;
+		newsImage: object;
+		newsItemHeading: string;
+	};
+};
 
-const News = (props: Props) => {
+const News = () => {
+	const [newsItems, setNewsItems] = useState<Array<fields> | undefined>([]);
+	const { getNews } = useContentful();
 	const isMobile = useAppSelector((state: RootState) => state.isMobile.value);
 
-	return (
-		<>
-			<div
-				style={{ display: 'flex', justifyContent: 'center', marginTop: '5%' }}>
-				<Image src={news} />
-			</div>
-			<div className={styles.aboutGrid}>
-				<div className={styles.aboutItem1}>
-					<Image src={Venusaur} alt='pokemon' height={350} width={600} />
-				</div>
+	useEffect(() => {
+		getNews()
+			.then((res) => setNewsItems(res?.items))
+			.catch((err) => console.log(err));
+	}, []);
 
-				<div className={`${styles.whiteText} ${styles.aboutItem2}`}>
-					<p
-						style={{
-							textAlign: 'center',
-							fontSize: '3rem',
-							letterSpacing: '10px',
-						}}>
-						Why Choose Us
-					</p>
-					<p className={styles.aboutText}>
-						Poke-Decks is an online retail store specialising in the Pokemon
-						trading card game. We have over 15 years’ experience in collecting,
-						playing, and enjoying the Pokemon franchise and our website is a
-						true reflection of our dedication to Pokemon TCG! We work hard to
-						provide a wide range of sealed products alongside a fantastic range
-						of trading card accessories at fair prices. We aim to support your
-						hobby and keep the fun alive with our smooth order process, reliable
-						delivery, and professional services whilst we reward dedicated
-						customers with regular offers – be sure to create an account to
-						access the exclusive benefits available to our members! We value
-						your custom and hope you enjoy shopping with us as much as we enjoy
-						providing to the Pokemon TCG community!
-					</p>
+	if (!newsItems) {
+		return <p>Loading....</p>;
+	} else {
+		return (
+			<>
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						marginTop: '5%',
+					}}>
+					<Image src={news} />
 				</div>
-			</div>
-		</>
-	);
+				{newsItems.map((item) => (
+					<React.Fragment key={item.fields.newsItemHeading}>
+						<div className={styles.aboutGrid}>
+							<div className={styles.aboutItem1}>
+								<Image
+									src={`https:${item.fields.newsImage.fields.file.url}`}
+									alt='pokemon'
+									layout='intrinsic'
+									width={600}
+									height={400}
+								/>
+							</div>
+
+							<div className={`${styles.whiteText} ${styles.aboutItem2}`}>
+								<p
+									style={{
+										textAlign: 'center',
+										fontSize: '3rem',
+										letterSpacing: '10px',
+									}}>
+									{item.fields.newsItemHeading}
+								</p>
+								<p className={styles.aboutText}>
+									{item.fields.newsEntry.content.map((content) => {
+										return content.content.map((innerContent, i: number) => (
+											<p key={i}>{innerContent.value}</p>
+										));
+									})}
+								</p>
+							</div>
+						</div>
+					</React.Fragment>
+				))}
+			</>
+		);
+	}
 };
 
 export default News;
