@@ -8,8 +8,16 @@ import news from '../Images/pokeNews.png';
 
 type fields = {
 	fields: {
-		newsEntry: object;
-		newsImage: object;
+		newsEntry: {
+			content: Array<any>;
+		};
+		newsImage: {
+			fields: {
+				file: {
+					url: string;
+				};
+			};
+		};
 		newsItemHeading: string;
 	};
 };
@@ -21,7 +29,7 @@ const News = () => {
 
 	useEffect(() => {
 		getNews()
-			.then((res) => setNewsItems(res?.items))
+			.then((res: any) => setNewsItems(res?.items))
 			.catch((err) => console.log(err));
 	}, []);
 
@@ -61,10 +69,12 @@ const News = () => {
 									{item.fields.newsItemHeading}
 								</p>
 								<p className={styles.aboutText}>
-									{item.fields.newsEntry.content.map((content) => {
-										return content.content.map((innerContent, i: number) => (
-											<p key={i}>{innerContent.value}</p>
-										));
+									{item.fields.newsEntry.content.map((content: any) => {
+										return content.content.map(
+											(innerContent: any, i: number) => (
+												<p key={i}>{innerContent.value}</p>
+											),
+										);
 									})}
 								</p>
 							</div>
