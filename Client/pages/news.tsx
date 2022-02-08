@@ -53,9 +53,8 @@ const News = () => {
 								<Image
 									src={`https:${item.fields.newsImage.fields.file.url}`}
 									alt='pokemon'
-									layout='intrinsic'
-									width={600}
-									height={400}
+									width={420}
+									height={300}
 								/>
 							</div>
 
