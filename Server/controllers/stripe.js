@@ -31,7 +31,6 @@ const calculateOrderAmount = (cartItems) => {
 			shipping = 0;
 		}
 	}
-
 	if (cartTotal !== 0) {
 		finalTotal = (shipping + cartTotal) * 100;
 	}

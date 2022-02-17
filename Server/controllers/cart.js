@@ -19,7 +19,6 @@ export const getCartTotal = async (req, res) => {
 			if (total.length !== 0) {
 				cartTotal = total.reduce((prev, curr) => prev + curr);
 			}
-
 			if (cartTotal !== 0) {
 				if (cartTotal < 50) {
 					shipping = 4;

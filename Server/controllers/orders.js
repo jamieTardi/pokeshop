@@ -44,7 +44,6 @@ export const createToken = async (req, res) => {
 		} else {
 			shipping = 0;
 		}
-
 		let subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
 
 		const shippingStr = '£' + shipping.toString() + '.00';
