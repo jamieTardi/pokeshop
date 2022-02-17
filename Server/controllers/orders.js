@@ -53,6 +53,16 @@ export const createToken = async (req, res) => {
 
 		let subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
 
+		if (intTotal < 50) {
+			console.log('less than 50');
+			shipping = 4;
+		} else if (intTotal >= 50 && intTotal < 100) {
+			console.log('more than 50');
+			shipping = 2;
+		} else {
+			shipping = 0;
+		}
+
 		const shippingStr = '£' + shipping.toString() + '.00';
 		try {
 			await orderToken.create({
