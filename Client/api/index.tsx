@@ -1,15 +1,17 @@
 import axios from 'axios';
 
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5001',
-// 	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
-// });
-
 const API = axios.create({
+
 	baseURL: 'https://poke-decks-uk.herokuapp.com',
 	// @ts-ignore
+	// baseURL: 'http://localhost:5001'
 	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
 });
+
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// 	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
+// });
 
 //users
 

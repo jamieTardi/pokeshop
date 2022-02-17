@@ -5,7 +5,7 @@ import user from '../models/users.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import * as fs from 'fs';
-import { shipping } from '../lib/variables.js';
+let shipping = 0;
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -36,7 +36,32 @@ export const createToken = async (req, res) => {
 		const total = '£' + totalStr;
 		const address = JSON.parse(req.query.address);
 		const intTotal = Number(req.query.total);
-		const subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
+		console.log(intTotal);
+		switch (intTotal) {
+			case intTotal < 50:
+				shipping = 4;
+				break;
+			case intTotal >= 50 && intTotal < 100:
+				shipping = 2;
+				break;
+			case intTotal >= 100:
+				shipping = 0;
+				break;
+			default:
+				shipping = 4;
+		}
+
+		let subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
+
+		if (intTotal < 50) {
+			console.log('less than 50');
+			shipping = 4;
+		} else if (intTotal >= 50 && intTotal < 100) {
+			console.log('more than 50');
+			shipping = 2;
+		} else {
+			shipping = 0;
+		}
 
 		const shippingStr = '£' + shipping.toString() + '.00';
 		try {
