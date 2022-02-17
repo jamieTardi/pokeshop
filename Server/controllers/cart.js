@@ -1,13 +1,11 @@
-import { shipping } from '../lib/variables.js';
 export const getCartTotal = async (req, res) => {
 	if (req.headers.apikey === process.env.API_KEY) {
 		const { cart } = req.query;
-
+		let shipping = 0;
 		let items = new Array();
 		let total = new Array();
 		let cartTotal = 0;
 		let finalTotal = 0;
-
 		try {
 			await cart.forEach((item) => {
 				return items.push(JSON.parse(item));
@@ -23,6 +21,13 @@ export const getCartTotal = async (req, res) => {
 			}
 
 			if (cartTotal !== 0) {
+				if (cartTotal < 50) {
+					shipping = 4;
+				} else if (cartTotal >= 50 && cartTotal < 100) {
+					shipping = 2;
+				} else {
+					shipping = 0;
+				}
 				finalTotal = shipping + cartTotal;
 			}
 
