@@ -33,7 +33,7 @@ export default function SignUp() {
 	};
 
 	return (
-		<Container component='main' maxWidth='xs'>
+		<Container component='main' maxWidth='lg'>
 			<CssBaseline />
 			<Paper sx={{ padding: '5%', margin: '5% 0%' }}>
 				<Box

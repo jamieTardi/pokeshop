@@ -67,17 +67,27 @@ const CardLinkBtn = ({ card }: any) => {
 
 	if (selectedCat) {
 		return (
-			<Link href={`/shop/${selectedCat?.slug}`}>
-				{card.category ? (
-					<Button size='small' onClick={() => handleCurrentPage('category')}>
-						View Category
-					</Button>
-				) : (
-					<Button size='small' onClick={() => handleCurrentPage('expansion')}>
-						View Expansion
-					</Button>
-				)}
-			</Link>
+			<div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+				<Link href={`/shop/${selectedCat?.slug}`}>
+					{card.category ? (
+						<Button
+							size='medium'
+							variant='contained'
+							color='primary'
+							onClick={() => handleCurrentPage('category')}>
+							View Category
+						</Button>
+					) : (
+						<Button
+							size='medium'
+							variant='contained'
+							color='primary'
+							onClick={() => handleCurrentPage('expansion')}>
+							View Expansion
+						</Button>
+					)}
+				</Link>
+			</div>
 		);
 	} else {
 		return <CircularProgress size={20} />;

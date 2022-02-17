@@ -141,7 +141,7 @@ const ShopItems = () => {
 			});
 			setExpandedArr(newArr);
 
-			setTotalPages(Math.ceil(products.length / 10));
+			setTotalPages(Math.ceil(products.length / 8));
 		}
 	}, [products]);
 
@@ -235,7 +235,7 @@ const ShopItems = () => {
 														? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
 														: card.image[0]
 												}
-												alt='random'
+												alt=''
 											/>
 											<CardContent sx={{ flexGrow: 1 }}>
 												<Typography
@@ -256,14 +256,6 @@ const ShopItems = () => {
 													}}>
 													<LocalOfferIcon />
 													Price: £{card.price.toFixed(2).toString()}
-												</Typography>
-											</CardActions>
-											<CardActions>
-												<Typography
-													gutterBottom
-													component='p'
-													sx={{ color: '#989898' }}>
-													{card.description.substring(0, 100)}...
 												</Typography>
 											</CardActions>
 

@@ -13,7 +13,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useCookies } from 'react-cookie';
 
-export default function CheckoutForm({ clientData, address }: any) {
+export default function CheckoutForm({
+	clientData,
+	address,
+	updateTotal,
+}: any) {
 	const [open, setOpen] = useState<boolean>(false);
 	const stripe = useStripe();
 	const elements = useElements();
@@ -21,9 +25,9 @@ export default function CheckoutForm({ clientData, address }: any) {
 	const [message, setMessage] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [total, setTotal] = useState<string>('');
-	const order = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+	const order = localStorage.getItem('poke-cart') || '{}';
 	const fullTotal: number = clientData.total / 100;
-	const [cookies, setCookie] = useCookies<any>();
+	const [cookies, setCookie, removeCookie] = useCookies<any>();
 	const clientSecret = new URLSearchParams(window.location.search).get(
 		'payment_intent_client_secret',
 	);
@@ -44,6 +48,19 @@ export default function CheckoutForm({ clientData, address }: any) {
 	}, [total]);
 
 	useEffect(() => {
+		if (updateTotal) {
+			removeCookie('orderToken', { path: '/' });
+			createOrderToken(
+				{ token: orderToken },
+				address,
+				order,
+				updateTotal.newTotal,
+			);
+			setCookie('orderToken', orderToken, { maxAge: 1800 });
+		}
+	}, [updateTotal]);
+
+	useEffect(() => {
 		if (!stripe) {
 			return;
 		}
@@ -57,7 +74,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 			.then(({ paymentIntent }: any) => {
 				switch (paymentIntent.status) {
 					case 'succeeded':
-						createOrder(order, address, total);
+						createOrder(JSON.parse(order), address, total);
 						break;
 					case 'processing':
 						setMessage('Your payment is processing.');
@@ -70,7 +87,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 						break;
 				}
 			});
-	}, [stripe]);
+	}, []);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
@@ -92,6 +109,7 @@ export default function CheckoutForm({ clientData, address }: any) {
 						// Make sure to change this to your payment completion page
 						receipt_email: address.email,
 						return_url: 'https://poke-decks.io/thankyou',
+						// return_url: 'http://localhost:3000/thankyou',
 						payment_method_data: {
 							billing_details: {
 								name: `${address.firstName} ${address.lastName}`,
@@ -142,7 +160,9 @@ export default function CheckoutForm({ clientData, address }: any) {
 						{isLoading ? (
 							<div className='spinner' id='spinner'></div>
 						) : (
-							`Pay now £${total}`
+							`Pay now £${
+								updateTotal ? (updateTotal.newTotal / 100).toFixed(2) : total
+							}`
 						)}
 					</span>
 				</button>

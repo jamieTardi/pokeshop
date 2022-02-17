@@ -5,7 +5,7 @@ import user from '../models/users.js';
 import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import * as fs from 'fs';
-import { shipping } from '../lib/variables.js';
+let shipping = 0;
 
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -16,44 +16,79 @@ const transporter = nodemailer.createTransport({
 });
 
 export const getTempOrder = async (req, res) => {
-	const { token } = req.query;
+	if (req.headers.apikey === process.env.API_KEY) {
+		const { token } = req.query;
 
-	const findOrder = await orderToken.findOne({ token });
+		const findOrder = await orderToken.findOne({ token });
 
-	addOrder(findOrder);
+		addOrder(findOrder);
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
+	}
 };
 
 export const createToken = async (req, res) => {
-	const { token, totalRaw } = req.body;
-	const orderedItems = JSON.parse(req.query.order[0]);
-	const total = '£' + req.query.total;
-	const address = JSON.parse(req.query.address);
-	const intTotal = Number(req.query.total);
-	const subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
+	if (req.headers.apikey === process.env.API_KEY) {
+		const { token } = req.body;
+		await orderToken.findOneAndDelete({ token });
+		const totalStr = (req.query.total / 100).toFixed(2).toString();
+		const orderedItems = JSON.parse(req.query.order);
+		const total = '£' + totalStr;
+		const address = JSON.parse(req.query.address);
+		const intTotal = Number(req.query.total);
+		console.log(intTotal);
+		switch (intTotal) {
+			case intTotal < 50:
+				shipping = 4;
+				break;
+			case intTotal >= 50 && intTotal < 100:
+				shipping = 2;
+				break;
+			case intTotal >= 100:
+				shipping = 0;
+				break;
+			default:
+				shipping = 4;
+		}
 
-	const shippingStr = '£' + shipping.toString() + '.00';
-	try {
-		await orderToken.create({
-			token,
-			customer: address,
-			items: orderedItems,
-			subTotal,
-			shippingStr,
-			total,
-			totalRaw: req.query.total,
-			creationDate: new Date(),
-		});
-		res
-			.status(201)
-			.json('Temporary order created, this will be removed in 30 mins.');
-	} catch (err) {
-		res.status(500).json('Something gone wrong...');
+		let subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
+
+		if (intTotal < 50) {
+			console.log('less than 50');
+			shipping = 4;
+		} else if (intTotal >= 50 && intTotal < 100) {
+			console.log('more than 50');
+			shipping = 2;
+		} else {
+			shipping = 0;
+		}
+
+		const shippingStr = '£' + shipping.toString() + '.00';
+		try {
+			await orderToken.create({
+				token,
+				customer: address,
+				items: orderedItems,
+				subTotal,
+				shippingStr,
+				total,
+				totalRaw: req.query.total,
+				creationDate: new Date(),
+			});
+			res
+				.status(201)
+				.json('Temporary order created, this will be removed in 30 mins.');
+		} catch (err) {
+			res.status(500).json('Something gone wrong...');
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };
 
 export const addOrder = async (order) => {
 	const allItems = order.items;
-	const total = order.total;
+	const total = `£${order.totalRaw.toFixed(2).toString()}`;
 	const address = order.customer;
 	const date = new Date();
 	const currentDate = date.toLocaleString('en-US');
@@ -68,7 +103,7 @@ export const addOrder = async (order) => {
 	//Create order number
 	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 	let orderLetters = [];
-	const subTotal = '£' + (order.totalRaw - shipping).toFixed(2).toString();
+	let rawSubTotal = 0;
 
 	for (let i = 0; i < 4; i++) {
 		let num = Math.floor(Math.random() * 10);
@@ -87,12 +122,10 @@ export const addOrder = async (order) => {
 			let newItem = {
 				title: item.title,
 				SKU: item.SKU,
-				price:
-					item.price - Math.floor(item.price) === 0
-						? '£' + item.price.toString() + '.00'
-						: '£' + item.price.toString(),
+				price: '£' + item.price.toFixed(2).toString(),
 			};
 			orderedItems.push(newItem);
+			rawSubTotal += item.price;
 
 			await products.findByIdAndUpdate(productToUpdate._id, {
 				title: productToUpdate.title,
@@ -111,15 +144,24 @@ export const addOrder = async (order) => {
 		}
 	});
 
+	//vat calc
+	const withoutVat = (20 / 100) * (order.totalRaw - shipping);
+
+	//Rounding calc
+	function roundToTwo(num) {
+		return +(Math.round(num + 'e+2') + 'e-2');
+	}
+
 	try {
 		//Creation of new order
 		await orders.create({
 			orderNo: orderNumber,
 			customer: address,
-			items: orderedItems,
-			subTotal,
+			items: order.items,
+			subTotal: `£${(rawSubTotal * 100).toFixed(2).toString()}`,
 			shippingStr,
 			total,
+			totalNoVat: roundToTwo(withoutVat).toFixed(2),
 			totalRaw: order.totalRaw,
 			orderDate: currentDate,
 			isShipped: false,
@@ -146,9 +188,10 @@ export const addOrder = async (order) => {
 						country,
 						county,
 						postCode,
-						subTotal,
+						subTotal: `£${rawSubTotal.toFixed(2).toString()}`,
 						shippingStr,
 						orderDate: currentDate,
+						VAT: '£' + roundToTwo(withoutVat).toFixed(2).toString(),
 						items: orderedItems,
 						shippingPrice: shipping,
 					};
@@ -214,145 +257,165 @@ export const addOrder = async (order) => {
 };
 
 export const getAllOrders = async (req, res) => {
-	try {
-		const allOrders = await orders.find();
-		res.status(200).json(allOrders);
-	} catch (err) {
-		res.status(500).json({
-			message: 'Error getting order data, please refresh and try again.',
-		});
+	if (req.headers.apikey === process.env.API_KEY) {
+		try {
+			const allOrders = await orders.find();
+			res.status(200).json(allOrders);
+		} catch (err) {
+			res.status(500).json({
+				message: 'Error getting order data, please refresh and try again.',
+			});
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };
 
 export const getTotals = async (req, res) => {
-	const allOrders = await orders.find();
-	let total = 0;
+	if (req.headers.apikey === process.env.API_KEY) {
+		const allOrders = await orders.find();
+		let total = 0;
 
-	try {
-		allOrders.forEach((order) => {
-			const dateTime = order.orderDate;
+		try {
+			allOrders.forEach((order) => {
+				const dateTime = order.orderDate;
 
-			let month = dateTime.getMonth() + 1;
-			let year = dateTime.getFullYear();
+				let month = dateTime.getMonth() + 1;
+				let year = dateTime.getFullYear();
 
-			let currentdate = new Date();
-			let cur_month = currentdate.getMonth() + 1;
-			let cur_year = currentdate.getFullYear();
+				let currentdate = new Date();
+				let cur_month = currentdate.getMonth() + 1;
+				let cur_year = currentdate.getFullYear();
 
-			if (cur_month == month && year == cur_year) {
-				total += order.totalRaw;
-			}
-		});
+				if (cur_month == month && year == cur_year) {
+					total += order.totalRaw;
+				}
+			});
 
-		res.status(200).json({ total });
-	} catch (err) {
-		res.status(500).json({ message: 'Something went wrong' });
+			res.status(200).json({ total });
+		} catch (err) {
+			res.status(500).json({ message: 'Something went wrong' });
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };
 
 export const getDailyTotals = async (req, res) => {
-	let totals = {
-		current: 0,
-		previousLess1: 0,
-		previousLess2: 0,
-		previousLess3: 0,
-		previousLess4: 0,
-		previousLess5: 0,
-		previousLess6: 0,
-	};
+	if (req.headers.apikey === process.env.API_KEY) {
+		let totals = {
+			current: 0,
+			previousLess1: 0,
+			previousLess2: 0,
+			previousLess3: 0,
+			previousLess4: 0,
+			previousLess5: 0,
+			previousLess6: 0,
+		};
 
-	const date = new Date();
-	const today = date.getDay();
-	const allOrders = await orders.find();
+		const date = new Date();
+		const today = date.getDay();
+		const allOrders = await orders.find();
 
-	try {
-		allOrders.forEach((order) => {
-			let day = today;
-			let orderDate = order.orderDate.getDay();
+		try {
+			allOrders.forEach((order) => {
+				let day = today;
+				let orderDate = order.orderDate.getDay();
 
-			if (orderDate === day) {
-				totals.current += 1;
-			} else if (orderDate === day - 1) {
-				totals.previousLess1 += 1;
-			} else if (orderDate === day - 2) {
-				totals.previousLess2 += 1;
-			} else if (orderDate === day - 3) {
-				totals.previousLess3 += 1;
-			} else if (orderDate === day - 4) {
-				totals.previousLess4 += 1;
-			} else if (orderDate === day - 5) {
-				totals.previousLess5 += 1;
-			} else if (orderDate === day - 6) {
-				totals.previousLess6 += 1;
-			}
-		});
-		res.status(201).json({ totals });
-	} catch (err) {
-		res.status(500).json({ message: 'Calculation has gone wrong....' });
+				if (orderDate === day) {
+					totals.current += 1;
+				} else if (orderDate === day - 1) {
+					totals.previousLess1 += 1;
+				} else if (orderDate === day - 2) {
+					totals.previousLess2 += 1;
+				} else if (orderDate === day - 3) {
+					totals.previousLess3 += 1;
+				} else if (orderDate === day - 4) {
+					totals.previousLess4 += 1;
+				} else if (orderDate === day - 5) {
+					totals.previousLess5 += 1;
+				} else if (orderDate === day - 6) {
+					totals.previousLess6 += 1;
+				}
+			});
+			res.status(201).json({ totals });
+		} catch (err) {
+			res.status(500).json({ message: 'Calculation has gone wrong....' });
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };
 
 export const deleteOrder = async (req, res) => {
-	const { id } = req.params;
+	if (req.headers.apikey === process.env.API_KEY) {
+		const { id } = req.params;
 
-	try {
-		const deleted = await orders.findByIdAndDelete(id);
-		res.status(203).json(deleted);
-	} catch (err) {
-		res.status(500).json({ message: 'Something went wrong!' });
+		try {
+			const deleted = await orders.findByIdAndDelete(id);
+			res.status(203).json(deleted);
+		} catch (err) {
+			res.status(500).json({ message: 'Something went wrong!' });
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };
 
 export const updateShipping = async (req, res) => {
-	const { id } = req.params;
-	const currentOrder = req.body;
-	const orderDate = currentOrder.orderDate.toLocaleString('en-GB');
-	const shippingStr = '£' + shipping.toString() + '.00';
-	const subTotal = currentOrder.total - shipping;
-	try {
-		const update = await orders.findByIdAndUpdate(id, {
-			...currentOrder,
-			isShipped: true,
-		});
+	if (req.headers.apikey === process.env.API_KEY) {
+		const { id } = req.params;
+		const currentOrder = req.body;
+		const orderDate = currentOrder.orderDate.toLocaleString('en-GB');
+		const shippingStr = '£' + shipping.toString() + '.00';
+		const subTotal = currentOrder.total - shipping;
+		try {
+			const update = await orders.findByIdAndUpdate(id, {
+				...currentOrder,
+				isShipped: true,
+			});
 
-		fs.readFile(
-			'emails/shipped.html',
-			{ encoding: 'utf-8' },
-			function (err, html) {
-				if (err) {
-					console.log(err);
-				} else {
-					let template = handlebars.compile(html);
-					let data = {
-						username: currentOrder.customer.firstName,
-						orderNumber: currentOrder.orderNo,
-						orderDate,
-						shippingStr,
-						subTotal,
-						items: currentOrder.items,
-						total: currentOrder.total,
-					};
-					let mailList = [currentOrder.customer.email];
-					let htmlToSend = template(data);
-					let mailOptions = {
-						from: process.env.MAIL_USERNAME,
-						to: mailList,
-						subject: 'Your order from Poke Decks has shipped!',
-						html: htmlToSend,
-					};
-					transporter.sendMail(mailOptions, function (error, info) {
-						if (error) {
-							console.log(error);
-						} else {
-							console.log('Email sent: ' + info.response);
-						}
-					});
-				}
-			},
-		);
+			fs.readFile(
+				'emails/shipped.html',
+				{ encoding: 'utf-8' },
+				function (err, html) {
+					if (err) {
+						console.log(err);
+					} else {
+						let template = handlebars.compile(html);
+						let data = {
+							username: currentOrder.customer.firstName,
+							orderNumber: currentOrder.orderNo,
+							orderDate,
+							shippingStr,
+							subTotal,
+							items: currentOrder.items,
+							total: currentOrder.total,
+						};
+						let mailList = [currentOrder.customer.email];
+						let htmlToSend = template(data);
+						let mailOptions = {
+							from: process.env.MAIL_USERNAME,
+							to: mailList,
+							subject: 'Your order from Poke Decks has shipped!',
+							html: htmlToSend,
+						};
+						transporter.sendMail(mailOptions, function (error, info) {
+							if (error) {
+								console.log(error);
+							} else {
+								console.log('Email sent: ' + info.response);
+							}
+						});
+					}
+				},
+			);
 
-		res.status(203).json(update);
-	} catch (err) {
-		res.status(500).json({ message: 'Somthing has gone wrong...' });
+			res.status(203).json(update);
+		} catch (err) {
+			res.status(500).json({ message: 'Somthing has gone wrong...' });
+		}
+	} else {
+		res.status(404).json({ message: 'Wrong Key' });
 	}
 };

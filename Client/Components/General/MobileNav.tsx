@@ -121,7 +121,20 @@ const MobileNav = (props: Props) => {
 						Home
 					</a>
 				</Link>
-				<Link href='/myaccount'>
+				{currentUser && (
+					<Link href='/myaccount'>
+						<a
+							onClick={() => {
+								setOpen(false);
+							}}
+							className={
+								open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
+							}>
+							my account
+						</a>
+					</Link>
+				)}
+				<Link href='/contact'>
 					<a
 						onClick={() => {
 							setOpen(false);
@@ -129,7 +142,7 @@ const MobileNav = (props: Props) => {
 						className={
 							open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
 						}>
-						my account
+						contact us
 					</a>
 				</Link>
 				<Link href='/news'>
@@ -165,19 +178,6 @@ const MobileNav = (props: Props) => {
 						my Cart
 					</a>
 				</Link>
-				{isAdmin && (
-					<Link href='/admin'>
-						<a
-							onClick={() => {
-								setOpen(false);
-							}}
-							className={
-								open ? `${styles.nav__link} ${styles.active}` : styles.nav__link
-							}>
-							Dashboard
-						</a>
-					</Link>
-				)}
 			</nav>
 			<div
 				className={

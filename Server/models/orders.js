@@ -6,6 +6,7 @@ const ordersSchema = mongoose.Schema({
 	items: { type: [Object], required: true },
 	total: { type: String, required: true },
 	orderDate: { type: Date, required: true },
+	totalNoVat: { type: Number, required: true },
 	totalRaw: { type: Number, required: true },
 	isShipped: { type: Boolean, required: true },
 });

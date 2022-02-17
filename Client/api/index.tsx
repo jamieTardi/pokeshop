@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-// const API = axios.create({
-// 	baseURL: 'http://localhost:5001',
-// });
-
 const API = axios.create({
-	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	baseURL: 'http://localhost:5001',
+	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
 });
+
+// const API = axios.create({
+// 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+// 	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
+// });
 
 //users
 
@@ -76,66 +78,10 @@ export const updateUser = (
 
 //Products
 
-export const createProduct = (
-	formData: object,
-	setIsLoading: any,
-	setInfoText: any,
-) => {
-	API.post('/products', formData, setInfoText)
-		.then(() => setIsLoading(false))
-		.then(() => setInfoText('Product added you awesome person! ✨'))
-		.catch((err) => setInfoText(err.response.data.message));
-};
-
-export const addExpansions = (
-	expansion: object,
-	setIsLoading: any,
-	setInfoText: any,
-) => {
-	API.post('/expansion', expansion)
-		.then(() => {
-			setInfoText('Expansion added you awesome person! ✨');
-		})
-		.then(() => setIsLoading(false))
-
-		.catch((err) => setInfoText(err.response.data.message));
-};
-
-export const addCategories = (
-	addCategory: object,
-	setIsLoading: any,
-	setInfoText: any,
-) => {
-	API.post('/category', addCategory)
-		.then(() => {
-			setInfoText('Category added you awesome person! ✨');
-		})
-		.then(() => setIsLoading(false))
-		.catch((err) => setInfoText(err.response.data.message));
-};
-
 export const getCategories = (setCategories: any) => {
 	API.get('/category')
 		.then((res) => setCategories(res.data.categories))
 		.catch((err) => console.log(err.response.data.message));
-};
-
-export const updateCategories = (
-	id: string,
-	updateCategory: object,
-	setInfoTxt: any,
-) => {
-	API.patch(`/category/${id}`, updateCategory)
-		.then((res) => setInfoTxt('Updated item'))
-		.catch((err) =>
-			setInfoTxt('Something Went wrong, refresh the page and try again.'),
-		);
-};
-
-export const updateExpansion = (id: string, updateExpansion: object) => {
-	API.patch(`/expansion/${id}`, updateExpansion)
-		.then((res) => console.log(res))
-		.catch((err) => console.log(err));
 };
 
 export const getExpansions = (setExpansions: any) => {
@@ -144,28 +90,9 @@ export const getExpansions = (setExpansions: any) => {
 		.catch((err) => console.log(err.response.data.message));
 };
 
-export const deleteExpansion = (id: string, setInfoText: Function) => {
-	API.delete(`/expansion/${id}`)
-		.then((res) => setInfoText(res.data))
-		.catch(() => setInfoText('Something went wrong'));
-};
-
-export const deleteCategory = (id: string, setInfoText: Function) => {
-	API.delete(`/category/${id}`)
-		.then((res) => setInfoText(res.data))
-		.catch(() => setInfoText('Something went wrong'));
-};
-
 export const getAllProducts = (setProducts: any) => {
 	API.get('/products')
 		.then((res) => setProducts(res.data))
-		.catch((err) => console.log(err));
-};
-
-export const deleteProduct = (id: any, setDeleteResponse: any) => {
-	API.delete(`/products/${id}`)
-
-		.then(() => setDeleteResponse(true))
 		.catch((err) => console.log(err));
 };
 
@@ -178,18 +105,6 @@ export const getProductByCat = (cat: string, setProducts: Function) => {
 export const getProductByExp = (exp: string, setProducts: Function) => {
 	API.get(`/products/expansions/${exp}`)
 		.then((res) => setProducts(res.data))
-		.catch((err) => console.log(err));
-};
-
-//updating
-
-export const updateProduct = (
-	id: string,
-	formData: object,
-	setIsLoading: Function,
-) => {
-	API.patch(`/products/${id}`, formData)
-		.then(() => setIsLoading(false))
 		.catch((err) => console.log(err));
 };
 
@@ -234,12 +149,24 @@ export const paymentIntent = (
 		.catch((err) => console.log(err));
 };
 
+export const updatePaymentIntent = (
+	total: object,
+	setClientData: Function,
+	paymentIntent: string,
+) => {
+	API.post('/create-payment-intent/update', total, {
+		params: { paymentIntent },
+	})
+		.then((res) => setClientData(res.data))
+		.catch((err) => console.log(err));
+};
+
 //Orders
 
 export const createOrderToken = (
 	token: object,
 	address: object,
-	order: Array<object>,
+	order: string,
 	total: string,
 ) => {
 	API.post('/orders/orderToken', token, { params: { address, order, total } })
@@ -252,6 +179,8 @@ export const getTempOrder = (token: string, setOrderedItems: Function) => {
 		.then((res) => res.data)
 		.catch((err) => console.log(err));
 };
+
+// export const UpdateTempOrder = ()
 
 export const createOrder = (
 	order: Array<object>,
@@ -268,36 +197,6 @@ export const createOrder = (
 		.catch((err) => console.log(err));
 };
 
-export const deleteOrder = (id: string, setDeleteMessage: Function) => {
-	API.delete(`/orders/delete/${id}`)
-		.then(() => setDeleteMessage('Item deleted from database! 🔥'))
-		.catch((err) => setDeleteMessage(err.message));
-};
-
-export const getAllOrders = (setOrders: Function, setIsLoading: Function) => {
-	API.get('/orders')
-		.then((res) => setOrders(res.data))
-		.then(() => setIsLoading(false))
-		.catch((err) => console.log(err));
-};
-
-export const getTotals = (setMonthTotal: Function, setIsLoading: Function) => {
-	API.get('/orders/totals')
-		.then((res) => setMonthTotal(res.data))
-		.then(() => setIsLoading(false))
-		.catch((err) => console.log(err));
-};
-
-export const getWeeklyTotals = (
-	setWeeklyTotals: Function,
-	setIsLoading: Function,
-) => {
-	API.get('/orders/weekly')
-		.then((res) => setWeeklyTotals(res.data))
-		.then(() => setIsLoading(false))
-		.catch((err) => console.log(err));
-};
-
 export const updateShipping = (
 	id: string,
 	customer: object,
@@ -309,10 +208,35 @@ export const updateShipping = (
 		.catch((err) => console.log(err));
 };
 
+//Promtional offers
+
+export const getPromotions = (setPromotions: Function) => {
+	API.get('/promotions')
+		.then((res) => setPromotions(res.data))
+		.catch((err) => console.log(err));
+};
+
+export const applyPromoCode = (
+	code: string,
+	total: number,
+	setUpdateTotal: Function,
+	setErrorMsg: Function,
+) => {
+	API.get('/promotions/check', { params: { code, total } })
+		.then((res) => setUpdateTotal(res.data))
+		.catch((err) => setErrorMsg(err.response.data));
+};
+
 //General
 
 export const sendContact = (form: object, setMessage: Function) => {
 	API.post('/contact', form)
 		.then((res) => setMessage(res.data))
 		.catch((err) => setMessage(err));
+};
+
+export const checkIp = (ip: object, setResponse: Function) => {
+	API.post('/ipcheck', ip)
+		.then((res) => console.log(res.data))
+		.catch((err) => console.log(err.response));
 };

@@ -51,7 +51,7 @@ export default function BasicTabs() {
 
 	if (user.token !== '') {
 		return (
-			<Box sx={{ width: '100%', margin: '5% 0%' }}>
+			<Box sx={{ maxWidth: '100vw', margin: '5% 0%' }}>
 				<Paper>
 					<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 						<Tabs

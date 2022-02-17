@@ -5,10 +5,10 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { orders, item } from '../../../Interfaces/Orders';
+import { orders, item } from '../../Interfaces/Orders';
 import MiniTable from './MiniTable';
 import CloseIcon from '@mui/icons-material/Close';
-import { updateShipping } from '../../../api';
+import { updateShipping } from '../../api';
 import { useRouter } from 'next/router';
 
 interface props {

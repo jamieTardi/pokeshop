@@ -63,11 +63,7 @@ const Nav = ({ isOpen, setIsOpen }: any) => {
 							</li>
 						</Link>
 					))}
-					{isAdmin && (
-						<li className={styles.navitems}>
-							<Link href='/admin'>Dashboard</Link>
-						</li>
-					)}
+
 					{isUser && (
 						<li className={styles.navitems}>
 							<Link href='/myaccount'>My Account</Link>
