@@ -7,6 +7,7 @@ import axios from 'axios';
 
 const API = axios.create({
 	baseURL: 'https://poke-decks-uk.herokuapp.com',
+	// @ts-ignore
 	headers: { apiKey: process.env.NEXT_PUBLIC_API_KEY },
 });
 

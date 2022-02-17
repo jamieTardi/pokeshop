@@ -19,8 +19,6 @@ const CartItems = (props: Props) => {
 
 	//Redux State
 
-	//General logic
-
 	const handleRemoveItem = (item: item) => {
 		if (items) {
 			let filitered: Array<item> = items.filter(
