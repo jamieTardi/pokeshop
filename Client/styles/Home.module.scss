@@ -332,8 +332,10 @@
 	width: 100%;
 	z-index: 100;
 	display: grid;
-	grid-template-columns: repeat(6, 2fr);
-	gap: 4%;
+	justify-content: space-around;
+
+	row-gap: 4%;
+	column-gap: 4%;
 	grid-auto-rows: minmax(100px, auto);
 	margin-top: 5%;
 	color: #fff;

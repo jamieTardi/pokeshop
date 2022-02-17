@@ -19,12 +19,10 @@ const CartItems = (props: Props) => {
 
 	//Redux State
 
-	//General logic
-
 	const handleRemoveItem = (item: item) => {
 		if (items) {
 			let filitered: Array<item> = items.filter(
-				(el) => el.title !== item.title,
+				(el) => el.localID !== item.localID,
 			);
 
 			setItems(filitered);
@@ -33,17 +31,19 @@ const CartItems = (props: Props) => {
 
 	const handleAddItem = (item: item) => {
 		if (items) {
-			setItems([...items, item]);
+			let newItem = { ...item, localID: uuidv4() };
+			setItems([...items, newItem]);
 		}
 	};
 
 	//useEffects
 
 	useEffect(() => {
-		if (items) {
-			localStorage.setItem('poke-cart', JSON.stringify(items));
-			dispatch({ type: updateCart, payload: items });
+		if (!items) {
+			return;
 		}
+		localStorage.setItem('poke-cart', JSON.stringify(items));
+		dispatch({ type: updateCart, payload: items });
 	}, [items]);
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { newUser, passwords, email } from '../Interfaces/Register';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -56,6 +56,8 @@ export default function Register() {
 		errorMsg: 'This Email is not valid. Please try again.',
 		newEmail: '',
 	});
+	const [isError, setIsError] = useState<boolean>(false);
+	const [isPhoneNo, setIsPhoneNo] = useState<boolean>(false);
 
 	const [newPasswords, setNewPasswords] = useState<passwords>({
 		first: '',
@@ -86,7 +88,7 @@ export default function Register() {
 		let isEmail = EmailValidator.validate(newEmail);
 		if (isEmail) {
 			setEmailCheck({ ...emailCheck, isCorrect: true, newEmail });
-			setNewUser({ ...newUser, email: newEmail });
+			setNewUser({ ...newUser, email: newEmail.toLowerCase() });
 		} else {
 			setEmailCheck({
 				...emailCheck,
@@ -167,12 +169,21 @@ export default function Register() {
 											autoComplete='given-name'
 											name='firstName'
 											required
+											inputProps={{
+												maxLength: 30,
+											}}
 											fullWidth
 											id='firstName'
 											label='First Name'
 											autoFocus
 											onChange={(e) => {
-												setNewUser({ ...newUser, firstName: e.target.value });
+												if (/[^a-zA-Z]/.test(e.target.value)) {
+													setIsError(true);
+													setNewUser({ ...newUser, firstName: e.target.value });
+												} else {
+													setIsError(false);
+													setNewUser({ ...newUser, firstName: e.target.value });
+												}
 											}}
 										/>
 									</Grid>
@@ -180,19 +191,38 @@ export default function Register() {
 										<TextField
 											required
 											fullWidth
+											inputProps={{
+												maxLength: 30,
+											}}
 											id='lastName'
 											label='Last Name'
 											name='lastName'
 											autoComplete='family-name'
 											onChange={(e) => {
-												setNewUser({ ...newUser, lastName: e.target.value });
+												if (/[^a-zA-Z]/.test(e.target.value)) {
+													setIsError(true);
+													setNewUser({ ...newUser, firstName: e.target.value });
+												} else {
+													setIsError(false);
+													setNewUser({ ...newUser, firstName: e.target.value });
+												}
 											}}
 										/>
 									</Grid>
+									{isError && (
+										<Grid item xs={12}>
+											<p style={{ color: 'red' }}>
+												You may only enter letters for your names.
+											</p>
+										</Grid>
+									)}
 									<Grid item xs={12}>
 										<TextField
 											required
 											fullWidth
+											inputProps={{
+												maxLength: 40,
+											}}
 											id='email'
 											label='Email Address'
 											name='email'
@@ -208,22 +238,40 @@ export default function Register() {
 										<TextField
 											required
 											fullWidth
+											inputProps={{
+												maxLength: 12,
+											}}
 											id='telephone'
+											type='tel'
 											label='Telephone no'
 											name='telephone'
 											autoComplete='telephone'
-											onChange={(e) =>
-												setNewUser({
-													...newUser,
-													phoneNo: e.currentTarget.value,
-												})
-											}
+											onChange={(e) => {
+												if (/[^0-9]/.test(e.target.value)) {
+													setIsPhoneNo(true);
+													setNewUser({ ...newUser, phoneNo: e.target.value });
+												} else {
+													setIsPhoneNo(false);
+													setNewUser({ ...newUser, phoneNo: e.target.value });
+												}
+											}}
 										/>
 									</Grid>
+									{isPhoneNo && (
+										<Grid item xs={12}>
+											<p style={{ color: 'red' }}>
+												Only numbers are acceptable in this input.
+											</p>
+										</Grid>
+									)}
+
 									<Grid item xs={12}>
 										<TextField
 											required
 											fullWidth
+											inputProps={{
+												maxLength: 40,
+											}}
 											name='password'
 											label='Password'
 											type='password'
@@ -241,6 +289,9 @@ export default function Register() {
 										<TextField
 											required
 											fullWidth
+											inputProps={{
+												maxLength: 40,
+											}}
 											name='confirm password'
 											label='Confirm Password'
 											type='password'
@@ -270,7 +321,9 @@ export default function Register() {
 								<Button
 									type='submit'
 									fullWidth
-									disabled={!newPasswords.isMatched || isLoading}
+									disabled={
+										!newPasswords.isMatched || isLoading || isError || isPhoneNo
+									}
 									startIcon={isLoading && <CircularProgress size={20} />}
 									variant='contained'
 									sx={{ mt: 3, mb: 2 }}>

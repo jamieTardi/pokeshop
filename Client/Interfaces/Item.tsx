@@ -1,5 +1,6 @@
 export interface item {
 	title: string;
+	localID: string;
 	price: HTMLTextAreaElement | any;
 	image: Array<string>;
 	description: string;

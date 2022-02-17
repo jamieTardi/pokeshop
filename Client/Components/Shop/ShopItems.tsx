@@ -33,9 +33,11 @@ import ProductModal from './ProductModal';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import pokeShop from '../../Images/pokeShop.png';
 import Image from 'next/image';
+import { v4 as uuidv4 } from 'uuid';
 
-interface items {
+export interface items {
 	_id: string;
+	localID: string;
 	image: string | Array<string>;
 	description: string;
 	title: string;
@@ -65,13 +67,6 @@ interface card {
 	};
 }
 
-interface item {
-	_id: string;
-	title: string;
-	expansion: string;
-	price: number;
-}
-
 const ShopItems = () => {
 	const [products, setProducts] = useState<null | Array<items>>(null);
 	const [expandedArr, setExpandedArr] = useState([]);
@@ -87,6 +82,9 @@ const ShopItems = () => {
 	const [cardItem, setCardItem] = useState<any | null>(null);
 	const [currentCart, setCurrentCart] = useState<Array<typeof cardItem>>([]);
 	const [isShowModal, setIsShowModal] = useState<boolean>(false);
+	const [currentProducts, setCurrentProducts] = useState<Array<items> | null>(
+		null,
+	);
 
 	//General constants and variables
 	const router = useRouter();
@@ -100,17 +98,23 @@ const ShopItems = () => {
 	//logic for pagination
 	const indexOfLastPage = currentPage * itemsPerPage;
 	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
-	const currentProducts = products?.slice(indexOfFirstPage, indexOfLastPage);
+
+	useEffect(() => {
+		if (products) {
+			setCurrentProducts(products.slice(indexOfFirstPage, indexOfLastPage));
+		}
+	}, [products, currentPage]);
 
 	//General functions
 
 	const handleAddToCart = (item: card) => {
-		// if(item.s)
+		let newItem = { ...item, localID: uuidv4() };
+
 		if (localStorage.getItem('poke-cart')) {
 			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
-			setCurrentCart([...cart, item]);
+			setCurrentCart([...cart, newItem]);
 		} else {
-			setCurrentCart([...currentCart, item]);
+			setCurrentCart([...currentCart, newItem]);
 		}
 		setIsShowModal(true);
 		setTimeout(() => {
@@ -185,7 +189,7 @@ const ShopItems = () => {
 		}
 	}, [currentCat, currentExp]);
 
-	if (products) {
+	if (currentProducts) {
 		return (
 			<div>
 				<div className={`${styles.container} ${styles.whiteText}`}>
@@ -210,13 +214,18 @@ const ShopItems = () => {
 									You are currently searching for {currentPageTitle}.
 								</Typography>
 							</Container>
-							<FilterOptions />
+							{currentProducts && (
+								<FilterOptions
+									currentProducts={currentProducts}
+									setCurrentProducts={setCurrentProducts}
+								/>
+							)}
 						</Box>
 						{/* End hero unit */}
 						<Grid container spacing={4}>
 							{currentProducts ? (
 								currentProducts.map((card: any, i) => (
-									<Grid item key={card._id} xs={12} sm={6} md={4} lg={3}>
+									<Grid item key={card._id} xs={12} sm={6} lg={4} xl={3}>
 										<Card
 											sx={{
 												height: '100%',
@@ -226,7 +235,7 @@ const ShopItems = () => {
 											}}>
 											<CardMedia
 												component='img'
-												sx={{ height: '300px', objectFit: 'contain' }}
+												sx={{ height: '350px', objectFit: 'contain' }}
 												image={
 													card.image === '' ||
 													!card.image ||
@@ -241,7 +250,7 @@ const ShopItems = () => {
 												<Typography
 													variant='h5'
 													component='h2'
-													sx={{ maxHeight: '150px' }}>
+													sx={{ maxHeight: '200px' }}>
 													{card.title ? card.title : card.expansion}
 												</Typography>
 											</CardContent>

@@ -18,6 +18,7 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
+import { v4 as uuidv4 } from 'uuid';
 import { updateCart } from '../../Redux/slices/cartSlice';
 const style = {
 	position: 'absolute' as 'absolute',
@@ -69,11 +70,12 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 	const handleClose = () => setOpen(false);
 
 	const handleAddToCart = (item: typeof cardItem) => {
+		let newItem = { ...item, localID: uuidv4() };
 		if (localStorage.getItem('poke-cart')) {
 			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
-			setCurrentCart([...cart, item]);
+			setCurrentCart([...cart, newItem]);
 		} else {
-			setCurrentCart([...currentCart, item]);
+			setCurrentCart([...currentCart, newItem]);
 		}
 		setCartTxt(`${item.title} has been added to your cart ✔️`);
 		setTimeout(() => {
