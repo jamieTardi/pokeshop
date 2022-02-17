@@ -17,4 +17,5 @@ const useContentful = () => {
 	return { getNews };
 };
 
+
 export default useContentful;
