@@ -33,6 +33,7 @@ const News = () => {
 			.catch((err) => console.log(err));
 	}, []);
 
+	
 	if (!newsItems) {
 		return <p>Loading....</p>;
 	} else {
