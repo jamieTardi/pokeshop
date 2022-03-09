@@ -79,7 +79,11 @@ export default function Album() {
 							<div style={{ display: 'flex', justifyContent: 'center' }}>
 								<Image src={pokeShop} />
 							</div>
-							<Typography variant='h5' align='center' paragraph>
+							<Typography
+								variant='h5'
+								align='center'
+								paragraph
+								style={{ color: '#425466' }}>
 								Welcome to our poké shop! Thanks for taking the time to visit
 								us, check out the categories and expansions and see what we have
 								to offer!
