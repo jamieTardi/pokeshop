@@ -201,10 +201,10 @@ export default function Register() {
 											onChange={(e) => {
 												if (/[^a-zA-Z]/.test(e.target.value)) {
 													setIsError(true);
-													setNewUser({ ...newUser, firstName: e.target.value });
+													setNewUser({ ...newUser, lastName: e.target.value });
 												} else {
 													setIsError(false);
-													setNewUser({ ...newUser, firstName: e.target.value });
+													setNewUser({ ...newUser, lastName: e.target.value });
 												}
 											}}
 										/>
