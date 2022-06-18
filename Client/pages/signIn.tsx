@@ -131,6 +131,7 @@ export default function SignIn() {
 								margin='normal'
 								required
 								fullWidth
+								inputProps={{ maxLength: 50 }}
 								id='email'
 								label='Email Address'
 								name='email'
@@ -142,6 +143,7 @@ export default function SignIn() {
 								margin='normal'
 								required
 								fullWidth
+								inputProps={{ maxLength: 30 }}
 								name='password'
 								label='Password'
 								type='password'

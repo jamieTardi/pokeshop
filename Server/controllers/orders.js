@@ -8,7 +8,8 @@ import * as fs from 'fs';
 let shipping = 0;
 
 const transporter = nodemailer.createTransport({
-	service: 'gmail',
+	host: 'smtp.zoho.eu',
+	port: 465,
 	auth: {
 		user: process.env.MAIL_USERNAME,
 		pass: process.env.MAIL_PASSWORD,
@@ -178,10 +179,10 @@ export const addOrder = async (order) => {
 						items: orderedItems,
 						shippingPrice: shipping,
 					};
-					let mailList = [address.email];
+					let mailList = [address.email, process.env.MAIL_FROM];
 					let htmlToSend = template(data);
 					let mailOptions = {
-						from: process.env.MAIL_USERNAME,
+						from: process.env.MAIL_FROM,
 						to: mailList,
 						subject: 'Your order from Poke Decks!',
 						html: htmlToSend,

@@ -3,7 +3,9 @@ import handlebars from 'handlebars';
 import * as fs from 'fs';
 
 const transporter = nodemailer.createTransport({
-	service: 'gmail',
+	host: 'smtp.zoho.eu',
+	port: 465,
+	secure: true,
 	auth: {
 		user: process.env.MAIL_USERNAME,
 		pass: process.env.MAIL_PASSWORD,
@@ -29,10 +31,10 @@ export const sendContact = async (req, res) => {
 							lastName,
 							message,
 						};
-						let mailList = ['laura.walpole.173@gmail.com', email];
+						let mailList = [ email, process.env.MAIL_FROM];
 						let htmlToSend = template(data);
 						let mailOptions = {
-							from: process.env.MAIL_USERNAME,
+							from: process.env.MAIL_FROM,
 							to: mailList,
 							subject: 'New contact form from poke decks!',
 							html: htmlToSend,
