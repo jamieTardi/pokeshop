@@ -52,6 +52,7 @@ export default function AddressForm({ address, setAddress }: address) {
 	const [userDetails, setUserDetails] = useState<{ isUser: boolean } | null>(
 		null,
 	);
+
 	const [returnedDetails, setReturnedDetails] =
 		useState<null | returnedDetails>(null);
 
@@ -79,12 +80,17 @@ export default function AddressForm({ address, setAddress }: address) {
 
 
 	useEffect(() => {
-		if (userDetails) {
+		if (!userDetails) {
+			return
+		}
 			if (userDetails.isUser) {
 				checkUsers(user.token, address, setReturnedDetails);
 			}
-		}
-	}, []);
+		
+	}, [userDetails, setReturnedDetails]);
+
+
+
 
 	useEffect(() => {
 		setAddress({
@@ -99,9 +105,6 @@ export default function AddressForm({ address, setAddress }: address) {
 		});
 	}, [returnedDetails]);
 
-	useEffect(() => {
-		setIsComplete(Object.values(address).every((item) => item !== ''));
-	}, [address]);
 
 	useEffect(() => {
 		if (isComplete) {
@@ -117,13 +120,19 @@ export default function AddressForm({ address, setAddress }: address) {
 
 	useEffect(() => {
 for(const key in address){
+	
 	// @ts-ignore
 	if(!address[key] || address[key] === "" || !isEmail){
 		setIsComplete(false)
 		return
-	}
+	} 
+	
+	setIsComplete(true)
 }
-	}, [address, isEmail, setIsComplete])
+	}, [address, isEmail, setIsComplete, userDetails])
+
+
+	
 
 	return (
 		<React.Fragment>
