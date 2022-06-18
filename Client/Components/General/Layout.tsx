@@ -111,18 +111,7 @@ const Layout = ({ children }: any) => {
 
 			<>
 				<div className={mobileStyles.area} onClick={() => setIsOpen(false)}>
-					<ul className={mobileStyles.circles}>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
+				
 					<div className={styles.whiteText}>
 						{mobileSize ? (
 							<MobileNav />
@@ -139,22 +128,7 @@ const Layout = ({ children }: any) => {
 				</div>
 			</>
 
-			{/* {!mobileSize && (
-				<div>
-					<>
-						{' '}
-						<div className={styles.whiteText}>
-							{mobileSize ? <MobileNav /> : <Nav />}
-						</div>
-						<div className={`${styles.whiteText} ${styles.containerPadding}`}>
-							{children}
-						</div>
-						<footer className={`${styles.blackText} ${styles.footerContainer}`}>
-							<Footer />
-						</footer>
-					</>
-				</div>
-			)} */}
+		
 		</>
 	);
 };

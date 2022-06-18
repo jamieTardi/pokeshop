@@ -46,7 +46,7 @@ interface returnedDetails {
 }
 
 export default function AddressForm({ address, setAddress }: address) {
-	//local state
+
 	const [isComplete, setIsComplete] = useState<boolean>(false);
 	const [isEmail, setIsEmail] = useState<boolean>(false);
 	const [userDetails, setUserDetails] = useState<{ isUser: boolean } | null>(
@@ -55,18 +55,14 @@ export default function AddressForm({ address, setAddress }: address) {
 	const [returnedDetails, setReturnedDetails] =
 		useState<null | returnedDetails>(null);
 
-	//Global state
+
 	const dispatch = useAppDispatch();
 	const globalForm = useAppSelector((state: RootState) => state.form.value);
 	const user = useAppSelector((state: RootState) => state.auth.value);
 
-	//General Logic
 
-	const updateFields = () => {};
 
-	//UseEffects
 
-	//Looping over the object and checking that fields are filled in and not a empty string
 
 	useEffect(() => {
 		if (user !== new Object()) {
@@ -79,6 +75,8 @@ export default function AddressForm({ address, setAddress }: address) {
 			checkUsers(user.token, address, setReturnedDetails);
 		}
 	}, [isComplete]);
+
+
 
 	useEffect(() => {
 		if (userDetails) {
@@ -116,6 +114,16 @@ export default function AddressForm({ address, setAddress }: address) {
 	useEffect(() => {
 		setIsEmail(EmailValidator.validate(address.email));
 	}, [address.email]);
+
+	useEffect(() => {
+for(const key in address){
+	// @ts-ignore
+	if(!address[key] || address[key] === "" || !isEmail){
+		setIsComplete(false)
+		return
+	}
+}
+	}, [address, isEmail, setIsComplete])
 
 	return (
 		<React.Fragment>

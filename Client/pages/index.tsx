@@ -19,8 +19,7 @@ import { isMobileChange } from '../Redux/slices/mobileSlice';
 import Footer from '../Components/Sections/Footer';
 
 const Home: NextPage = () => {
-	const router = useRouter();
-	const mobileSize = useAppSelector((state: RootState) => state.isMobile.value);
+	
 	const [width, setWidth] = useState<number>(0);
 	const [allUsers, SetAllUsers] = useState<any | null>(null);
 

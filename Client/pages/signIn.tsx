@@ -131,7 +131,7 @@ export default function SignIn() {
 								margin='normal'
 								required
 								fullWidth
-								inputProps={{ maxLength: 50 }}
+								inputProps={{ maxLength: 40 }}
 								id='email'
 								label='Email Address'
 								name='email'
@@ -143,7 +143,7 @@ export default function SignIn() {
 								margin='normal'
 								required
 								fullWidth
-								inputProps={{ maxLength: 30 }}
+								inputProps={{ maxLength: 40 }}
 								name='password'
 								label='Password'
 								type='password'
@@ -179,12 +179,12 @@ export default function SignIn() {
 							{message !== '' && message}
 							<Grid container>
 								<Grid item xs>
-									<Link href='#' variant='body2'>
+									{/* <Link href='#' variant='body2'>
 										Forgot password?
-									</Link>
+									</Link> */}
 								</Grid>
 								<Grid item>
-									<Link href='/Register' variant='body2'>
+									<Link href='/register' variant='body2'>
 										{"Don't have an account? Sign Up"}
 									</Link>
 								</Grid>

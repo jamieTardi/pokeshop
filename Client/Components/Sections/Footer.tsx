@@ -17,13 +17,13 @@ interface Props {}
 const date = new Date();
 
 const logos = [
-	<a href='' className={styles.footerSVG}>
+	<a href='https://www.facebook.com/poke.decks.uk' className={styles.footerSVG}>
 		<FacebookOutlined key={1} />
 	</a>,
-	<a href='' className={styles.footerSVG}>
-		<YouTube key={2} />
-	</a>,
-	<a href='' className={styles.footerSVG}>
+	// <a href='' className={styles.footerSVG}>
+	// 	<YouTube key={2} />
+	// </a>,
+	<a href='https://twitter.com/pokedecks_uk' className={styles.footerSVG}>
 		<Twitter key={3} />
 	</a>,
 	<a
@@ -103,7 +103,7 @@ const Footer = (props: Props) => {
 				<div className={styles.footerGridItem5}>
 					<h5>We accept</h5>
 					<div className={styles.footerGridItems}>
-						{payments.map((logo, i) => (
+						{payments.map((logo) => (
 							<div className={styles.payments}>{logo}</div>
 						))}
 					</div>
