@@ -126,7 +126,6 @@ for(const key in address){
 		setIsComplete(false)
 		return
 	} 
-	
 	setIsComplete(true)
 }
 	}, [address, isEmail, setIsComplete, userDetails])

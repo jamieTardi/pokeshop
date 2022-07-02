@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { setPriority } from 'os';
 import {
 	getAllProducts,
 	getCategories,
@@ -19,7 +18,7 @@ import {
 	CardContent,
 	CardActions,
 	Card,
-	Collapse,
+
 } from '@mui/material';
 import Loading from '../UIComponents/Loading';
 import AdminModal from '../General/AdminModal';
@@ -89,13 +88,9 @@ const ShopItems = () => {
 	//General constants and variables
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const currentpage: any = router.query.param;
+	const currentpage = router.query.param;
 	const infoTxt: string = 'Item has been added to cart ✔️';
 
-	//redux
-	const page = useAppSelector((state: RootState) => state.currentPage.value);
-
-	//logic for pagination
 	const indexOfLastPage = currentPage * itemsPerPage;
 	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
@@ -122,7 +117,6 @@ const ShopItems = () => {
 		}, 2000);
 	};
 
-	//useEffect section
 
 	useEffect(() => {
 		if (cardItem) {
@@ -150,36 +144,30 @@ const ShopItems = () => {
 	}, [products]);
 
 	useEffect(() => {
-		if (page === 'category') {
 			getCategories(setCategories);
-		} else {
 			getExpansions(setExpansions);
-		}
-	}, [page]);
+	}, []);
 
 	useEffect(() => {
+		if(!categories || !currentpage){
+			return
+		}
+		
 		if (currentpage !== 'all-products') {
-			if (categories) {
+		
 				let filitered = categories.filter((item) => {
 					return item.slug === currentpage;
 				});
 				setCurrentCat(filitered[0].category);
 				setCurrentPageTitle(filitered[0].category);
-			} else {
-				if (expansions) {
-					let filitered = expansions?.filter((item) => {
-						return item.slug === currentpage;
-					});
-
-					setCurrentExp(filitered[0].expansion);
-					setCurrentPageTitle(filitered[0].expansion);
-				}
-			}
+		
+			
+		
 		} else {
 			getAllProducts(setProducts);
 			setCurrentPageTitle('all products');
 		}
-	}, [categories, expansions]);
+	}, [categories, expansions, currentpage]);
 
 	useEffect(() => {
 		if (currentCat) {
@@ -311,7 +299,7 @@ const ShopItems = () => {
 				</div>
 			</div>
 		);
-	} else if (cardItem === null) {
+	} else if (!cardItem) {
 		return <Loading />;
 	}
 };

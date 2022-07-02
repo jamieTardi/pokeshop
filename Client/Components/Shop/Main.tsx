@@ -99,12 +99,7 @@ export default function Album() {
 									</Button>
 								</Link>
 
-								<Button
-									variant='outlined'
-									color='inherit'
-									onClick={handleSearchExpansions}>
-									{isExp ? 'View Categories' : 'View Expansions'}
-								</Button>
+							
 							</Stack>
 						</Container>
 					</Box>

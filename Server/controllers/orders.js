@@ -151,11 +151,7 @@ export const addOrder = async (order) => {
 			isShipped: false,
 		});
 
-		//Email System for orders
 
-		//Email specfic variables
-
-		//Email logic for order
 		fs.readFile(
 			'emails/purchaseEmail.html',
 			{ encoding: 'utf-8' },
