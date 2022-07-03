@@ -151,7 +151,6 @@ export const addOrder = async (order) => {
 			isShipped: false,
 		});
 
-
 		fs.readFile(
 			'emails/purchaseEmail.html',
 			{ encoding: 'utf-8' },
@@ -163,7 +162,7 @@ export const addOrder = async (order) => {
 					let data = {
 						username: address.firstName,
 						orderNumber,
-						total,
+						total: order.totalRaw,
 						lineOne,
 						country,
 						county,

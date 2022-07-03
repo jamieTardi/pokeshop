@@ -18,7 +18,6 @@ import {
 	CardContent,
 	CardActions,
 	Card,
-
 } from '@mui/material';
 import Loading from '../UIComponents/Loading';
 import AdminModal from '../General/AdminModal';
@@ -117,7 +116,6 @@ const ShopItems = () => {
 		}, 2000);
 	};
 
-
 	useEffect(() => {
 		if (cardItem) {
 			setOpen((prev) => !prev);
@@ -144,25 +142,21 @@ const ShopItems = () => {
 	}, [products]);
 
 	useEffect(() => {
-			getCategories(setCategories);
-			getExpansions(setExpansions);
+		getCategories(setCategories);
+		getExpansions(setExpansions);
 	}, []);
 
 	useEffect(() => {
-		if(!categories || !currentpage){
-			return
+		if (!categories || !currentpage) {
+			return;
 		}
-		
+
 		if (currentpage !== 'all-products') {
-		
-				let filitered = categories.filter((item) => {
-					return item.slug === currentpage;
-				});
-				setCurrentCat(filitered[0].category);
-				setCurrentPageTitle(filitered[0].category);
-		
-			
-		
+			let filitered = categories.filter((item) => {
+				return item.slug === currentpage;
+			});
+			setCurrentCat(filitered[0].category);
+			setCurrentPageTitle(filitered[0].category);
 		} else {
 			getAllProducts(setProducts);
 			setCurrentPageTitle('all products');

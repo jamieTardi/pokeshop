@@ -20,6 +20,7 @@ import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
 import { RootState } from '../../Redux/store';
 import { v4 as uuidv4 } from 'uuid';
 import { updateCart } from '../../Redux/slices/cartSlice';
+import { item } from '../../Interfaces/Orders';
 const style = {
 	position: 'absolute' as 'absolute',
 	top: '50%',
@@ -49,23 +50,13 @@ interface result {
 interface props {
 	open: boolean;
 	setOpen: Function;
-	cardItem: {
-		image: Array<string>;
-		SKU: string;
-		description: string;
-		category: string;
-		price: number;
-		stockAmount: number;
-		title: string;
-		expansion: string;
-	};
+	cardItem: any;
 }
 
 export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 	const dispatch = useAppDispatch();
 	const [currentCart, setCurrentCart] = useState<any>([]);
 	const [cartTxt, setCartTxt] = useState<string>('');
-	const user = useAppSelector((state: RootState) => state.auth.value);
 
 	const handleClose = () => setOpen(false);
 
@@ -123,6 +114,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 									<>
 										<Grid item xs={12} sm={6}>
 											<Carousel autoPlay={false}>
+												{/* @ts-ignore */}
 												{cardItem.image.map((item, i) => (
 													<div
 														key={i}

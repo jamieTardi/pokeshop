@@ -23,6 +23,8 @@ import CardLinkBtn from './CardLinkBtn';
 import styles from '../../styles/Home.module.scss';
 import pokeShop from '../../Images/pokeShop.png';
 import Image from 'next/image';
+import Search from '../General/Search';
+import ShopItem from '../General/ShopItem';
 
 interface category {
 	category: string;
@@ -45,23 +47,17 @@ const theme = createTheme({
 
 export default function Album() {
 	const [categories, setCategories] = useState<null | Array<category>>(null);
-	const [loaded, setLoaded] = useState<boolean>(false);
-	const [isExp, setIsExp] = useState<boolean>(false);
-
-	const handleSearchExpansions = () => {
-		if (!isExp) {
-			getExpansions(setCategories);
-			setIsExp((prev) => !prev);
-		} else {
-			getCategories(setCategories);
-			setIsExp((prev) => !prev);
-		}
-	};
+	const [products, setProducts] = useState(null);
+	const [searchResults, setSearchResults] = useState([]);
 
 	useEffect(() => {
+		getAllProducts(setProducts);
 		getCategories(setCategories);
-	}, []);
+	}, [getAllProducts, getCategories]);
 
+	if (!categories) {
+		return <Loading />;
+	}
 	return (
 		<div className={`${styles.container} ${styles.whiteText}`}>
 			<ThemeProvider theme={theme}>
@@ -93,20 +89,26 @@ export default function Album() {
 								direction='row'
 								spacing={2}
 								justifyContent='center'>
+								{/* {products && (
+									<Search
+										products={products}
+										setSearchResults={setSearchResults}
+									/>
+								)} */}
 								<Link href='/shop/all-products'>
 									<Button variant='contained' color='primary'>
 										View all products
 									</Button>
 								</Link>
-
-							
 							</Stack>
 						</Container>
 					</Box>
 
 					{/* End hero unit */}
 					<Grid container spacing={4}>
-						{categories ? (
+						{searchResults.length > 0 && products ? (
+							<ShopItem products={products} />
+						) : (
 							categories.map((card, i) => (
 								<Grid item key={card.category} xs={12} sm={6} md={3}>
 									<Card
@@ -136,8 +138,6 @@ export default function Album() {
 									</Card>
 								</Grid>
 							))
-						) : (
-							<Loading />
 						)}
 					</Grid>
 				</main>
