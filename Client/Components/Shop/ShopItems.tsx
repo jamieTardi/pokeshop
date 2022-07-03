@@ -136,7 +136,6 @@ const ShopItems = () => {
 				newArr.push({ id: i, expanded: false });
 			});
 			setExpandedArr(newArr);
-
 			setTotalPages(Math.ceil(products.length / 8));
 		}
 	}, [products]);

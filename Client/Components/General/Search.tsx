@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { item } from '../../Interfaces/Item';
 import Fuse from 'fuse.js';
+import { Input, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 type TProps = {
 	products: item[];
@@ -13,12 +15,17 @@ const Search = ({ products, setSearchResults }: TProps) => {
 		keys: ['title', 'expansion', 'category'],
 	});
 	const result = fuse.search(searchTerm);
+	
 	useEffect(() => {
 		setSearchResults(result);
 	}, [result.length]);
 	return (
 		<div>
-			<input type='text' onChange={(e) => setSearchTerm(e.target.value)} />
+			<Input id="outlined-basic" placeholder='Search for products'  type='text' sx={{background: "white", borderRadius: "5px", width: "100%"}}  startAdornment={
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          } onChange={(e) => setSearchTerm(e.target.value)} />
 		</div>
 	);
 };

@@ -58,6 +58,9 @@ export default function Album() {
 	if (!categories) {
 		return <Loading />;
 	}
+
+	console.log({products})
+	console.log({searchResults})
 	return (
 		<div className={`${styles.container} ${styles.whiteText}`}>
 			<ThemeProvider theme={theme}>
@@ -86,15 +89,15 @@ export default function Album() {
 							</Typography>
 							<Stack
 								sx={{ pt: 4 }}
-								direction='row'
+								direction='column-reverse'
 								spacing={2}
 								justifyContent='center'>
-								{/* {products && (
+								{products && (
 									<Search
 										products={products}
 										setSearchResults={setSearchResults}
 									/>
-								)} */}
+								)}
 								<Link href='/shop/all-products'>
 									<Button variant='contained' color='primary'>
 										View all products
@@ -107,7 +110,7 @@ export default function Album() {
 					{/* End hero unit */}
 					<Grid container spacing={4}>
 						{searchResults.length > 0 && products ? (
-							<ShopItem products={products} />
+							<ShopItem products={searchResults} />
 						) : (
 							categories.map((card, i) => (
 								<Grid item key={card.category} xs={12} sm={6} md={3}>

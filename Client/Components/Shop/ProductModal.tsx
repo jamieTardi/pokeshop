@@ -38,14 +38,6 @@ const style = {
 	},
 };
 
-interface cartItems {
-	_id: string;
-}
-
-interface result {
-	user: Array<{}>;
-	result: { _id: string };
-}
 
 interface props {
 	open: boolean;
@@ -74,12 +66,15 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 		}, 2000);
 	};
 
+	
+
 	useEffect(() => {
 		if (currentCart.length !== 0) {
 			localStorage.setItem('poke-cart', JSON.stringify(currentCart));
 			dispatch({ type: updateCart, payload: currentCart });
 		}
 	}, [currentCart]);
+
 
 	if (cardItem) {
 		return (
@@ -93,6 +88,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 				BackdropProps={{
 					timeout: 500,
 				}}>
+					
 				<Fade in={open}>
 					<Box sx={style}>
 						<Grid container spacing={3}>
@@ -226,12 +222,9 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 										<Grid item xs={12}>
 											<Typography
 												id='transition-modal-description'
-												sx={{ mt: 2 }}>
-												Description:{' '}
-												<span style={{ color: '#989898' }}>
-													{cardItem.description}
-												</span>
-											</Typography>
+												dangerouslySetInnerHTML={{__html: "Description:<br>" + `<span style='color: #989898'>${cardItem.description}</span>`}}
+												sx={{ mt: 2 }}/>
+										
 										</Grid>
 										<Grid item xs={12}>
 											<div className={styles.divider} />
@@ -264,6 +257,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 												id='transition-modal-description'
 												sx={{ mt: 2 }}>
 												Shipping:{' '}
+												<br/>
 												<span style={{ color: '#989898' }}>
 													Items are usually shipped in 2-3 working days, if the
 													item is out of stock contact us for details.
