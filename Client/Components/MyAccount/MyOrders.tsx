@@ -35,7 +35,7 @@ export default function MyOrders() {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [currentProducts, setCurrentProducts] = useState<any>(null);
-	const itemsPerPage: number = 10;
+	const itemsPerPage: number = 24;
 
 	//Redux state
 	const token = useAppSelector((state: RootState) => state.auth.value);
@@ -53,7 +53,7 @@ export default function MyOrders() {
 
 	useEffect(() => {
 		if (userOrders) {
-			setTotalPages(Math.ceil(userOrders.length / 10));
+			setTotalPages(Math.ceil(userOrders.length / 24));
 			const indexOfLastPage = currentPage * itemsPerPage;
 			const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 			setCurrentProducts(userOrders.slice(indexOfFirstPage, indexOfLastPage));

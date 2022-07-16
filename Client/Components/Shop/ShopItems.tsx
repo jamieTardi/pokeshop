@@ -68,7 +68,7 @@ const ShopItems = () => {
 	const [products, setProducts] = useState<null | Array<items>>(null);
 	const [expandedArr, setExpandedArr] = useState([]);
 	const [currentPageTitle, setCurrentPageTitle] = useState<string>('');
-	const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+	const [itemsPerPage, setItemsPerPage] = useState<number>(24);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [currentCat, setCurrentCat] = useState<string | null>(null);
@@ -135,7 +135,7 @@ const ShopItems = () => {
 				newArr.push({ id: i, expanded: false });
 			});
 			setExpandedArr(newArr);
-			setTotalPages(Math.ceil(products.length / 8));
+			setTotalPages(Math.ceil(products.length / 24));
 		}
 	}, [products]);
 
