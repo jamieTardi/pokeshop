@@ -26,7 +26,6 @@ import FilterOptions from './FilterOptions';
 import CustomPagination from '../UIComponents/CustomPagination';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
-import { RootState } from '../../Redux/store';
 import ProductModal from './ProductModal';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import pokeShop from '../../Images/pokeShop.png';
@@ -176,6 +175,7 @@ const ShopItems = () => {
 				<div className={`${styles.container} ${styles.whiteText}`}>
 					<main>
 						{/* Hero unit */}
+
 						<Box
 							sx={{
 								bgcolor: 'inherit',
@@ -283,7 +283,6 @@ const ShopItems = () => {
 								infoText={infoTxt}
 							/>
 						</Grid>
-
 						<CustomPagination
 							setCurrentPage={setCurrentPage}
 							totalPages={totalPages}

@@ -59,8 +59,6 @@ export default function Album() {
 		return <Loading />;
 	}
 
-	console.log({products})
-	console.log({searchResults})
 	return (
 		<div className={`${styles.container} ${styles.whiteText}`}>
 			<ThemeProvider theme={theme}>
