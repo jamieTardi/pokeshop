@@ -63,8 +63,6 @@ export default function AddressForm({ address, setAddress }: address) {
 
 
 
-
-
 	useEffect(() => {
 		if (user !== new Object()) {
 			setUserDetails({ isUser: true });
@@ -75,7 +73,7 @@ export default function AddressForm({ address, setAddress }: address) {
 		if (isComplete && user.token !== '') {
 			checkUsers(user.token, address, setReturnedDetails);
 		}
-	}, [isComplete]);
+	}, []);
 
 
 
