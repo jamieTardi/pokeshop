@@ -131,7 +131,6 @@ export default function CheckoutForm({
 					console.log(result.error.message);
 				} else {
 					setOpen(false);
-					console.log('created');
 				}
 				setOpen(false);
 				setIsLoading(false);
