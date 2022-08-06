@@ -26,7 +26,6 @@ import FilterOptions from './FilterOptions';
 import CustomPagination from '../UIComponents/CustomPagination';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
-import { RootState } from '../../Redux/store';
 import ProductModal from './ProductModal';
 import { updateCart } from '../../Redux/slices/cartSlice';
 import pokeShop from '../../Images/pokeShop.png';
@@ -69,7 +68,7 @@ const ShopItems = () => {
 	const [products, setProducts] = useState<null | Array<items>>(null);
 	const [expandedArr, setExpandedArr] = useState([]);
 	const [currentPageTitle, setCurrentPageTitle] = useState<string>('');
-	const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+	const [itemsPerPage, setItemsPerPage] = useState<number>(24);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [currentCat, setCurrentCat] = useState<string | null>(null);
@@ -136,7 +135,7 @@ const ShopItems = () => {
 				newArr.push({ id: i, expanded: false });
 			});
 			setExpandedArr(newArr);
-			setTotalPages(Math.ceil(products.length / 8));
+			setTotalPages(Math.ceil(products.length / 24));
 		}
 	}, [products]);
 
@@ -176,6 +175,7 @@ const ShopItems = () => {
 				<div className={`${styles.container} ${styles.whiteText}`}>
 					<main>
 						{/* Hero unit */}
+
 						<Box
 							sx={{
 								bgcolor: 'inherit',
@@ -283,7 +283,6 @@ const ShopItems = () => {
 								infoText={infoTxt}
 							/>
 						</Grid>
-
 						<CustomPagination
 							setCurrentPage={setCurrentPage}
 							totalPages={totalPages}
