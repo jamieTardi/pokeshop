@@ -54,7 +54,7 @@ export default function Album() {
 	const [products, setProducts] = useState(null);
 	const [searchResults, setSearchResults] = useState([]);
 	const [openFilters, setOpenFilters] = useState(true)
-	const [isExpansion, setIsExpansion] = useState(false)
+	const [isExpansion, setIsExpansion] = useState(true)
 	const filteredType = isExpansion ? expansions : categories
 
 	useEffect(() => {
