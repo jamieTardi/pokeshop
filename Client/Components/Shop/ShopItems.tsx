@@ -31,6 +31,7 @@ import { updateCart } from '../../Redux/slices/cartSlice';
 import pokeShop from '../../Images/pokeShop.png';
 import Image from 'next/image';
 import { v4 as uuidv4 } from 'uuid';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 export interface items {
 	_id: string;
@@ -72,7 +73,7 @@ const ShopItems = () => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
 	const [currentCat, setCurrentCat] = useState<string | null>(null);
-	const [currentExp, setCurrentExp] = useState<string | null>(null);
+	const [currentExp, setCurrentExp] = useState(false);
 	const [categories, setCategories] = useState<null | Array<category>>(null);
 	const [expansions, setExpansions] = useState<null | Array<category>>(null);
 	const [open, setOpen] = useState<boolean>(false);
@@ -145,16 +146,20 @@ const ShopItems = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!categories || !currentpage) {
+		if (!categories || !currentpage || !expansions) {
 			return;
 		}
-
 		if (currentpage !== 'all-products') {
-			let filitered = categories.filter((item) => {
-				return item.slug === currentpage;
-			});
-			setCurrentCat(filitered[0].category);
-			setCurrentPageTitle(filitered[0].category);
+	const cats = categories.filter(item => item.slug === currentpage)[0]
+	let filter;
+				if(cats){
+					filter = cats.category
+				}else {
+					filter = expansions.filter(item => item.slug === currentpage)[0].expansion
+					setCurrentExp(true)
+				}
+			setCurrentCat(filter);
+			setCurrentPageTitle(filter);
 		} else {
 			getAllProducts(setProducts);
 			setCurrentPageTitle('all products');
@@ -162,11 +167,17 @@ const ShopItems = () => {
 	}, [categories, expansions, currentpage]);
 
 	useEffect(() => {
-		if (currentCat) {
-			getProductByCat(currentCat, setProducts);
-		} else if (currentExp) {
-			getProductByExp(currentExp, setProducts);
+		if(!currentCat){
+			return
 		}
+		if(!currentExp){
+			getProductByCat(currentCat, setProducts);
+			return
+		}
+	
+			getProductByExp(currentCat, setProducts);
+
+		
 	}, [currentCat, currentExp]);
 
 	if (currentProducts) {
