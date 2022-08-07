@@ -12,12 +12,12 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Container, ButtonGroup } from '@mui/material';
+import { Container } from '@mui/material';
 import Link from 'next/link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import loadingGif from '../../Images/pokeBallLoading.gif';
+
 import { useEffect, useState } from 'react';
-import { getAllProducts, getCategories, getExpansions } from '../../api';
+import { getAllProducts, getCategories, getExpansions} from '../../api';
 import Loading from '../UIComponents/Loading';
 import CardLinkBtn from './CardLinkBtn';
 import styles from '../../styles/Home.module.scss';
@@ -25,6 +25,8 @@ import pokeShop from '../../Images/pokeShop.png';
 import Image from 'next/image';
 import Search from '../General/Search';
 import ShopItem from '../General/ShopItem';
+import { MainPageFilter } from '../Filters';
+
 
 interface category {
 	category: string;
@@ -47,13 +49,19 @@ const theme = createTheme({
 
 export default function Album() {
 	const [categories, setCategories] = useState<null | Array<category>>(null);
+	const [expansions, setExpansions] = useState([]);
+
 	const [products, setProducts] = useState(null);
 	const [searchResults, setSearchResults] = useState([]);
+	const [openFilters, setOpenFilters] = useState(true)
+	const [isExpansion, setIsExpansion] = useState(false)
+	const filteredType = isExpansion ? expansions : categories
 
 	useEffect(() => {
 		getAllProducts(setProducts);
 		getCategories(setCategories);
-	}, [getAllProducts, getCategories]);
+		getExpansions(setExpansions)
+	}, [getAllProducts, getCategories, getExpansions])
 
 	if (!categories) {
 		return <Loading />;
@@ -75,7 +83,7 @@ export default function Album() {
 						}}>
 						<Container maxWidth='sm'>
 							<div style={{ display: 'flex', justifyContent: 'center' }}>
-								<Image src={pokeShop} />
+								<Image src={pokeShop} alt="poke-shop" />
 							</div>
 							<Typography
 								variant='h5'
@@ -97,21 +105,21 @@ export default function Album() {
 										setSearchResults={setSearchResults}
 									/>
 								)}
-								<Link href='/shop/all-products'>
-									<Button variant='contained' color='primary'>
-										View all products
-									</Button>
-								</Link>
+								
 							</Stack>
+					
 						</Container>
+						<Button sx={{marginTop: "1rem"}} variant='contained' color='primary' size='small' onClick={() => setOpenFilters(!openFilters)}>	{openFilters ? "Close Filters" : "Open Filters"}</Button>
+						<MainPageFilter isOpen={openFilters} setIsExpansion={setIsExpansion} isExpansion={isExpansion}/>
 					</Box>
 
 					{/* End hero unit */}
 					<Grid container spacing={4}>
+				
 						{searchResults.length > 0 && products ? (
 							<ShopItem products={searchResults} />
 						) : (
-							categories.map((card, i) => (
+							filteredType?.map((card, i) => (
 								<Grid item key={card.category} xs={12} sm={6} md={3}>
 									<Card
 										sx={{

@@ -1,0 +1,47 @@
+.filter {
+    &__container{
+        margin-top: 1rem;
+        width: 100%;
+        height: min-content;
+        background-color: white;
+        border-radius: 5px;
+        color: rgba(0, 0, 0, 0.87);
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.3rem;
+        padding-bottom: 1rem;
+    }
+    &__closed{
+        display: none;
+    }
+    &__groupContainer{
+        display: grid;
+        grid-template-areas: "group1 group2 group3";
+        grid-auto-columns: 1fr;
+    }
+ &__group1 {
+    padding-left: 1rem;
+    grid-area: group1;
+    
+ 
+ }
+ &__group2{
+    grid-area: group2;
+ }
+}
+
+@media only screen and (max-width: 600px) {
+    .filter {
+    &__groupContainer{
+        display: flex;
+        flex-direction: column;
+        
+    }
+    &__group1, &__group2 {
+        padding-left:0;
+        width: 100%;
+        margin-left: 1rem;
+     }
+ 
+}
+}
