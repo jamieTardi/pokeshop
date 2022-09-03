@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import {
-	getAllProducts,
-	getCategories,
-	getExpansions,
-	getProductByCat,
-	getProductByExp,
-} from '../../api';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { getAllProducts, getCategories, getExpansions, getProductByCat, getProductByExp } from "../../api";
 import {
 	Button,
 	Container,
@@ -18,20 +12,21 @@ import {
 	CardContent,
 	CardActions,
 	Card,
-} from '@mui/material';
-import Loading from '../UIComponents/Loading';
-import AdminModal from '../General/AdminModal';
-import styles from '../../styles/Home.module.scss';
-import FilterOptions from './FilterOptions';
-import CustomPagination from '../UIComponents/CustomPagination';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import { useAppSelector, useAppDispatch } from '../../Redux/hooks';
-import ProductModal from './ProductModal';
-import { updateCart } from '../../Redux/slices/cartSlice';
-import pokeShop from '../../Images/pokeShop.png';
-import Image from 'next/image';
-import { v4 as uuidv4 } from 'uuid';
-import { ConstructionOutlined } from '@mui/icons-material';
+} from "@mui/material";
+import Loading from "../UIComponents/Loading";
+import AdminModal from "../General/AdminModal";
+import styles from "../../styles/Home.module.scss";
+import FilterOptions from "./FilterOptions";
+import CustomPagination from "../UIComponents/CustomPagination";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { useAppSelector, useAppDispatch } from "../../Redux/hooks";
+import ProductModal from "./ProductModal";
+import { updateCart } from "../../Redux/slices/cartSlice";
+import pokeShop from "../../Images/pokeShop.png";
+import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
+import { ConstructionOutlined } from "@mui/icons-material";
+import { item } from "../../Interfaces/Item";
 
 export interface items {
 	_id: string;
@@ -68,7 +63,7 @@ interface card {
 const ShopItems = () => {
 	const [products, setProducts] = useState<null | Array<items>>(null);
 	const [expandedArr, setExpandedArr] = useState([]);
-	const [currentPageTitle, setCurrentPageTitle] = useState<string>('');
+	const [currentPageTitle, setCurrentPageTitle] = useState<string>("");
 	const [itemsPerPage, setItemsPerPage] = useState<number>(24);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(1);
@@ -78,18 +73,15 @@ const ShopItems = () => {
 	const [expansions, setExpansions] = useState<null | Array<category>>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [cardItem, setCardItem] = useState<any | null>(null);
-	const [currentCart, setCurrentCart] = useState<Array<typeof cardItem>>([]);
+	const [currentCart, setCurrentCart] = useState<any>([]);
 	const [isShowModal, setIsShowModal] = useState<boolean>(false);
-	const [currentProducts, setCurrentProducts] = useState<Array<items> | null>(
-		null,
-	);
+	const [currentProducts, setCurrentProducts] = useState<Array<items> | null>(null);
 
 	//General constants and variables
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const currentpage = router.query.param;
-	const infoTxt: string = 'Item has been added to cart ✔️';
-
+	const infoTxt: string = "Item has been added to cart ✔️";
 	const indexOfLastPage = currentPage * itemsPerPage;
 	const indexOfFirstPage = indexOfLastPage - itemsPerPage;
 
@@ -104,8 +96,8 @@ const ShopItems = () => {
 	const handleAddToCart = (item: card) => {
 		let newItem = { ...item, localID: uuidv4() };
 
-		if (localStorage.getItem('poke-cart')) {
-			let cart = JSON.parse(localStorage.getItem('poke-cart') || '{}');
+		if (localStorage.getItem("poke-cart")) {
+			let cart = JSON.parse(localStorage.getItem("poke-cart") || "{}");
 			setCurrentCart([...cart, newItem]);
 		} else {
 			setCurrentCart([...currentCart, newItem]);
@@ -123,11 +115,13 @@ const ShopItems = () => {
 	}, [cardItem]);
 
 	useEffect(() => {
-		if (currentCart.length !== 0) {
-			localStorage.setItem('poke-cart', JSON.stringify(currentCart));
-			dispatch({ type: updateCart, payload: currentCart });
+		if (currentCart.length === 0) {
+			return;
 		}
-	}, [currentCart]);
+
+		localStorage.setItem("poke-cart", JSON.stringify(currentCart));
+		dispatch({ type: updateCart, payload: currentCart });
+	}, [currentCart, dispatch]);
 
 	useEffect(() => {
 		if (products) {
@@ -149,35 +143,32 @@ const ShopItems = () => {
 		if (!categories || !currentpage || !expansions) {
 			return;
 		}
-		if (currentpage !== 'all-products') {
-	const cats = categories.filter(item => item.slug === currentpage)[0]
-	let filter;
-				if(cats){
-					filter = cats.category
-				}else {
-					filter = expansions.filter(item => item.slug === currentpage)[0].expansion
-					setCurrentExp(true)
-				}
+		if (currentpage !== "all-products") {
+			const cats = categories.filter((item) => item.slug === currentpage)[0];
+			let filter;
+			if (cats) {
+				filter = cats.category;
+			} else {
+				filter = expansions.filter((item) => item.slug === currentpage)[0].expansion;
+				setCurrentExp(true);
+			}
 			setCurrentCat(filter);
 			setCurrentPageTitle(filter);
 		} else {
 			getAllProducts(setProducts);
-			setCurrentPageTitle('all products');
+			setCurrentPageTitle("all products");
 		}
 	}, [categories, expansions, currentpage]);
 
 	useEffect(() => {
-		if(!currentCat){
-			return
+		if (!currentCat) {
+			return;
 		}
-		if(!currentExp){
+		if (!currentExp) {
 			getProductByCat(currentCat, setProducts);
-			return
+			return;
 		}
-	
-			getProductByExp(currentCat, setProducts);
-
-		
+		getProductByExp(currentCat, setProducts);
 	}, [currentCat, currentExp]);
 
 	if (currentProducts) {
@@ -189,28 +180,21 @@ const ShopItems = () => {
 
 						<Box
 							sx={{
-								bgcolor: 'inherit',
+								bgcolor: "inherit",
 								pt: 8,
 								pb: 6,
-							}}>
-							<Container maxWidth='sm'>
-								<div style={{ display: 'flex', justifyContent: 'center' }}>
+							}}
+						>
+							<Container maxWidth="sm">
+								<div style={{ display: "flex", justifyContent: "center" }}>
 									<Image src={pokeShop} />
 								</div>
-								<Typography
-									component='h4'
-									variant='h4'
-									align='center'
-									color='text.secondary'
-									gutterBottom>
+								<Typography component="h4" variant="h4" align="center" color="text.secondary" gutterBottom>
 									You are currently searching for {currentPageTitle}.
 								</Typography>
 							</Container>
 							{currentProducts && (
-								<FilterOptions
-									currentProducts={currentProducts}
-									setCurrentProducts={setCurrentProducts}
-								/>
+								<FilterOptions currentProducts={currentProducts} setCurrentProducts={setCurrentProducts} />
 							)}
 						</Box>
 						{/* End hero unit */}
@@ -220,41 +204,37 @@ const ShopItems = () => {
 									<Grid item key={card._id} xs={12} sm={6} lg={4} xl={3}>
 										<Card
 											sx={{
-												height: '100%',
-												display: 'flex',
-												flexDirection: 'column',
-												background: '#fff',
-											}}>
+												height: "100%",
+												display: "flex",
+												flexDirection: "column",
+												background: "#fff",
+											}}
+										>
 											<CardMedia
-												component='img'
-												sx={{ height: '350px', objectFit: 'contain' }}
+												component="img"
+												sx={{ height: "350px", objectFit: "contain" }}
 												image={
-													card.image === '' ||
-													!card.image ||
-													card.image[0] === '' ||
-													card.image.length === 0
-														? 'https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg'
+													card.image === "" || !card.image || card.image[0] === "" || card.image.length === 0
+														? "https://dlair.net/houston-north/wp-content/uploads/2020/10/PokeVividVoltage_Banner-scaled.jpg"
 														: card.image[0]
 												}
-												alt=''
+												alt=""
 											/>
 											<CardContent sx={{ flexGrow: 1 }}>
-												<Typography
-													variant='h5'
-													component='h2'
-													sx={{ maxHeight: '200px' }}>
+												<Typography variant="h5" component="h2" sx={{ maxHeight: "200px" }}>
 													{card.title ? card.title : card.expansion}
 												</Typography>
 											</CardContent>
 											<CardActions>
 												<Typography
 													gutterBottom
-													component='p'
+													component="p"
 													sx={{
-														display: 'flex',
-														alignItems: 'center',
-														color: '#989898',
-													}}>
+														display: "flex",
+														alignItems: "center",
+														color: "#989898",
+													}}
+												>
 													<LocalOfferIcon />
 													Price: £{card.price.toFixed(2).toString()}
 												</Typography>
@@ -262,24 +242,26 @@ const ShopItems = () => {
 
 											<CardActions>
 												<Button
-													size='small'
-													variant='contained'
+													size="small"
+													variant="contained"
 													onClick={() => {
 														setCardItem(card);
-													}}>
+													}}
+												>
 													View Details
 												</Button>
 
-												<Button
-													size='small'
-													color='success'
-													disabled={card.stockAmount < 1}
-													variant='contained'
-													onClick={() => handleAddToCart(card)}>
-													{card.stockAmount < 1
-														? 'Out of Stock'
-														: 'Add to basket'}
-												</Button>
+												{card.stockAmount === 0 && (
+													<Button
+														size="small"
+														color="success"
+														disabled={true}
+														variant="contained"
+														onClick={() => handleAddToCart(card)}
+													>
+														Out of Stock
+													</Button>
+												)}
 											</CardActions>
 										</Card>
 									</Grid>
@@ -287,17 +269,10 @@ const ShopItems = () => {
 							) : (
 								<Loading />
 							)}
-							<ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />
-							<AdminModal
-								open={isShowModal}
-								setOpen={setIsShowModal}
-								infoText={infoTxt}
-							/>
+							{cardItem && <ProductModal open={open} setOpen={setOpen} cardItem={cardItem} />}
+							<AdminModal open={isShowModal} setOpen={setIsShowModal} infoText={infoTxt} />
 						</Grid>
-						<CustomPagination
-							setCurrentPage={setCurrentPage}
-							totalPages={totalPages}
-						/>
+						<CustomPagination setCurrentPage={setCurrentPage} totalPages={totalPages} />
 					</main>
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 export interface item {
+	_id: string;
 	title: string;
 	localID: string;
 	price: HTMLTextAreaElement | any;

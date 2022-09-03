@@ -79,7 +79,6 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 		if (!inStock) {
 			return;
 		}
-
 		localStorage.setItem("poke-cart", JSON.stringify(currentCart));
 		dispatch({ type: updateCart, payload: currentCart });
 	}, [currentCart, dispatch, cardItem._id, cardItem.stockAmount, inStock]);
