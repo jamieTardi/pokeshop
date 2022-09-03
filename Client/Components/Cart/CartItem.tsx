@@ -20,7 +20,6 @@ interface cartItem {
 }
 
 export default function CardItem({ item, handleRemoveItem, handleAddItem }: cartItem) {
-	console.log(item);
 	return (
 		<Card sx={{ minWidth: "100%", display: "flex", marginBottom: "3%" }}>
 			<div>
@@ -50,14 +49,14 @@ export default function CardItem({ item, handleRemoveItem, handleAddItem }: cart
 					<Button size="small" onClick={() => handleRemoveItem(item)}>
 						Remove item
 					</Button>
-					<Button
+					{/* <Button
 						size="small"
 						onClick={() => {
 							handleAddItem(item);
 						}}
 					>
 						Add Another
-					</Button>
+					</Button> */}
 				</CardActions>
 			</div>
 		</Card>

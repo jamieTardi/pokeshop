@@ -49,7 +49,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 	const isCart = Boolean(localStorage.getItem("poke-cart"));
 	const [currentCart, setCurrentCart] = useState<any>(isCart ? JSON.parse(localStorage.getItem("poke-cart")!) : []);
 	const [cartTxt, setCartTxt] = useState<string>("");
-	const [inStock, setInStock] = useState<boolean | null>(Boolean(cardItem.stockAmount > 0));
+	const [inStock, setInStock] = useState<boolean | null>(cardItem.stockAmount > 0);
 
 	const handleClose = () => setOpen(false);
 
