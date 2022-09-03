@@ -1,14 +1,14 @@
-import orders from '../models/orders.js';
-import orderToken from '../models/orderToken.js';
-import products from '../models/products.js';
-import user from '../models/users.js';
-import nodemailer from 'nodemailer';
-import handlebars from 'handlebars';
-import * as fs from 'fs';
+import orders from "../models/orders.js";
+import orderToken from "../models/orderToken.js";
+import products from "../models/products.js";
+import user from "../models/users.js";
+import nodemailer from "nodemailer";
+import handlebars from "handlebars";
+import * as fs from "fs";
 let shipping = 0;
 
 const transporter = nodemailer.createTransport({
-	host: 'smtp.zoho.eu',
+	host: "smtp.zoho.eu",
 	port: 465,
 	auth: {
 		user: process.env.MAIL_USERNAME,
@@ -24,7 +24,7 @@ export const getTempOrder = async (req, res) => {
 
 		addOrder(findOrder);
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -34,7 +34,7 @@ export const createToken = async (req, res) => {
 		await orderToken.findOneAndDelete({ token });
 		const totalStr = (req.query.total / 100).toFixed(2).toString();
 		const orderedItems = JSON.parse(req.query.order);
-		const total = '£' + totalStr;
+		const total = "£" + totalStr;
 		const address = JSON.parse(req.query.address);
 		const intTotal = Number(req.query.total);
 
@@ -45,9 +45,9 @@ export const createToken = async (req, res) => {
 		} else {
 			shipping = 0;
 		}
-		let subTotal = '£' + (intTotal - shipping).toFixed(2).toString();
+		let subTotal = "£" + (intTotal - shipping).toFixed(2).toString();
 
-		const shippingStr = '£' + shipping.toString() + '.00';
+		const shippingStr = "£" + shipping.toString() + ".00";
 		try {
 			await orderToken.create({
 				token,
@@ -59,14 +59,12 @@ export const createToken = async (req, res) => {
 				totalRaw: req.query.total - shipping,
 				creationDate: new Date(),
 			});
-			res
-				.status(201)
-				.json('Temporary order created, this will be removed in 30 mins.');
+			res.status(201).json("Temporary order created, this will be removed in 30 mins.");
 		} catch (err) {
-			res.status(500).json('Something gone wrong...');
+			res.status(500).json("Something gone wrong...");
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -75,7 +73,7 @@ export const addOrder = async (order) => {
 	const total = `£${order.totalRaw.toFixed(2).toString()}`;
 	const address = order.customer;
 	const date = new Date();
-	const currentDate = date.toLocaleString('en-US');
+	const currentDate = date.toLocaleString("en-US");
 	const allOrders = await orders.find();
 	const lineOne = address.addressLineOne;
 	const county = address.county;
@@ -85,7 +83,7 @@ export const addOrder = async (order) => {
 	let orderedItems = [];
 
 	//Create order number
-	const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+	const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 	let orderLetters = [];
 	let rawSubTotal = 0;
 
@@ -93,10 +91,9 @@ export const addOrder = async (order) => {
 		let num = Math.floor(Math.random() * 10);
 		orderLetters.push(letters[num]);
 	}
-	const orderNumber =
-		'poke-' + orderLetters.join('') + '-' + '000' + allOrders.length.toString();
+	const orderNumber = "poke-" + orderLetters.join("") + "-" + "000" + allOrders.length.toString();
 
-	const shippingStr = '£' + shipping.toFixed(2).toString();
+	const shippingStr = "£" + shipping.toFixed(2).toString();
 
 	// //Extract Item details
 
@@ -106,7 +103,7 @@ export const addOrder = async (order) => {
 			let newItem = {
 				title: item.title,
 				SKU: item.SKU,
-				price: '£' + item.price.toFixed(2).toString(),
+				price: "£" + item.price.toFixed(2).toString(),
 			};
 			orderedItems.push(newItem);
 			rawSubTotal += item.price;
@@ -133,7 +130,7 @@ export const addOrder = async (order) => {
 
 	//Rounding calc
 	function roundToTwo(num) {
-		return +(Math.round(num + 'e+2') + 'e-2');
+		return +(Math.round(num + "e+2") + "e-2");
 	}
 
 	try {
@@ -151,87 +148,79 @@ export const addOrder = async (order) => {
 			isShipped: false,
 		});
 
-		fs.readFile(
-			'emails/purchaseEmail.html',
-			{ encoding: 'utf-8' },
-			function (err, html) {
-				if (err) {
-					console.log(err);
-				} else {
-					let template = handlebars.compile(html);
-					let data = {
-						username: address.firstName,
-						orderNumber,
-						total: order.totalRaw,
-						lineOne,
-						country,
-						county,
-						postCode,
-						subTotal: `£${rawSubTotal.toFixed(2).toString()}`,
-						shippingStr,
-						orderDate: currentDate,
-						VAT: '£' + roundToTwo(withoutVat).toFixed(2).toString(),
-						items: orderedItems,
-						shippingPrice: shipping,
-					};
-					let mailList = [address.email, process.env.MAIL_FROM];
-					let htmlToSend = template(data);
-					let mailOptions = {
-						from: process.env.MAIL_FROM,
-						to: mailList,
-						subject: 'Your order from Poke Decks!',
-						html: htmlToSend,
-					};
-					transporter.sendMail(mailOptions, function (error, info) {
-						if (error) {
-							console.log(error);
-						} else {
-							console.log('Email sent: ' + info.response);
-						}
-					});
-				}
-			},
-		);
-
-		fs.readFile(
-			'emails/emailAlert.html',
-			{ encoding: 'utf-8' },
-			function (err, html) {
-				if (err) {
-					console.log(err);
-				} else {
-					let template = handlebars.compile(html);
-					let data = {
-						username: address.firstName,
-						orderNumber,
-						total,
-						orderDate: currentDate,
-						items: orderedItems,
-						shippingPrice: shipping,
-					};
-					let mailList = ['laura.walpole.173@gmail.com'];
-					let htmlToSend = template(data);
-					let mailOptions = {
-						from: process.env.MAIL_USERNAME,
-						to: mailList,
-						subject: 'New order alert!',
-						html: htmlToSend,
-					};
-					transporter.sendMail(mailOptions, function (error, info) {
-						if (error) {
-							console.log(error);
-						} else {
-							console.log('Email sent: ' + info.response);
-						}
-					});
-				}
-			},
-		);
-
 		//Once complete delete temp order
 		await orderToken.findOneAndDelete({ token: order.token });
 	} catch (err) {
-		console.log(err);
+		return res.status(404).json({ message: "An Error occured" });
+	} finally {
+		fs.readFile("emails/purchaseEmail.html", { encoding: "utf-8" }, function (err, html) {
+			if (err) {
+				console.log(err);
+			} else {
+				let template = handlebars.compile(html);
+				let data = {
+					username: address.firstName,
+					orderNumber,
+					total: order.totalRaw,
+					lineOne,
+					country,
+					county,
+					postCode,
+					subTotal: `£${rawSubTotal.toFixed(2).toString()}`,
+					shippingStr,
+					orderDate: currentDate,
+					VAT: "£" + roundToTwo(withoutVat).toFixed(2).toString(),
+					items: orderedItems,
+					shippingPrice: shipping,
+				};
+				let mailList = [address.email, process.env.MAIL_FROM];
+				let htmlToSend = template(data);
+				let mailOptions = {
+					from: process.env.MAIL_FROM,
+					to: mailList,
+					subject: "Your order from Poke Decks!",
+					html: htmlToSend,
+				};
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log(error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				});
+			}
+		});
+
+		fs.readFile("emails/emailAlert.html", { encoding: "utf-8" }, function (err, html) {
+			if (err) {
+				console.log(err);
+			} else {
+				let template = handlebars.compile(html);
+				let data = {
+					username: address.firstName,
+					orderNumber,
+					total,
+					orderDate: currentDate,
+					items: orderedItems,
+					shippingPrice: shipping,
+				};
+				let mailList = ["laura.walpole.173@gmail.com"];
+				let htmlToSend = template(data);
+				let mailOptions = {
+					from: process.env.MAIL_USERNAME,
+					to: mailList,
+					subject: "New order alert!",
+					html: htmlToSend,
+				};
+				transporter.sendMail(mailOptions, function (error, info) {
+					if (error) {
+						console.log(error);
+					} else {
+						console.log("Email sent: " + info.response);
+					}
+				});
+			}
+		});
 	}
 };
 
@@ -242,11 +231,11 @@ export const getAllOrders = async (req, res) => {
 			res.status(200).json(allOrders);
 		} catch (err) {
 			res.status(500).json({
-				message: 'Error getting order data, please refresh and try again.',
+				message: "Error getting order data, please refresh and try again.",
 			});
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -273,10 +262,10 @@ export const getTotals = async (req, res) => {
 
 			res.status(200).json({ total });
 		} catch (err) {
-			res.status(500).json({ message: 'Something went wrong' });
+			res.status(500).json({ message: "Something went wrong" });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -319,10 +308,10 @@ export const getDailyTotals = async (req, res) => {
 			});
 			res.status(201).json({ totals });
 		} catch (err) {
-			res.status(500).json({ message: 'Calculation has gone wrong....' });
+			res.status(500).json({ message: "Calculation has gone wrong...." });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -334,10 +323,10 @@ export const deleteOrder = async (req, res) => {
 			const deleted = await orders.findByIdAndDelete(id);
 			res.status(203).json(deleted);
 		} catch (err) {
-			res.status(500).json({ message: 'Something went wrong!' });
+			res.status(500).json({ message: "Something went wrong!" });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -345,8 +334,8 @@ export const updateShipping = async (req, res) => {
 	if (req.headers.apikey === process.env.API_KEY) {
 		const { id } = req.params;
 		const currentOrder = req.body;
-		const orderDate = currentOrder.orderDate.toLocaleString('en-GB');
-		const shippingStr = '£' + shipping.toString() + '.00';
+		const orderDate = currentOrder.orderDate.toLocaleString("en-GB");
+		const shippingStr = "£" + shipping.toString() + ".00";
 		const subTotal = currentOrder.total - shipping;
 		try {
 			const update = await orders.findByIdAndUpdate(id, {
@@ -354,47 +343,43 @@ export const updateShipping = async (req, res) => {
 				isShipped: true,
 			});
 
-			fs.readFile(
-				'emails/shipped.html',
-				{ encoding: 'utf-8' },
-				function (err, html) {
-					if (err) {
-						console.log(err);
-					} else {
-						let template = handlebars.compile(html);
-						let data = {
-							username: currentOrder.customer.firstName,
-							orderNumber: currentOrder.orderNo,
-							orderDate,
-							shippingStr,
-							subTotal,
-							items: currentOrder.items,
-							total: currentOrder.total,
-						};
-						let mailList = [currentOrder.customer.email];
-						let htmlToSend = template(data);
-						let mailOptions = {
-							from: process.env.MAIL_USERNAME,
-							to: mailList,
-							subject: 'Your order from Poke Decks has shipped!',
-							html: htmlToSend,
-						};
-						transporter.sendMail(mailOptions, function (error, info) {
-							if (error) {
-								console.log(error);
-							} else {
-								console.log('Email sent: ' + info.response);
-							}
-						});
-					}
-				},
-			);
+			fs.readFile("emails/shipped.html", { encoding: "utf-8" }, function (err, html) {
+				if (err) {
+					console.log(err);
+				} else {
+					let template = handlebars.compile(html);
+					let data = {
+						username: currentOrder.customer.firstName,
+						orderNumber: currentOrder.orderNo,
+						orderDate,
+						shippingStr,
+						subTotal,
+						items: currentOrder.items,
+						total: currentOrder.total,
+					};
+					let mailList = [currentOrder.customer.email];
+					let htmlToSend = template(data);
+					let mailOptions = {
+						from: process.env.MAIL_USERNAME,
+						to: mailList,
+						subject: "Your order from Poke Decks has shipped!",
+						html: htmlToSend,
+					};
+					transporter.sendMail(mailOptions, function (error, info) {
+						if (error) {
+							console.log(error);
+						} else {
+							console.log("Email sent: " + info.response);
+						}
+					});
+				}
+			});
 
 			res.status(203).json(update);
 		} catch (err) {
-			res.status(500).json({ message: 'Somthing has gone wrong...' });
+			res.status(500).json({ message: "Somthing has gone wrong..." });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };

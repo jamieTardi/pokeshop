@@ -71,7 +71,7 @@ export default function TransitionsModal({ open, setOpen, cardItem }: props) {
 		if (currentCart.length === 0) {
 			return;
 		}
-		console.log(currentCart);
+
 		const currentItemsInCart = currentCart.filter((element: item) => {
 			return element._id === cardItem._id;
 		}).length;
