@@ -1,4 +1,4 @@
-import expansions from '../models/expansions.js';
+import expansions from "../models/expansions.js";
 
 export const addExpansion = async (req, res) => {
 	if (req.headers.apikey === process.env.API_KEY) {
@@ -9,8 +9,7 @@ export const addExpansion = async (req, res) => {
 
 			if (existingExpansion) {
 				return res.status(403).json({
-					message:
-						'This expansion exists already, either delete/edit it or change the category.',
+					message: "This expansion exists already, either delete/edit it or change the category.",
 				});
 			}
 
@@ -18,26 +17,27 @@ export const addExpansion = async (req, res) => {
 				expansion,
 				slug,
 				image,
+				created: Date.now(),
 			});
 			return res.status(201).json({ createdExpansion: result });
 		} catch (err) {
-			res.status(500).json({ message: 'something went wrong' });
+			res.status(500).json({ message: "something went wrong" });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
 export const getExpansions = async (req, res) => {
 	if (req.headers.apikey === process.env.API_KEY) {
 		try {
-			const allExps = await expansions.find();
+			const allExps = await expansions.find().sort({ created: -1 });
 			return res.status(200).json({ expansions: allExps });
 		} catch (err) {
-			res.status(500).json({ message: 'Bugger, its gone wrong.' });
+			res.status(500).json({ message: "Bugger, its gone wrong." });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -48,8 +48,7 @@ export const updateExpansion = async (req, res) => {
 
 		const existingExp = expansions.findById(id);
 
-		!existingExp &&
-			res.status(404).json({ message: 'this category does not exist' });
+		!existingExp && res.status(404).json({ message: "this category does not exist" });
 
 		try {
 			await expansions.findByIdAndUpdate(id, {
@@ -57,12 +56,12 @@ export const updateExpansion = async (req, res) => {
 				image,
 				slug,
 			});
-			res.status(203).json({ message: 'Item updated' });
+			res.status(203).json({ message: "Item updated" });
 		} catch (err) {
-			res.status(500).json({ message: 'Server went boom :(' });
+			res.status(500).json({ message: "Server went boom :(" });
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
 
@@ -71,15 +70,15 @@ export const deleteExpansion = async (req, res) => {
 		const { id } = req.params;
 
 		if (!expansions.findById(id)) {
-			res.status(404).json('Expansion not found');
+			res.status(404).json("Expansion not found");
 		}
 		try {
 			await expansions.findByIdAndDelete(id);
-			res.status(203).json('Expansion deleted!');
+			res.status(203).json("Expansion deleted!");
 		} catch (err) {
-			res.status(500).json('Something went wrong..');
+			res.status(500).json("Something went wrong..");
 		}
 	} else {
-		res.status(404).json({ message: 'Wrong Key' });
+		res.status(404).json({ message: "Wrong Key" });
 	}
 };
